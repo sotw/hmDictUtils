@@ -1,0 +1,2 @@
+tPage="https://tw.dictionary.search.yahoo.com/search?p="$1"&fr2=dict"
+python pyYahooDictionary.py $tPage 0
