@@ -8,6 +8,8 @@ import urllib2
 import sys
 import os
 import re
+import codecs
+#from HMTXCLR import clrTx
 
 global DB_FLT, DB_NOR, DB_ARG, DB_VER #verbose print
 global TYPE_P, TYPE_H, TYPE_LI
@@ -63,8 +65,12 @@ def htmlParser(tPage):
    etree.strip_tags(tree,'samp')
    etree.strip_tags(tree,'span')
    etree.strip_tags(tree,'a')
+   for p in tree.xpath("//p"):
+      p.tail = 'breakHere' + p.tail if p.tail else 'breakHere'
    etree.strip_tags(tree,'p')
    etree.strip_tags(tree,'b')
+   for h5 in tree.xpath("//h5"):
+   	   h5.tail = 'titleBreak' + h5.tail if h5.tail else 'titleBreak'
    etree.strip_tags(tree,'h5')
    etree.strip_tags(tree,'ol')
    etree.strip_tags(tree,'li')
@@ -81,31 +87,19 @@ def htmlParser(tPage):
 
 def prettyPrint(resultSet):
 	for result in resultSet:
-		tagBreakedSet = []
-		for tag in ARGUDB
-
+		result = result.replace('breakHere','\n')
+		result = result.replace('titleBreak','\n')
+		#result = result.replace('idiom','\n\ridiom')
+		#print len(result)
+		if len(result) > 1 :
+			print result
 
 def assignPageAndOverrideArgu():
    DB(DB_ARG,'ENTER overrideArgu')
    global tPage
    tPage = sys.argv[1]
-   print "tPage:"+tPage
+   #print "tPage:"+tPage
    DB(DB_ARG,'LEAVE overrideArgu')
-
-def loadArgumentDb():
-   DB(DB_ARG,'ENTER loadArgumentDb')
-   if os.path.isfile('./.argumentDb') is True:
-      f = open('.argumentDb','r')
-      if f is not None:
-         for line in f :
-            if line != '\n' and line[0] != '#':
-               line = line.rstrip('\n')
-               global ARGUDB
-               ARGUDB.append(line)
-         f.close()
-   else:
-      DB(DB_ARG,'db file is not exist')
-   DB(DB_ARG,'LEAVE loadArgumentDb')
 
 def main():
    resultSet = htmlParser(tPage)
@@ -124,6 +118,5 @@ def verify():
 
 if __name__ == '__main__':
    verify()
-   loadArgumentDb()
    assignPageAndOverrideArgu()
    main()
