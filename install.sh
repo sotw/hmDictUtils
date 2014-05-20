@@ -5,12 +5,14 @@ rm -f ~/bin/sh/gooJpDictionary.py
 rm -f ~/bin/sh/HMTXCLR.py
 rm -f ~/bin/edict
 rm -f ~/.hmDictDb/argumentDbA
+rm -f ~/.hmDictDb/argumentDbB
 cp pyYahooDictionary.py ~/bin/sh
 cp gooJpDictionary.py ~/bin/sh
 cp HMTXCLR.py ~/bin/sh
 cp edict ~/bin/sh
 cp jdict ~/bin/sh
 cp argumentDbA ~/.hmDictDb/argumentDbA
+cp argumentDbB ~/.hmDictDb/argumentDbB
 chmod 755 ~/bin/sh/edict
 chmod 755 ~/bin/sh/jdict
 chmod 755 ~/bin/sh/HMTXCLR.py
