@@ -84,7 +84,14 @@ def htmlParser(tPage):
    lineSum = 0
    myList = tree.xpath("//ul[@class='explanation_wrapper']")
    resultSet = handler(myList)
+
+   guessList = tree.xpath("//h2/i")
+   if len(guessList) != 0 :
+   	   for e in guessList :
+   	   	   if e.text is not None:
+   	   	   	   print '\n You mean:'+e.text+' ?'
    return resultSet
+
 
 def prettyPrint(resultSet):
 	passIstring = ''
