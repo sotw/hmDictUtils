@@ -10,6 +10,7 @@ import os
 import re
 import codecs
 from HMTXCLR import clrTx
+from os.path import expanduser
 
 global DB_FLT, DB_NOR, DB_ARG, DB_VER #verbose print
 global TYPE_P, TYPE_H, TYPE_LI
@@ -104,8 +105,9 @@ def assignPageAndOverrideArgu():
    DB(DB_ARG,'LEAVE overrideArgu')
 
 def loadArgumentDb():
-	if os.path.isfile('./.argumentDb') is True:
-		f = codecs.open('.argumentDb',encoding='UTF-8',mode='r')
+	home = expanduser('~')
+	if os.path.isfile(home+'/.hmDictDb/argumentDbA') is True:
+		f = codecs.open(home+'/.hmDictDb/argumentDbA',encoding='UTF-8',mode='r')
 		if f is not None:
 			for line in f:
 				if line != '\n' and line[0] != '#':
@@ -113,8 +115,10 @@ def loadArgumentDb():
 					global ARGUDB
 					ARGUDB.append(line)
 			f.close()
-		else:
-			DB(1, 'db file is not exist')
+		else:			
+			DB(1, 'db file open fail')
+	else :
+		print 'argumentDb doesn\'t existed'
 
 def main():
    resultSet = htmlParser(tPage)
