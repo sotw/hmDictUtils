@@ -9,7 +9,7 @@ import sys
 import os
 import re
 import codecs
-#from HMTXCLR import clrTx
+from HMTXCLR import clrTx
 
 global DB_FLT, DB_NOR, DB_ARG, DB_VER #verbose print
 global TYPE_P, TYPE_H, TYPE_LI
@@ -91,6 +91,8 @@ def prettyPrint(resultSet):
 		result = result.replace('titleBreak','\n')
 		#result = result.replace('idiom','\n\ridiom')
 		#print len(result)
+		for tag in ARGUDB:			
+			result = result.replace(tag,clrTx('\n'+tag,'YELLOW'))
 		if len(result) > 1 :
 			print result
 
@@ -100,6 +102,19 @@ def assignPageAndOverrideArgu():
    tPage = sys.argv[1]
    #print "tPage:"+tPage
    DB(DB_ARG,'LEAVE overrideArgu')
+
+def loadArgumentDb():
+	if os.path.isfile('./.argumentDb') is True:
+		f = codecs.open('.argumentDb',encoding='UTF-8',mode='r')
+		if f is not None:
+			for line in f:
+				if line != '\n' and line[0] != '#':
+					line = line.rstrip('\n')
+					global ARGUDB
+					ARGUDB.append(line)
+			f.close()
+		else:
+			DB(1, 'db file is not exist')
 
 def main():
    resultSet = htmlParser(tPage)
@@ -118,5 +133,6 @@ def verify():
 
 if __name__ == '__main__':
    verify()
+   loadArgumentDb()
    assignPageAndOverrideArgu()
    main()
