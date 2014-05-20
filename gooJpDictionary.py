@@ -50,39 +50,34 @@ def handler(iList):
 	return ret
 
 def htmlParser(tPage):
-   resp = urllib2.urlopen(tPage)
+   opener = urllib2.build_opener()
+   opener.addheaders = [('User-agent','Mozilla/5.0')]
+   resp = opener.open(tPage)
    if resp.code == 200 :
       data = resp.read()
       resp.close()
    elif resp.code == 404 :
       print "page do not exist"
       exit()
+   elif resp.code == 403 :
+   	  print "Forbidden!"
+   	  exit()
    else :
       print "can not open page"
       exit()
    parser = etree.HTMLParser()
    tree = etree.parse(StringIO(data), parser)
-   #etree.strip_tags(tree,'strong')
-   etree.strip_tags(tree,'samp')
-   etree.strip_tags(tree,'span')
+   etree.strip_tags(tree,'dd')
    etree.strip_tags(tree,'a')
-   for p in tree.xpath("//p"):
-      p.tail = 'breakHere' + p.tail if p.tail else 'breakHere'
-   etree.strip_tags(tree,'p')
-   etree.strip_tags(tree,'b')
-   for h5 in tree.xpath("//h5"):
-   	   h5.tail = 'titleBreak' + h5.tail if h5.tail else 'titleBreak'
-   etree.strip_tags(tree,'h5')
-   etree.strip_tags(tree,'ol')
-   etree.strip_tags(tree,'li')
-   #etree.strip_tags(tree,'code')
+   etree.strip_tags(tree,'dt')
+   etree.strip_tags(tree,'dl')
    
    #result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
    #DB(1, result)
 
    targetURL = ""
    lineSum = 0
-   myList = tree.xpath("//ul[@class='explanation_wrapper']")
+   myList = tree.xpath("//div[@class='allResultList']")
    resultSet = handler(myList)
    return resultSet
 
@@ -124,7 +119,7 @@ def assignPageAndOverrideArgu():
    DB(DB_ARG,'ENTER overrideArgu')
    global tPage
    tPage = sys.argv[1]
-   #print "tPage:"+tPage
+   print "tPage:"+tPage
    DB(DB_ARG,'LEAVE overrideArgu')
 
 def loadArgumentDb():
@@ -141,7 +136,7 @@ def loadArgumentDb():
 		else:			
 			DB(1, 'db file open fail')
 	else :
-		print 'argumentDbA doesn\'t existed'
+		print 'argumentDbB doesn\'t existed'
 
 def main():
    resultSet = htmlParser(tPage)

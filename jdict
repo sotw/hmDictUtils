@@ -1,2 +1,2 @@
-tPage="http://dictionary.goo.ne.jp/srch/all/$1/m1u/tab/"
+tPage="http://dictionary.goo.ne.jp/srch/all/"$1"/m1u/"
 python ~/bin/sh/gooJpDictionary.py $tPage 0
