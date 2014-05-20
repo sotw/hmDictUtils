@@ -87,6 +87,8 @@ def htmlParser(tPage):
    return resultSet
 
 def prettyPrint(resultSet):
+	passIstring = ''
+
 	for result in resultSet:
 		result = result.replace('breakHere','\n')
 		result = result.replace('titleBreak','\n')
@@ -95,7 +97,28 @@ def prettyPrint(resultSet):
 		for tag in ARGUDB:			
 			result = result.replace(tag,clrTx('\n'+tag,'YELLOW'))
 		if len(result) > 1 :
-			print result
+			passIstring = passIstring+result
+
+	passIIStrSet = passIstring.split('\n')
+	pauseCnt=0
+	for strII in passIIStrSet:		
+		bFound = False
+		for tag in ARGUDB:
+			try :
+				strII.index(tag)
+				bFound = True
+				break
+			except ValueError:
+				bFound = False
+		if bFound == False:
+			strII = "    "+strII
+		if pauseCnt <= 20 :
+			print strII
+			pauseCnt+=1
+		else :			
+			raw_input()
+			print strII
+			pauseCnt=0
 
 def assignPageAndOverrideArgu():
    DB(DB_ARG,'ENTER overrideArgu')
@@ -118,7 +141,7 @@ def loadArgumentDb():
 		else:			
 			DB(1, 'db file open fail')
 	else :
-		print 'argumentDb doesn\'t existed'
+		print 'argumentDbA doesn\'t existed'
 
 def main():
    resultSet = htmlParser(tPage)
@@ -127,7 +150,7 @@ def main():
 def verify():
    if len(sys.argv) < 2 or len(sys.argv) > 3 :
       print "python pyYahooDictionary.py <tPage> <DB>"
-      print "please use goDict(bash scirpt) instead of using this"
+      print "please use edict(bash scirpt) instead of using this"
       print "--"
       print "DB flag is option"
       exit()
