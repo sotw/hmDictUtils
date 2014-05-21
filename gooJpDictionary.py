@@ -132,19 +132,31 @@ def htmlParser(tPage):
    for e in arrangedSetA:
 		bSChineseWarning = False
 		if e[0] == '\xe6\x97\xa5\xe4\xb8\xad\xe8\xbe\x9e\xe6\x9b\xb8' or e[0] == '\xe4\xb8\xad\xe6\x97\xa5\xe8\xbe\x9e\xe6\x9b\xb8':
-			bSChineseWarning = True
-		print e[0]+'\n'
+			bSChineseWarning = True		
+		print clrTx(e[0]+'\n','BLUE')
 		for idx in range(int(e[1])):
 			print clrTx(arrangedSetB[accumulation][0]+'\n','YELLOW')
 			if bSChineseWarning == True:				
-				print "\t"+jianfan.jtof(arrangedSetC[accumulation])
+				print jianfan.jtof(arrangedSetC[accumulation])
 			else :
-				print "\t"+arrangedSetC[accumulation]
+				print ripSentence(arrangedSetC[accumulation])
 			accumulation+=1
 		raw_input()
    #myList = tree.xpath("//div[@class='allResultList']")
    #resultSet = handler(myList)
    return resultSet
+
+def ripSentence(text):
+	text = text.replace(u'\uff11',u'\n\uff11') #1
+	text = text.replace(u'\uff12',u'\n\uff12') #2 etc
+	text = text.replace(u'\uff13',u'\n\uff13')
+	text = text.replace(u'\uff14',u'\n\uff14')
+	text = text.replace(u'\uff15',u'\n\uff15')
+	text = text.replace(u'\uff16',u'\n\uff16')
+	text = text.replace(u'\uff17',u'\n\uff17')
+	text = text.replace(u'\uff18',u'\n\uff18')
+	text = text.replace(u'\uff19',u'\n\uff19')
+	return text
 
 def prettyPrint(resultSet):
 	passIstring = ''
