@@ -67,18 +67,39 @@ def htmlParser(tPage):
       exit()
    parser = etree.HTMLParser()
    tree = etree.parse(StringIO(data), parser)
-   etree.strip_tags(tree,'dd')
-   etree.strip_tags(tree,'a')
-   etree.strip_tags(tree,'dt')
-   etree.strip_tags(tree,'dl')
+   #etree.strip_tags(tree,'a')
+   #etree.strip_tags(tree,'dt')
+   #etree.strip_tags(tree,'dd')
+   #etree.strip_tags(tree,'dl')
    
-   #result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
+   result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
    #DB(1, result)
 
    targetURL = ""
    lineSum = 0
-   myList = tree.xpath("//div[@class='allResultList']")
-   resultSet = handler(myList)
+
+   resultSet = []
+
+   classSet = re.findall('class="allpage fs16">([^<]+)<',result)
+   for className in classSet :
+   	   if className is not None:
+   	   	   print unicode(className)
+
+   dtSet = tree.xpath("//dl[@class='allList']")
+   print len(dtSet)
+
+   aSet = tree.xpath("//dl[@class='allList']//dt/a")
+   for e in aSet:
+   	   if e.text is not None:
+   	   	   print e.text+"|"+e.get('href')
+
+   ddSet = tree.xpath("//dl[@class='allList']//dd")
+   for e in ddSet:
+   	   if e.text is not None:
+   	   	   print e.text
+
+   #myList = tree.xpath("//div[@class='allResultList']")
+   #resultSet = handler(myList)
    return resultSet
 
 def prettyPrint(resultSet):
@@ -95,7 +116,6 @@ def prettyPrint(resultSet):
 			passIstring = passIstring+result
 
 	passIIStrSet = passIstring.split('\n')
-	pauseCnt=0
 	for strII in passIIStrSet:		
 		bFound = False
 		for tag in ARGUDB:
@@ -107,13 +127,7 @@ def prettyPrint(resultSet):
 				bFound = False
 		if bFound == False:
 			strII = "    "+strII
-		if pauseCnt <= 20 :
-			print strII
-			pauseCnt+=1
-		else :			
-			raw_input()
-			print strII
-			pauseCnt=0
+		print strII
 
 def assignPageAndOverrideArgu():
    DB(DB_ARG,'ENTER overrideArgu')
