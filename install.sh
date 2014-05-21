@@ -6,6 +6,8 @@ rm -f ~/bin/sh/HMTXCLR.py
 rm -f ~/bin/edict
 rm -f ~/.hmDictDb/argumentDbA
 rm -f ~/.hmDictDb/argumentDbB
+rm -rf ~/bin/sh/jianfan
+cp -Rf jianfan ~/bin/sh
 cp pyYahooDictionary.py ~/bin/sh
 cp gooJpDictionary.py ~/bin/sh
 cp HMTXCLR.py ~/bin/sh

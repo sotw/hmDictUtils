@@ -5,10 +5,12 @@ from cStringIO import StringIO
 from lxml import etree
 from pprint import pprint
 import urllib2
+import chardet
 import sys
 import os
 import re
 import codecs
+import jianfan
 from HMTXCLR import clrTx
 from os.path import expanduser
 
@@ -72,32 +74,74 @@ def htmlParser(tPage):
    #etree.strip_tags(tree,'dd')
    #etree.strip_tags(tree,'dl')
    
-   result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
+   result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='UTF-8')
    #DB(1, result)
+
+   encoding = chardet.detect(result)
+   #print encoding
 
    targetURL = ""
    lineSum = 0
 
    resultSet = []
 
+   #|class|howmany|
+   arrangedSetA = []
+
    classSet = re.findall('class="allpage fs16">([^<]+)<',result)
    for className in classSet :
-   	   if className is not None:
-   	   	   print unicode(className)
+   	   if className is not None:   	   	   
+   	   	   #print className
+   	   	   arrangedSetA.append([className,0])
 
-   dtSet = tree.xpath("//dl[@class='allList']")
-   print len(dtSet)
+   howmanySet = re.findall('class="schnum">([^<]+)<',result)
+   iCnt = 0
+   for howmany in howmanySet :
+   	   if howmany is not None:
+   	   	   #print howmany
+   	   	   numbers = re.findall('([0-9])',howmany)
+   	   	   #for number in numbers:
+   	   	   	   #print number
+   	   	   arrangedSetA[iCnt][1] = numbers[1]
+   	   iCnt += 1
+
+   #print arrangedSetA
+
+   #dtSet = tree.xpath("//dl[@class='allList']")
+   #print len(dtSet)
+
+   #|title|href|
+   arrangedSetB = []
 
    aSet = tree.xpath("//dl[@class='allList']//dt/a")
    for e in aSet:
    	   if e.text is not None:
-   	   	   print e.text+"|"+e.get('href')
+   	   	   arrangedSetB.append([e.text,e.get('href')])
+   	   	   #print e.text+"|"+e.get('href')
 
+
+   #|explaination|
+   arrangedSetC = []
    ddSet = tree.xpath("//dl[@class='allList']//dd")
    for e in ddSet:
    	   if e.text is not None:
-   	   	   print e.text
+   	   	   arrangedSetC.append(e.text)
+   	   	   #print e.text+'\n'
 
+   accumulation = 0
+   for e in arrangedSetA:
+		bSChineseWarning = False
+		if e[0] == '\xe6\x97\xa5\xe4\xb8\xad\xe8\xbe\x9e\xe6\x9b\xb8' or e[0] == '\xe4\xb8\xad\xe6\x97\xa5\xe8\xbe\x9e\xe6\x9b\xb8':
+			bSChineseWarning = True
+		print e[0]+'\n'
+		for idx in range(int(e[1])):
+			print clrTx(arrangedSetB[accumulation][0]+'\n','YELLOW')
+			if bSChineseWarning == True:				
+				print "\t"+jianfan.jtof(arrangedSetC[accumulation])
+			else :
+				print "\t"+arrangedSetC[accumulation]
+			accumulation+=1
+		raw_input()
    #myList = tree.xpath("//div[@class='allResultList']")
    #resultSet = handler(myList)
    return resultSet
