@@ -7,7 +7,9 @@ rm -f ~/bin/edict
 rm -f ~/.hmDictDb/argumentDbA
 rm -f ~/.hmDictDb/argumentDbB
 rm -rf ~/bin/sh/jianfan
+rm -rf ~/bin/sh/jNlp
 cp -Rf jianfan ~/bin/sh
+cp -Rf jNlp ~/bin/sh
 cp pyYahooDictionary.py ~/bin/sh
 cp gooJpDictionary.py ~/bin/sh
 cp HMTXCLR.py ~/bin/sh

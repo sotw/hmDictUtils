@@ -11,6 +11,7 @@ import os
 import re
 import codecs
 import jianfan
+#from jNlp.jConvert import tokenizedRomaji
 from HMTXCLR import clrTx
 from os.path import expanduser
 
@@ -140,6 +141,7 @@ def htmlParser(tPage):
 				print jianfan.jtof(arrangedSetC[accumulation])
 			else :
 				print ripSentence(arrangedSetC[accumulation])
+				#print tokenizedRomaji(ripSentence(arrangedSetC[accumulation]))
 			accumulation+=1
 		raw_input()
    #myList = tree.xpath("//div[@class='allResultList']")
