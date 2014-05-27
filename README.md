@@ -1,4 +1,4 @@
-###A Tool to Consult Yahoo Dictionary
+###A Tool Set for Everyday Reading and Writing
 >In console, you put your fingure on mouse, you lose.
 
 ##### Install
