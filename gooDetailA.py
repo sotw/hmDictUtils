@@ -21,6 +21,7 @@ global BREAK_CNT_P, BREAK_CNT_H, BREAK_CNT_LI
 global ARGUDB #arugment database
 global ARGUDB_IDX_T, ARGUDB_IDX_P, ARGUDB_IDX_H, ARGUDB_IDX_LI
 global tPage
+global INSFOLDER
 
 DB_FLT, DB_NOR, DB_ARG, DB_VER    = range(4)
 TYPE_P, TYPE_H, TYPE_LI, TYPE_PRE = range(4)
@@ -148,9 +149,8 @@ def assignPageAndOverrideArgu():
    DB(DB_ARG,'LEAVE overrideArgu')
 
 def loadArgumentDb():
-	home = expanduser('~')
-	if os.path.isfile(home+'/.hmDictDb/argumentDbB') is True:
-		f = codecs.open(home+'/.hmDictDb/argumentDbB',encoding='UTF-8',mode='r')
+	if os.path.isfile(INSFOLDER+'/argumentDbB') is True:
+		f = codecs.open(INSFOLDER+'/argumentDbB',encoding='UTF-8',mode='r')
 		if f is not None:
 			for line in f:
 				if line != '\n' and line[0] != '#':
@@ -168,15 +168,17 @@ def main():
    prettyPrint(resultSet)
 
 def verify():
-   if len(sys.argv) < 2 or len(sys.argv) > 3 :
+   if len(sys.argv) < 3 or len(sys.argv) > 4 :
       print "python gooJpDictionary.py <tPage> <DB>"
       print "please use jdict(bash scirpt) instead of using this"
       print "--"
       print "DB flag is option"
       exit()
-   if len(sys.argv) == 3 :
+   if len(sys.argv) == 4 :
       global DB_FLT
-      DB_FLT = int(sys.argv[2])
+      global INSFOLDER
+      INSFOLDER = sys.argv[2]
+      DB_FLT = int(sys.argv[3])
 
 if __name__ == '__main__':
    verify()

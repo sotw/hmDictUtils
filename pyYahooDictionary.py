@@ -18,6 +18,7 @@ global BREAK_CNT_P, BREAK_CNT_H, BREAK_CNT_LI
 global ARGUDB #arugment database
 global ARGUDB_IDX_T, ARGUDB_IDX_P, ARGUDB_IDX_H, ARGUDB_IDX_LI
 global tPage
+global INSFOLDER
 
 DB_FLT, DB_NOR, DB_ARG, DB_VER    = range(4)
 TYPE_P, TYPE_H, TYPE_LI, TYPE_PRE = range(4)
@@ -27,6 +28,7 @@ BREAK_CNT_LI  = 120
 ARGUDB        = []
 ARGUDB_IDX_T, ARGUDB_IDX_P, ARGUDB_IDX_H, ARGUDB_IDX_LI = range(4)
 tPage         = ''
+INSFOLDER = ''
 
 def DB(level,msg):
    if int(level) == int(DB_FLT) :
@@ -75,7 +77,7 @@ def htmlParser(tPage):
    etree.strip_tags(tree,'h5')
    etree.strip_tags(tree,'ol')
    etree.strip_tags(tree,'li')
-   #etree.strip_tags(tree,'code')
+   etree.strip_tags(tree,'code')
    
    #result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
    #DB(1, result)
@@ -135,9 +137,8 @@ def assignPageAndOverrideArgu():
    DB(DB_ARG,'LEAVE overrideArgu')
 
 def loadArgumentDb():
-	home = expanduser('~')
-	if os.path.isfile(home+'/.hmDictDb/argumentDbA') is True:
-		f = codecs.open(home+'/.hmDictDb/argumentDbA',encoding='UTF-8',mode='r')
+	if os.path.isfile(INSFOLDER+'/argumentDbA') is True:
+		f = codecs.open(INSFOLDER+'/argumentDbA',encoding='UTF-8',mode='r')
 		if f is not None:
 			for line in f:
 				if line != '\n' and line[0] != '#':
@@ -155,15 +156,17 @@ def main():
    prettyPrint(resultSet)
 
 def verify():
-   if len(sys.argv) < 2 or len(sys.argv) > 3 :
-      print "python pyYahooDictionary.py <tPage> <DB>"
-      print "please use edict(bash scirpt) instead of using this"
-      print "--"
-      print "DB flag is option"
-      exit()
-   if len(sys.argv) == 3 :
-      global DB_FLT
-      DB_FLT = int(sys.argv[2])
+	if len(sys.argv) < 3 or len(sys.argv) > 4 :
+		print "python pyYahooDictionary.py <tPage> <install path> <DB>"
+		print "please use edict(bash scirpt) instead of using this"
+		print "--"
+		print "DB flag is option"
+		exit()
+	if len(sys.argv) == 4 :
+		global DB_FLT
+		global INSFOLDER
+		INSFOLDER = sys.argv[2]
+		DB_FLT = int(sys.argv[3])
 
 if __name__ == '__main__':
    verify()
