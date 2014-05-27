@@ -14,9 +14,6 @@ import jianfan
 #from jNlp.jConvert import tokenizedRomaji
 from HMTXCLR import clrTx
 from os.path import expanduser
-from subprocess import Popen
-from subprocess import PIPE
-from subprocess import STDOUT
 
 global DB_FLT, DB_NOR, DB_ARG, DB_VER #verbose print
 global TYPE_P, TYPE_H, TYPE_LI
@@ -80,7 +77,9 @@ def htmlParser(tPage):
       exit()
    parser = etree.HTMLParser()
    tree = etree.parse(StringIO(data), parser)
-   #etree.strip_tags(tree,'a')
+   etree.strip_tags(tree,'a')
+   etree.strip_tags(tree,'b')
+   etree.strip_tags(tree,'span')   
    #etree.strip_tags(tree,'dt')
    #etree.strip_tags(tree,'dd')
    #etree.strip_tags(tree,'dl')
@@ -96,74 +95,10 @@ def htmlParser(tPage):
 
    resultSet = []
 
-   #|class|howmany|
-   arrangedSetA = []
-
-   classSet = re.findall('class="allpage fs16">([^<]+)<',result)
-   for className in classSet :
-   	   if className is not None:   	   	   
-   	   	   #print className
-   	   	   arrangedSetA.append([className,0])
-
-   howmanySet = re.findall('class="schnum">([^<]+)<',result)
-   iCnt = 0
-   for howmany in howmanySet :
-   	   if howmany is not None:
-   	   	   #print howmany
-   	   	   numbers = re.findall('([0-9])',howmany)
-   	   	   #for number in numbers:
-   	   	   	   #print number
-   	   	   arrangedSetA[iCnt][1] = numbers[1]
-   	   iCnt += 1
-
-   #print arrangedSetA
-
-   #dtSet = tree.xpath("//dl[@class='allList']")
-   #print len(dtSet)
-
-   #|title|href|
-   arrangedSetB = []
-
-   aSet = tree.xpath("//dl[@class='allList']//dt/a")
-   for e in aSet:
+   myList = tree.xpath("//div[@class='meaning']")
+   for e in myList:
    	   if e.text is not None:
-   	   	   arrangedSetB.append([e.text,e.get('href')])   	   	   
-   	   	   DB(1, e.text+"|"+e.get('href'))
-
-
-   #|explaination|
-   arrangedSetC = []
-   ddSet = tree.xpath("//dl[@class='allList']//dd")
-   for e in ddSet:
-   	   if e.text is not None:
-   	   	   arrangedSetC.append(e.text)
-   	   	   #print e.text+'\n'
-
-   accumulation = 0
-   for e in arrangedSetA:
-		bSChineseWarning = False
-		if e[0] == '\xe6\x97\xa5\xe4\xb8\xad\xe8\xbe\x9e\xe6\x9b\xb8' or e[0] == '\xe4\xb8\xad\xe6\x97\xa5\xe8\xbe\x9e\xe6\x9b\xb8':
-			bSChineseWarning = True		
-		print clrTx(e[0]+'\n','BLUE')
-		for idx in range(int(e[1])):
-			print clrTx(arrangedSetB[accumulation][0],'YELLOW')+clrTx(' > input('+str(accumulation)+')for more detail\n','GREY30')
-			if bSChineseWarning == True:				
-				print jianfan.jtof(arrangedSetC[accumulation])
-			else :
-				print ripSentence(arrangedSetC[accumulation])
-				#print tokenizedRomaji(ripSentence(arrangedSetC[accumulation]))
-			accumulation+=1
-		num = raw_input()
-		iIn = parseInt(num)
-		#[]==user can input detail url futher by any pause
-		if iIn is not None:
-			#print 'go %s'%(aSet[1].get('href'))
-			process = Popen(['python','gooDetailA.py','http://dictionary.goo.ne.jp'+aSet[iIn].get('href'),'1'])
-			process.wait()
-			break #for console user experience
-					
-   #myList = tree.xpath("//div[@class='allResultList']")
-   #resultSet = handler(myList)
+   	   	   print e.text
    return resultSet
 
 def ripSentence(text):
