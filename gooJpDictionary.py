@@ -158,7 +158,8 @@ def htmlParser(tPage):
 		#[]==user can input detail url futher by any pause
 		if iIn is not None:
 			#print 'go %s'%(aSet[1].get('href'))
-			process = Popen(['python','gooDetailA.py','http://dictionary.goo.ne.jp'+aSet[iIn].get('href'),'1'])
+			home = expenduser('~')
+			process = Popen(['python',home+'/.hmDictDb/gooDetailA.py','http://dictionary.goo.ne.jp'+aSet[iIn].get('href'),'1'])
 			process.wait()
 			break #for console user experience
 					
