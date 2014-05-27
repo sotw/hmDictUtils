@@ -5,10 +5,10 @@
 	execute ./install.sh
 
 ##### How to use
-In network reachable environment
-edict "word" : for consulting English dictionary.
+In network reachable environment:
+edict "word" | for consulting English dictionary.
 >This is for Taiwanese or HK ppl
-jdict "word" : for consulting Japanese dictionary.
+jdict "word" | for consulting Japanese dictionary.
 
 ##### Spark
 1. Need to accept space in **edict**
