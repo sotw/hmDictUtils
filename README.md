@@ -6,8 +6,10 @@
 
 ##### How to use
 In network reachable environment:
+
 edict "word" | for consulting English dictionary.
 >This is for Taiwanese or HK ppl
+
 jdict "word" | for consulting Japanese dictionary.
 
 ##### Spark
