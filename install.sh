@@ -1,9 +1,9 @@
 INSFOLDER=~/.hmDict
-mkdir -p ~/bin/sh
-mkdir -p $INSFOLDER
 rm -Rf $INSFOLDER
 rm -f ~/bin/sh/edict
 rm -f ~/bin/sh/jdict
+mkdir -p ~/bin/sh
+mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
 cp -Rf jNlp $INSFOLDER
 cp *.py $INSFOLDER
