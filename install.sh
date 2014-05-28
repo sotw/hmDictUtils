@@ -1,4 +1,7 @@
 INSFOLDER=~/.hmDict
+echo "If you are mac user, please use mac port"
+echo "http://www.macports.org/"
+echo "And download both python and pip"
 rm -Rf $INSFOLDER
 rm -f ~/bin/sh/edict
 rm -f ~/bin/sh/jdict
@@ -18,5 +21,5 @@ cp argumentDbA $INSFOLDER/argumentDbA
 cp argumentDbB $INSFOLDER/argumentDbB
 sudo pip install requests #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
-chmod 755 -R $INSFOLDER
-chmod 755 -R ~/bin/sh
+chmod -R 755 $INSFOLDER
+chmod -R 755 ~/bin/sh

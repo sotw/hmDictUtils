@@ -61,7 +61,6 @@ def setup_logging(level):
 	handler.setFormatter(logging.Formatter('%(module)s %(levelname)s %(funcName)s| %(message)s'))
 	DB.addHandler(handler)
 
-
 def verify():
 	global tTargetA
 	global LANG

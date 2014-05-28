@@ -38,6 +38,7 @@ google "word" | for google
 ##### Note
 1. Plan to use jNlp
 2. Currently all pull, any push utility like blog push maybe?
+3. Just dont't push so frequently. 
 
 ##### Reference
 1. [Python like parseInt](http://d.hatena.ne.jp/cupnes/20110201/1296574516)
@@ -47,3 +48,5 @@ google "word" | for google
 5. [Mecab](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html)
 6. [Wikipedia, a python parser](https://github.com/goldsmith/Wikipedia)
 7．[Wordpress xmlrpc](https//github.com/maxcutler/python-wordpress-xmlrpc)
+8. [PDFMiner](http://www.unixuser.org/~euske/python/pdfminer/index.html)
+9. [python-docx](https://github.com/mikemaccana/python-docx)
