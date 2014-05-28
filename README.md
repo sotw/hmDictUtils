@@ -13,6 +13,9 @@ edict "word" | for consulting English dictionary.
 jdict "word" | for consulting Japanese dictionary.
 >This is for Everyone
 
+wiki -l "language" "word" | for consulting wiki
+>Default language is English
+
 ##### Idea
 1. Need to accept space in **edict**
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?

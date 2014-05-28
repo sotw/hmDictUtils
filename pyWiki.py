@@ -22,13 +22,10 @@ INSFOLDER=''
 
 def prettyPrint(text,LANG):
 	DB.debug(text)
-	if LANG == 'zh' or LANG == 'en':
-		sections = re.findall('([^=]+)==',text)
-		for section in sections:
-			print section
-			raw_input()
-	else:
-		print text
+	sections = re.findall('([^=]+)==',text)
+	for section in sections:
+		print section
+		raw_input()
 
 
 def getWikiContent(queryStr):
