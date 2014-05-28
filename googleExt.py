@@ -9,7 +9,6 @@ import sys
 import os
 import re
 import codecs
-import argparse
 from HMTXCLR import clrTx
 from os.path import expanduser
 
@@ -53,47 +52,35 @@ def handler(iList):
 	return ret
 
 def htmlParser(tPage):
-   resp = urllib2.urlopen(tPage)
-   if resp.code == 200 :
-      data = resp.read()
-      resp.close()
-   elif resp.code == 404 :
-      print "page do not exist"
-      exit()
-   else :
-      print "can not open page"
-      exit()
-   parser = etree.HTMLParser()
-   tree = etree.parse(StringIO(data), parser)
-   #etree.strip_tags(tree,'strong')
-   etree.strip_tags(tree,'samp')
-   etree.strip_tags(tree,'span')
-   etree.strip_tags(tree,'a')
-   for p in tree.xpath("//p"):
-      p.tail = 'breakHere' + p.tail if p.tail else 'breakHere'
-   etree.strip_tags(tree,'p')
-   etree.strip_tags(tree,'b')
-   for h5 in tree.xpath("//h5"):
-   	   h5.tail = 'titleBreak' + h5.tail if h5.tail else 'titleBreak'
-   etree.strip_tags(tree,'h5')
-   etree.strip_tags(tree,'ol')
-   etree.strip_tags(tree,'li')
-   etree.strip_tags(tree,'code')
-   
-   #result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
-   #DB(1, result)
+	opener = urllib2.build_opener()
+	opener.addheaders = [#('Accept-Encoding','gzip,deflate,sdch'),
+                         ('User-Agent','Mozilla/5.0')] #(X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114')]
+	resp = opener.open(tPage)
+	#resp = urllib2.urlopen(tPage)
+	if resp.code == 200 :
+		data = resp.read()
+		resp.close()
+	elif resp.code == 404 :
+		print "page do not exist"
+		exit()
+	else :
+		print "can not open page"
+		exit()
+	parser = etree.HTMLParser()
+	tree = etree.parse(StringIO(data), parser)
+	#etree.strip_tags(tree,'em')
+	result = etree.tostring(tree.getroot(), pretty_print=True, method="html",encoding='utf-8')
+	#print result
+	#DB(1, result)
 
-   targetURL = ""
-   lineSum = 0
-   myList = tree.xpath("//ul[@class='explanation_wrapper']")
-   resultSet = handler(myList)
-
-   guessList = tree.xpath("//h2/i")
-   if len(guessList) != 0 :
-   	   for e in guessList :
-   	   	   if e.text is not None:
-   	   	   	   print '\n You mean:'+e.text+' ?'
-   return resultSet
+	targetURL = ""
+	lineSum = 0
+	resultSet = re.findall('<h3 class="r"><a href="[^"]+">',result)#tree.xpath("//div[@class='rc']")
+	print len(resultSet)
+	for e in resultSet :
+		if e is not None:			
+			print e
+	return resultSet
 
 
 def prettyPrint(resultSet):
@@ -154,7 +141,7 @@ def loadArgumentDb():
 
 def main():
    resultSet = htmlParser(tPage)
-   prettyPrint(resultSet)
+   #prettyPrint(resultSet)
 
 def verify():
 	if len(sys.argv) < 3 or len(sys.argv) > 4 :

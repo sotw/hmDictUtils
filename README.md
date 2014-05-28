@@ -22,6 +22,8 @@ jdict "word" | for consulting Japanese dictionary.
 6. **jnews**
 7. **gdict** google consult
 8. **gmailReader**
+9. Adopt python module argparse
+10. Adopt python module logging
 
 ##### History
 
@@ -30,6 +32,8 @@ jdict "word" | for consulting Japanese dictionary.
 2. Currently all pull, any push utility like blog push maybe?
 
 ##### Reference
-1. [Python like parseInt](http://d.hatena.ne.jp/cupnes/20110201/1296574516 as well)
+1. [Python like parseInt](http://d.hatena.ne.jp/cupnes/20110201/1296574516)
 2. [Jian to Fan convert](https://code.google.com/p/python-jianfan/)
-
+3. [pygoogle](https://code.google.com/p/pygoogle/)
+4. [xgoogle](http://www.catonmat.net/blog/python-library-for-google-search/)
+5. [Mecab](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html)

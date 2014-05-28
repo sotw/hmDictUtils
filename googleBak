@@ -1,0 +1,32 @@
+#!/bin/sh
+
+q=""
+i=0
+for var in "$@"
+do
+   if [ "$i" -eq "0" ]; then
+      q+=$var
+   else
+      q+="+"$var
+   fi
+i+=1
+done
+echo "googling $q ...."
+curl -s -A Mozilla http://www.google.com/search?q=$q -o temp.html
+hxnormalize -l 240 -x temp.html 2>/dev/null | \
+hxselect -s '\n' -c 'li.g' | \
+hxselect -s '\n' -c 'h3.r' | \
+hxselect -s '\n********\n' -c 'a' | \
+html2text -width 100 > midResult.txt
+
+OIFS=$IFS
+IFS='********'
+while read line
+do
+   printf "\n%s" $line
+done < midResult.txt
+
+rm midResult.txt
+rm temp.html
+IFS=$OIFS
+

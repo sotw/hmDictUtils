@@ -1,0 +1,4 @@
+PKGFOLDER=~/.hmDict
+tPage="https://www.google.com/search?q="$1
+#python $PKGFOLDER/googleExt.py $tPage $PKGFOLDER 1 #use pygoogle first, although ajax api is deprecated, it seems work currently
+python pygoogle.py $1
