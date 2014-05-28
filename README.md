@@ -20,10 +20,12 @@ jdict "word" | for consulting Japanese dictionary.
 4. I am thinking of consulting multiple pdf file in real time.
 5. **enews**
 6. **jnews**
-7. **gdict** google consult
+7. **google** google consult
 8. **gmailReader**
-9. Adopt python module argparse
-10. Adopt python module logging
+9. Adopt python module argparse...30%
+10. Adopt python module logging...30%
+11. ~~wiki~~ done!
+12. maybe read PDF text?
 
 ##### History
 
@@ -37,3 +39,4 @@ jdict "word" | for consulting Japanese dictionary.
 3. [pygoogle](https://code.google.com/p/pygoogle/)
 4. [xgoogle](http://www.catonmat.net/blog/python-library-for-google-search/)
 5. [Mecab](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html)
+6. [Wikipedia, a python parser](https://github.com/goldsmith/Wikipedia)
