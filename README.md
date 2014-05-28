@@ -16,6 +16,9 @@ jdict "word" | for consulting Japanese dictionary.
 wiki -l "language" "word" | for consulting wiki
 >Default language is English
 
+google "word" | for google
+>Just google it.
+
 ##### Idea
 1. Need to accept space in **edict**
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
