@@ -117,9 +117,13 @@ class pygoogle:
                 if data.has_key('responseData') and data['responseData'].has_key('results'):
                     for result in  data['responseData']['results']:
                         if result:
-                            print clrTx(jtof('[%s]'%(urllib.unquote(result['titleNoFormatting']))),'YELLOW')
-                            print jtof(result['content'].strip("<b>...</b>").replace("<b>",'').replace("</b>",'').replace("&#39;","'").strip())
-                            print clrTx(urllib.unquote(result['unescapedUrl'])+'\n','GREY30')
+							newTitle,bChanged = jtof('[%s]'%(urllib.unquote(result['titleNoFormatting'])))
+							jianWarningStr=''							
+							if bChanged :
+								jianWarningStr = u'\u7c21\u9ad4\u7db2\u7ad9'							
+							print clrTx(newTitle,'YELLOW')+clrTx(jianWarningStr,'GREY30')
+							print jtof(result['content'].strip("<b>...</b>").replace("<b>",'').replace("</b>",'').replace("&#39;","'").strip())[0]
+							print clrTx(urllib.unquote(result['unescapedUrl'])+'\n','GREY30')
                 else:
                     # no responseData key was found in 'data' 
                     self.logger.error('no responseData key found in response. very unusal')

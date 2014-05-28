@@ -149,7 +149,7 @@ def htmlParser(tPage):
 		for idx in range(int(e[1])):
 			print clrTx(arrangedSetB[accumulation][0],'YELLOW')+clrTx(' > input('+str(accumulation)+')for more detail\n','GREY30')
 			if bSChineseWarning == True:				
-				print jianfan.jtof(arrangedSetC[accumulation])
+				print jianfan.jtof(arrangedSetC[accumulation])[0]
 			else :
 				print ripSentence(arrangedSetC[accumulation])
 				#print tokenizedRomaji(ripSentence(arrangedSetC[accumulation]))

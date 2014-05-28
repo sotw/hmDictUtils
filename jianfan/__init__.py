@@ -23,6 +23,7 @@ def _t(unistr, charset_from, charset_to):
     """
         This is a unexposed function, is responsibility for translation internal.
     """
+    bChanged=False
     if type(unistr) is str:
         try:
             unistr = unistr.decode('utf-8')
@@ -40,8 +41,10 @@ def _t(unistr, charset_from, charset_to):
     chars = []
     for c in unistr:
         idx = charset_from.find(c)
+        if idx!=-1:
+        	bChanged=True
         chars.append(charset_to[idx] if idx!=-1 else c)
-    return u''.join(chars)
+    return (u''.join(chars), bChanged)
 
 
 def jtof(unicode_string):
