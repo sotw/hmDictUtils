@@ -46,3 +46,4 @@ google "word" | for google
 4. [xgoogle](http://www.catonmat.net/blog/python-library-for-google-search/)
 5. [Mecab](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html)
 6. [Wikipedia, a python parser](https://github.com/goldsmith/Wikipedia)
+7．[Wordpress xmlrpc](https//github.com/maxcutler/python-wordpress-xmlrpc)
