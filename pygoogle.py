@@ -16,9 +16,11 @@ import sys
 import urllib
 import logging
 import argparse
+from jianfan import jtof
+from HMTXCLR import clrTx
 
-__author__ = "Kiran Bandla"
-__version__ = "0.2"
+__author__ = "PeiChen Tsai::Kiran Bandla"
+__version__ = "0.3"
 URL = 'http://ajax.googleapis.com/ajax/services/search/web?'
 
 #Web Search Specific Arguments
@@ -115,9 +117,9 @@ class pygoogle:
                 if data.has_key('responseData') and data['responseData'].has_key('results'):
                     for result in  data['responseData']['results']:
                         if result:
-                            print '[%s]'%(urllib.unquote(result['titleNoFormatting']))
-                            print result['content'].strip("<b>...</b>").replace("<b>",'').replace("</b>",'').replace("&#39;","'").strip()
-                            print urllib.unquote(result['unescapedUrl'])+'\n'                
+                            print clrTx(jtof('[%s]'%(urllib.unquote(result['titleNoFormatting']))),'YELLOW')
+                            print jtof(result['content'].strip("<b>...</b>").replace("<b>",'').replace("</b>",'').replace("&#39;","'").strip())
+                            print clrTx(urllib.unquote(result['unescapedUrl'])+'\n','GREY30')
                 else:
                     # no responseData key was found in 'data' 
                     self.logger.error('no responseData key found in response. very unusal')
