@@ -7,6 +7,7 @@ rm -f ~/bin/sh/edict
 rm -f ~/bin/sh/jdict
 rm -f ~/bin/sh/google
 rm -f ~/bin/sh/wiki
+rm -f ~/bin/sh/getPOEReleaseNote
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
@@ -17,9 +18,11 @@ cp edict ~/bin/sh
 cp jdict ~/bin/sh
 cp google ~/bin/sh
 cp wiki ~/bin/sh
+cp getPOEReleaseNote ~/bin/sh
 cp argumentDbA $INSFOLDER/argumentDbA
 cp argumentDbB $INSFOLDER/argumentDbB
 sudo pip install requests #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
+sudo pip install chardet #for goojp
 chmod -R 755 $INSFOLDER
 chmod -R 755 ~/bin/sh

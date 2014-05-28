@@ -14,18 +14,12 @@ from HMTXCLR import clrTx
 from os.path import expanduser
 
 global DB_FLT, DB_NOR, DB_ARG, DB_VER #verbose print
-global TYPE_P, TYPE_H, TYPE_LI
-global BREAK_CNT_P, BREAK_CNT_H, BREAK_CNT_LI
 global ARGUDB #arugment database
 global ARGUDB_IDX_T, ARGUDB_IDX_P, ARGUDB_IDX_H, ARGUDB_IDX_LI
 global tPage
 global INSFOLDER
 
 DB_FLT, DB_NOR, DB_ARG, DB_VER    = range(4)
-TYPE_P, TYPE_H, TYPE_LI, TYPE_PRE = range(4)
-BREAK_CNT_P   = 124
-BREAK_CNT_H   = 96
-BREAK_CNT_LI  = 120
 ARGUDB        = []
 ARGUDB_IDX_T, ARGUDB_IDX_P, ARGUDB_IDX_H, ARGUDB_IDX_LI = range(4)
 tPage         = ''
