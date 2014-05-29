@@ -16,6 +16,9 @@ from pprint import pprint
 from HMTXCLR import clrTx
 from textwrap import TextWrapper
 from textwrap import dedent
+from subprocess import Popen
+from subprocess import PIPE
+from subprocess import STDOUT
 
 global DB
 global tTarget
@@ -30,6 +33,14 @@ LINKS = []
 ARGUDB = []
 _wrap = TextWrapper()
 
+def prepareMailInfo(mailMsg):
+	home = expanduser('~')
+	iOut = []
+	iOut.append('python')
+	iOut.append(home+'/.hmDict/simpleMail.py')
+	iOut.append(mailMsg)
+	return iOut
+
 def repeatStr(string_to_expand, length):
 	return (string_to_expand * ((length/len(string_to_expand))+1))[:length]
 
@@ -38,6 +49,7 @@ def parseInt(sin):
 	return int(m.groups()[-1]) if m and not callable(sin) else None
 
 def getReleaseNoteDetail(tDetail):
+	thisScreen = []
 	opener = urllib2.build_opener()
 	opener.addheader = [('User-Agent','Mozilla/5.0')]
 	resp = opener.open(tDetail)
@@ -73,18 +85,44 @@ def getReleaseNoteDetail(tDetail):
 
 	os.system('clear')	
 	print " "
+	thisScreen.append(" ")
 	print '  '+clrTx(mTitle,'YELLOW')
+	thisScreen.append('  '+clrTx(mTitle,'YELLOW'))
 	print repeatStr('-', 78)
+	thisScreen.append(repeatStr('-', 78))
 	print ' '
+	thisScreen.append(' ')
 	for entry in resultSet:
 		if entry.text is not None:			
 			for line in _wrap.wrap(entry.text):			
 				line = dedent(line)
 				print '    '+line
+				thisScreen.append('    '+line)
 		break
 	print ' '
+	thisScreen.append(' ')
 	print repeatStr('-', 78)
-	raw_input()
+	thisScreen.append(repeatStr('-', 78))
+	option = raw_input()
+	#hidden function for my own
+	if option == 'm' :
+		bigChunkStr = ''
+		mailLineCnt = 0
+		for line in thisScreen:		
+			if len(line) != 0 :
+				if mailLineCnt == 1 :
+					line = '####'+line #prepare to do markdown tranformation
+				bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'			
+				mailLineCnt+=1
+		home = expanduser('~')
+		print home+'/.hmDict/simpleMail.py'
+		if os.path.isfile(home+'/.hmDict/simpleMail.py') is True :
+
+			process = Popen(prepareMailInfo(bigChunkStr))
+			print "sending mail..."
+			process.wait()			
+			print "sent!"
+
 
 '''For programming'''
 def paintRED(string,target):
