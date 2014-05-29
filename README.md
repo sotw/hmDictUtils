@@ -7,22 +7,22 @@
 ##### How to use
 In network reachable environment:
 
-edict "word" | for consulting English dictionary.
+**edict** "word" | for consulting English dictionary.
 >This is for Taiwanese or HK ppl\(And those who use Traditional Chinese as native language\)
 
-jdict "word" | for consulting Japanese dictionary.
+**jdict** "word" | for consulting Japanese dictionary.
 >This is for Everyone
 
-wiki -l "language" "word" | for consulting wiki
->Default language is English
+**wiki** -l "language" "word" | for consulting wiki
+>For example : wiki -l jp "はな"
 
-google "word" | for google
+**google** "word" | for google
 >Just google it.
 
-getPOEReleaseNote | for fun
+**getPOEReleaseNote** | for fun
 >POE | Path of Exile
 
-getTaipeiTimes | for read
+**getTaipeiTimes** | for read
 >Bring you back to reality.
 
 ##### Idea
