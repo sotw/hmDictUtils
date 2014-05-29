@@ -25,6 +25,9 @@ In network reachable environment:
 **getTaipeiTimes** | for read
 >Bring you back to reality.
 
+**get_lyrics** | for music
+>Get lyrics !
+
 ##### Idea
 1. Need to accept space in **edict** ok, use argparse module will solve the problem
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
@@ -36,9 +39,11 @@ In network reachable environment:
 8. **gmailReader**
 9. Adopt python module argparse...30% ...actually I want to keep my old fashion way in one of tool
 10. Adopt python module logging...30%
-11. ~~wiki~~ done!
+11. ~~wiki~~ done!, it looks ugly for showing.
 12. maybe read PDF text?
 13. make a urban English consulting utility
+14. osx can use 'say' to do TTS
+15. ~~A lyrics search utility~~
 
 ##### History
 

@@ -9,6 +9,7 @@ rm -f ~/bin/sh/google
 rm -f ~/bin/sh/wiki
 rm -f ~/bin/sh/getPOEReleaseNote
 rm -f ~/bin/sh/getTaipeiTimes
+rm -f ~/bin/sh/get_lyrics
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
@@ -21,6 +22,7 @@ cp google ~/bin/sh
 cp wiki ~/bin/sh
 cp getPOEReleaseNote ~/bin/sh
 cp getTaipeiTimes ~/bin/sh
+cp get_lyrics ~/bin/sh
 cp argumentDbA $INSFOLDER/argumentDbA
 cp argumentDbB $INSFOLDER/argumentDbB
 cp *.db $INSFOLDER
