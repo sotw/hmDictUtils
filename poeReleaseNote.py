@@ -13,6 +13,7 @@ from lxml import etree
 from cStringIO import StringIO
 from pprint import pprint
 from HMTXCLR import clrTx
+from textwrap import wrap
 
 global DB
 global tTarget
@@ -56,7 +57,7 @@ def getReleaseNoteDetail(tDetail):
 		if entry.text is not None:
 			result = entry.text.replace('breakHere','\n')			
 			for e in ARGUDB:
-				findallRetSet = re.findall('([^\n]*'+e+')\n',result)
+				findallRetSet = re.findall('([^\n]*'+e+')',result)
 				for findallRet in findallRetSet:
 					result = result.replace(findallRet,clrTx(findallRet,'YELLOW'))
 			#by line
@@ -65,7 +66,10 @@ def getReleaseNoteDetail(tDetail):
 			for split in splitSet:
 				if cnt == 0:
 					split = clrTx(split,'BLUE')				
-				print split
+					print split				
+				else:
+					for wrappedLine in wrap(split):					
+						print '    '+wrappedLine
 				cnt += 1				
 			#print result
 			break #first post is releasenote
