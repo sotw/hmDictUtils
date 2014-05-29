@@ -38,6 +38,7 @@ getTaipeiTimes | for read
 10. Adopt python module logging...30%
 11. ~~wiki~~ done!
 12. maybe read PDF text?
+13. make a urban English consulting utility
 
 ##### History
 

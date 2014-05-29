@@ -86,7 +86,9 @@ def htmlParser(tPage):
    if len(guessList) != 0 :
    	   for e in guessList :
    	   	   if e.text is not None:
-   	   	   	   print '\n You mean:'+e.text+' ?'
+   	   	   	   resultSet.append('\n You mean:'+e.text+' ?')
+   	   	   	   #print '\n You mean:'+e.text+' ?'
+
    return resultSet
 
 #[]== maybe textwrapper, it's better
