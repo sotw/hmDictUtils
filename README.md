@@ -22,6 +22,9 @@ google "word" | for google
 getPOEReleaseNote | for fun
 >POE | Path of Exile
 
+getTaipeiTimes | for read
+>Bring you back to reality.
+
 ##### Idea
 1. Need to accept space in **edict** ok, use argparse module will solve the problem
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
