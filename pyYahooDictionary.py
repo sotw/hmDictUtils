@@ -89,8 +89,9 @@ def htmlParser(tPage):
    	   	   	   print '\n You mean:'+e.text+' ?'
    return resultSet
 
-
+#[]== maybe textwrapper, it's better
 def prettyPrint(resultSet):
+	os.system('clear')
 	passIstring = ''
 
 	for result in resultSet:

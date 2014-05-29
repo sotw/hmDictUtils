@@ -1,0 +1,3 @@
+PKGFOLDER=~/.hmDict
+tPage="http://www.taipeitimes.com"
+python $PKGFOLDER/getTaipeiTimes.py -v $tPage

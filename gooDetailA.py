@@ -61,46 +61,48 @@ def handler(iList):
 	return ret
 
 def htmlParser(tPage):
-   opener = urllib2.build_opener()
-   opener.addheaders = [('User-agent','Mozilla/5.0')]
-   resp = opener.open(tPage)
-   if resp.code == 200 :
-      data = resp.read()
-      resp.close()
-   elif resp.code == 404 :
-      print "page do not exist"
-      exit()
-   elif resp.code == 403 :
-   	  print "Forbidden!"
-   	  exit()
-   else :
-      print "can not open page"
-      exit()
-   parser = etree.HTMLParser()
-   tree = etree.parse(StringIO(data), parser)
-   etree.strip_tags(tree,'a')
-   etree.strip_tags(tree,'b')
-   etree.strip_tags(tree,'span')   
-   #etree.strip_tags(tree,'dt')
-   #etree.strip_tags(tree,'dd')
-   #etree.strip_tags(tree,'dl')
-   
-   result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='UTF-8')
-   #DB(1, result)
+	opener = urllib2.build_opener()
+	opener.addheaders = [('User-agent','Mozilla/5.0')]
+	resp = opener.open(tPage)
+	if resp.code == 200 :
+		data = resp.read()
+		resp.close()
+	elif resp.code == 404 :
+		print "page do not exist"
+		exit()
+	elif resp.code == 403 :
+		print "Forbidden!"
+		exit()
+	else :
+		print "can not open page"
+		exit()
+	parser = etree.HTMLParser()
+	tree = etree.parse(StringIO(data), parser)
+	etree.strip_tags(tree,'a')
+	etree.strip_tags(tree,'b')
+	etree.strip_tags(tree,'span')   
+	#etree.strip_tags(tree,'dt')
+	#etree.strip_tags(tree,'dd')
+	#etree.strip_tags(tree,'dl')
 
-   encoding = chardet.detect(result)
-   #print encoding
+	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='UTF-8')
+	#DB(1, result)
 
-   targetURL = ""
-   lineSum = 0
+	encoding = chardet.detect(result)
+	#print encoding
 
-   resultSet = []
+	targetURL = ""
+	lineSum = 0
 
-   myList = tree.xpath("//div[@class='meaning']")
-   for e in myList:
-   	   if e.text is not None:
-   	   	   print e.text
-   return resultSet
+
+	#os.sysetm('clear')
+	resultSet = []
+
+	myList = tree.xpath("//div[@class='meaning']")
+	for e in myList:
+		if e.text is not None:
+			print e.text
+	return resultSet
 
 def ripSentence(text):
 	text = text.replace(u'\uff11',u'\n\uff11') #1

@@ -95,6 +95,8 @@ def htmlParser(tPage):
    targetURL = ""
    lineSum = 0
 
+   os.system('clear')
+
    resultSet = []
 
    #|class|howmany|
@@ -179,32 +181,6 @@ def ripSentence(text):
 	text = text.replace(u'\uff19',u'\n\uff19')
 	return text
 
-def prettyPrint(resultSet):
-	passIstring = ''
-
-	for result in resultSet:
-		result = result.replace('breakHere','\n')
-		result = result.replace('titleBreak','\n')
-		#result = result.replace('idiom','\n\ridiom')
-		#print len(result)
-		for tag in ARGUDB:			
-			result = result.replace(tag,clrTx('\n'+tag,'YELLOW'))
-		if len(result) > 1 :
-			passIstring = passIstring+result
-
-	passIIStrSet = passIstring.split('\n')
-	for strII in passIIStrSet:		
-		bFound = False
-		for tag in ARGUDB:
-			try :
-				strII.index(tag)
-				bFound = True
-				break
-			except ValueError:
-				bFound = False
-		if bFound == False:
-			strII = "    "+strII
-		print strII
 
 def assignPageAndOverrideArgu():
    DB(DB_ARG,'ENTER overrideArgu')
@@ -230,7 +206,6 @@ def loadArgumentDb():
 
 def main():
    resultSet = htmlParser(tPage)
-   prettyPrint(resultSet)
 
 def verify():
    if len(sys.argv) < 3 or len(sys.argv) > 4 :
