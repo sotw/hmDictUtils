@@ -1,15 +1,25 @@
+#[]== Think this two-layered index seems common
+#[]== 1. Index page 2. detail page
+#[]== Rather than create two python, I should create one only
+
 import os, sys, re, codecs
 import argparse
 import logging
 import urllib, urllib2
+from os.path import expanduser
 from subprocess import PIPE
 from subprocess import Popen
 from lxml import etree
 from cStringIO import StringIO
 from pprint import pprint
+from HMTXCLR import clrTx
 
 global DB
 global tTarget
+global args
+global ARGUDB
+
+ARGUDB = []
 
 def parseInt(sin):
 	m = re.search(r'^(\d+)[.,]?\d*?',str(sin))
@@ -44,8 +54,20 @@ def getReleaseNoteDetail(tDetail):
 	#print len(resultSet)
 	for entry in resultSet:
 		if entry.text is not None:
-			result = entry.text.replace('breakHere','\n')
-			print result
+			result = entry.text.replace('breakHere','\n')			
+			for e in ARGUDB:
+				findallRetSet = re.findall('([^\n]*'+e+')\n',result)
+				for findallRet in findallRetSet:
+					result = result.replace(findallRet,clrTx(findallRet,'YELLOW'))
+			#by line
+			splitSet = result.split('\n')
+			cnt = 0
+			for split in splitSet:
+				if cnt == 0:
+					split = clrTx(split,'BLUE')				
+				print split
+				cnt += 1				
+			#print result
 			break #first post is releasenote
 
 def doStuff(tTarget):
@@ -79,17 +101,19 @@ def doStuff(tTarget):
 
 def setup_logging(level):
 	global DB
-	DB = loggin.getLogger('releasenote')
+	DB = logging.getLogger('releasenote')
 	DB.setLevel(level)
-	handler = loggin.StreamHandler(sys.stdout)
+	handler = logging.StreamHandler(sys.stdout)
 	handler.setFormatter(logging.Formatter('%(module)s %(levelname)s %(funcName)s| %(message)s'))
 	DB.addHandler(handler)
 
 def verify():
 	global tTarget
+	global args
 	parser = argparse.ArgumentParser(description='A poe information reader in console')
 	parser.add_argument('-v', '--verbose', dest='verbose', action = 'store_true', default=False, help='Verbose mode')
 	parser.add_argument('query', nargs='*', default=None)
+	parser.add_argument('-d', '--database', dest='database', action = 'store', default='/.hmDict/poeWordEnhance.db')
 	args = parser.parse_args()
 	tTarget = ' '.join(args.query)
 	log_level = logging.INFO
@@ -98,11 +122,26 @@ def verify():
 	if not tTarget:
 		parser.print_help()
 		exit()
-	
+	setup_logging(log_level)
+
+def loadDb():
+	home = expanduser('~')
+	if os.path.isfile(home+args.database) is True:
+		f = open(home+args.database,'r')
+		if f is not None:
+			for line in f :
+				if line != '\n' and line[0] != '#':
+					line = line.rstrip('\n')
+					global ARGUDB
+					ARGUDB.append(line)
+		f.close()
+	else:
+		DB.debug('override file is not exist')
 
 def main():
 	doStuff(tTarget)
 
-if __name__ == '__main__':
-	verify()
+if __name__ == '__main__':	
+	verify()	
+	loadDb()
 	main()

@@ -19,8 +19,11 @@ wiki -l "language" "word" | for consulting wiki
 google "word" | for google
 >Just google it.
 
+getPOEReleaseNote | for fun
+>POE | Path of Exile
+
 ##### Idea
-1. Need to accept space in **edict**
+1. Need to accept space in **edict** ok, use argparse module will solve the problem
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
 3. You will need phonetic symbol in **edict**
 4. I am thinking of consulting multiple pdf file in real time.
@@ -28,7 +31,7 @@ google "word" | for google
 6. **jnews**
 7. **google** google consult
 8. **gmailReader**
-9. Adopt python module argparse...30%
+9. Adopt python module argparse...30% ...actually I want to keep my old fashion way in one of tool
 10. Adopt python module logging...30%
 11. ~~wiki~~ done!
 12. maybe read PDF text?
@@ -50,3 +53,4 @@ google "word" | for google
 7．[Wordpress xmlrpc](https//github.com/maxcutler/python-wordpress-xmlrpc)
 8. [PDFMiner](http://www.unixuser.org/~euske/python/pdfminer/index.html)
 9. [python-docx](https://github.com/mikemaccana/python-docx)
+10.[Path of Exile](https://www.pathofexile.com)

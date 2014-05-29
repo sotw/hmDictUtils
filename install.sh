@@ -21,6 +21,7 @@ cp wiki ~/bin/sh
 cp getPOEReleaseNote ~/bin/sh
 cp argumentDbA $INSFOLDER/argumentDbA
 cp argumentDbB $INSFOLDER/argumentDbB
+cp *.db $INSFOLDER
 sudo pip install requests #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
 sudo pip install chardet #for goojp
