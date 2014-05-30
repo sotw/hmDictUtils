@@ -6,4 +6,6 @@ rm -f ~/bin/sh/jdict
 rm -f ~/bin/sh/google
 rm -f ~/bin/sh/wiki
 rm -f ~/bin/sh/getPOEReleaseNote
+rm -f ~/bin/sh/get_taipei_times
+rm -f ~/bin/sh/get_lyrics
 echo "Bye, have a nice day"

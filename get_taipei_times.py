@@ -219,7 +219,7 @@ def doStuff(tTarget):
 
 def setup_logging(level):
 	global DB
-	DB = logging.getLogger('getTaipeiTimes')
+	DB = logging.getLogger('get_taipei_times')
 	DB.setLevel(level)
 	handler = logging.StreamHandler(sys.stdout)
 	handler.setFormatter(logging.Formatter('%(module)s %(levelname)s %(funcName)s| %(message)s'))
@@ -231,7 +231,7 @@ def verify():
 	parser = argparse.ArgumentParser(description='A Taipei Times Reader')
 	parser.add_argument('-v', '--verbose', dest='verbose', action = 'store_true', default=False, help='Verbose mode')
 	parser.add_argument('query', nargs='*', default=None)
-	parser.add_argument('-d', '--database', dest='database', action = 'store', default='/.hmDict/getTaipeiTimes.db')
+	parser.add_argument('-d', '--database', dest='database', action = 'store', default='/.hmDict/get_taipei_times.db')
 	args = parser.parse_args()
 	tTarget = ' '.join(args.query)
 	log_level = logging.INFO

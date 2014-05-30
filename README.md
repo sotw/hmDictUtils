@@ -1,4 +1,4 @@
-###A Tool Set for Everyday Reading and Writing
+###A Tool Set for Everyday Reading and Writing in Console only
 >In console, you put your fingure on mouse, you lose.
 
 ##### Install
@@ -22,7 +22,7 @@ In network reachable environment:
 **getPOEReleaseNote** | for fun
 >POE | Path of Exile
 
-**getTaipeiTimes** | for read
+**get_taipei_times** | for read
 >Bring you back to reality.
 
 **get_lyrics** | for music
@@ -44,8 +44,12 @@ In network reachable environment:
 13. make a urban English consulting utility
 14. osx can use 'say' to do TTS
 15. ~~A lyrics search utility~~
+16. TED script fetch
+17. A stackoverflow console search
+18. get\_Lyrics should work with moc, music on console
 
 ##### History
+1. 2014-05-30 10:51:26 change getTaipeiTimes to get\_taipei\_times
 
 ##### Note
 1. Plan to use jNlp

@@ -8,7 +8,7 @@ rm -f ~/bin/sh/jdict
 rm -f ~/bin/sh/google
 rm -f ~/bin/sh/wiki
 rm -f ~/bin/sh/getPOEReleaseNote
-rm -f ~/bin/sh/getTaipeiTimes
+rm -f ~/bin/sh/get_taipei_times
 rm -f ~/bin/sh/get_lyrics
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
@@ -21,11 +21,12 @@ cp jdict ~/bin/sh
 cp google ~/bin/sh
 cp wiki ~/bin/sh
 cp getPOEReleaseNote ~/bin/sh
-cp getTaipeiTimes ~/bin/sh
+cp get_taipei_times ~/bin/sh
 cp get_lyrics ~/bin/sh
 cp argumentDbA $INSFOLDER/argumentDbA
 cp argumentDbB $INSFOLDER/argumentDbB
 cp *.db $INSFOLDER
+#I should seperate this to python deploy
 sudo pip install requests #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
 sudo pip install chardet #for goojp
