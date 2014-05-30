@@ -31,7 +31,7 @@ In network reachable environment:
 ##### Idea
 1. Need to accept space in **edict** ok, use argparse module will solve the problem
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
-3. You will need phonetic symbol in **edict**
+3. ~~You will need phonetic symbol in **edict**~~ 2014-05-30 12:47:45
 4. I am thinking of consulting multiple pdf file in real time.
 5. **enews**
 6. **jnews**
@@ -47,6 +47,8 @@ In network reachable environment:
 16. TED script fetch
 17. A stackoverflow console search
 18. get\_Lyrics should work with moc, music on console
+19. some remark feature in reading would be amazing.
+20. a loop for multiple consulting would be handy (edict/jdict)
 
 ##### History
 1. 2014-05-30 10:51:26 change getTaipeiTimes to get\_taipei\_times
