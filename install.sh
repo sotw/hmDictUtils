@@ -10,11 +10,13 @@ rm -f ~/bin/sh/wiki
 rm -f ~/bin/sh/getPOEReleaseNote
 rm -f ~/bin/sh/get_taipei_times
 rm -f ~/bin/sh/get_lyrics
+rm -f ~/bin/sh/get_jpnews
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
 cp -Rf jNlp $INSFOLDER
 cp -Rf wikipedia $INSFOLDER
+#cp -Rf uniseg $INSFOLDER
 cp *.py $INSFOLDER
 cp edict ~/bin/sh
 cp jdict ~/bin/sh
@@ -23,6 +25,7 @@ cp wiki ~/bin/sh
 cp getPOEReleaseNote ~/bin/sh
 cp get_taipei_times ~/bin/sh
 cp get_lyrics ~/bin/sh
+cp get_jpnews ~/bin/sh
 cp argumentDbA $INSFOLDER/argumentDbA
 cp argumentDbB $INSFOLDER/argumentDbB
 cp *.db $INSFOLDER

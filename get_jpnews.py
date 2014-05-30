@@ -19,6 +19,7 @@ from textwrap import dedent
 from subprocess import Popen
 from subprocess import PIPE
 from subprocess import STDOUT
+#from uniseg import Wrapper
 
 global DB
 global tTarget
@@ -26,12 +27,16 @@ global args
 global ARGUDB
 global _wrap
 global LINKS
-global preScreen
 
-preScreen = []
 LINKS = []
 ARGUDB = []
 _wrap = TextWrapper()
+_wrap.width = 34
+
+#_wrap = Wrapper()
+#_wrap.textextents =
+#t_wrap.wrap_width
+
 
 def prepareMailInfo(mailMsg):
 	home = expanduser('~')
@@ -64,29 +69,35 @@ def getReleaseNoteDetail(tDetail):
 	parser = etree.HTMLParser()
 	tree = etree.parse(StringIO(data), parser)
 
-	comments = tree.xpath('//comment()')
-	for c in comments:
-		p = c.getparent()
-		p.remove(c)
+	#comments = tree.xpath('//comment()')
+	#for c in comments:
+	#	p = c.getparent()
+	#	p.remove(c)
 
 	etree.strip_tags(tree,'p')
 	etree.strip_tags(tree,'i')
+	etree.strip_tags(tree,'br')
+	etree.strip_elements(tree, 'span', with_tail=False)
+	etree.strip_tags(tree, 'a')
+	etree.strip_tags(tree, 'b')
+	etree.strip_tags(tree, 'i')
 	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
-
 	mTitle = ''
-	titles = tree.xpath("//h1[@class='title']")
+	titles = tree.xpath("//h1")
 	for entry in titles:
 		if entry.text is not None:
 			mTitle = entry.text
 			break
 
-	resultSet = tree.xpath("//div[@class='text']")
-	#print len(resultSet)
+	#print paintRED(result,'class="nwbody')
+	#raw_input()
+	resultSet = tree.xpath("//div[@class='nwbody']") 
+
 
 	os.system('clear')	
-	print " "
-	thisScreen.append(" ")
-	print '  '+clrTx(mTitle,'YELLOW')
+	print " " 
+	thisScreen.append(" ") 
+	print '  '+clrTx(mTitle,'YELLOW') 
 	thisScreen.append('  '+clrTx(mTitle,'YELLOW'))
 	print repeatStr('-', 78)
 	thisScreen.append(repeatStr('-', 78))
@@ -124,13 +135,15 @@ def getReleaseNoteDetail(tDetail):
 			print "sent!"
 
 
+
+
 '''For programming'''
 def paintRED(string,target):
 	string = string.replace(target,clrTx(target,'RED'))
 	return string
 
 def doStuff(tTarget):
-	global preScreen
+	ScreenI = []
 	opener = urllib2.build_opener()
 	opener.addheader = [('User-Agent','Mozilla/5.0')]
 	resp = opener.open(tTarget)
@@ -148,44 +161,49 @@ def doStuff(tTarget):
 	tree = etree.parse(StringIO(data), parser)
 
 	etree.strip_tags(tree,'span')
-	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
+	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='UTF-8')
 
-	#print result
-	#print paintRED(result,'<li><h3>')
+	#print rept(result)
+	#print paintRED(repr(result),'<div class="lst1t">')
 	global LINKS
     #head line#
-	headLines = re.findall('<div class="ma">\r<h1><a href="([^"]+)">([^<]+)</a></h1>\r<h4>([^<]+)<',result)
+	#headLines = re.findall('<h2 class="ch08">\n<a href="[^"]+" onclick="clickCount\(\'news_top[^"]+" href="([^"]+)">([^<]+)</a>',result)
+	headLines = re.findall('<h2 class="ch08">\n<a href="([^"]+)" onclick="clickCount\(\'news_top[^"]+">([^<]+)</a>[^!]+!--ch08_2-->\n<p>([^<]+)<',result)
+	
 	#print len(headLines)
+	#raw_input()
 	#print clrTx('HEADLINES:','BLUE')
-	preScreen.append(clrTx('HEADLINES:','BLUE'))
+	ScreenI.append(clrTx('HEADLINES:','BLUE'))
 	for headLine in headLines:
 		#print headLine		
 		#print clrTx(headLine[1],'YELLOW')
-		preScreen.append(clrTx(headLine[1],'YELLOW'))
-		for line in _wrap.wrap(headLine[2]):
+		ScreenI.append(clrTx(headLine[1],'YELLOW'))
+		text = codecs.decode(headLine[2],'utf-8')
+		#print text
+		#print "==="
+		for line in _wrap.wrap(text):
 			#print '    '+line
-			preScreen.append('    '+line)
-		LINKS.append('http://www.taipeitimes.com/'+headLine[0])
+			ScreenI.append('    '+line)
+		LINKS.append('http://news.goo.ne.jp/'+headLine[0])
 		#print clrTx('Input:'+str(cnt)' for more','GREY30')
-		preScreen.append(clrTx('Input:'+str(len(LINKS)-1)+' for more','GREY30'))
+		ScreenI.append(clrTx('Input:'+str(len(LINKS)-1)+' for more','GREY30'))
 		#print clrTx(headLine[0],'GREY30')
 
-	#majorLines only 4 is for majorLines
-	majorLines = re.findall('<h3><a href="([^"]+)">([^<]+)</a></h3>([^<]+)<',result)
+	majorLines = re.findall('<div class="lst1t">\n<ul>\n<li>\n<a href="([^"]+)" onclick="clickCount\(\'news_top[^"]+">([^<]+)</a>',result)
+	#print len(majorLines)
+	#raw_input()
 	#print clrTx('MAJORLINES:','BLUE')
-	preScreen.append(clrTx('MAJORLINES:','BLUE'))
+	ScreenI.append(clrTx('MAJORLINES:','BLUE'))
 	cnt = 0
 	for majorLine in majorLines:
-		if cnt == 4 :
-			break
 		#print clrTx(majorLine[1],'YELLOW')		
-		preScreen.append(clrTx(majorLine[1],'YELLOW'))
-		for line in _wrap.wrap(majorLine[2]):
+		ScreenI.append(clrTx(majorLine[1],'YELLOW'))
+		#for line in _wrap.wrap(majorLine[2]):
 			#print '    '+line
-			preScreen.append('    '+line)
-		LINKS.append('http://www.taipeitimes.com/'+majorLine[0])
+		#	ScreenI.append('    '+line)
+		LINKS.append('http://news.goo.ne.jp/'+majorLine[0])
 		#print clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30')
-		preScreen.append(clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30'))
+		ScreenI.append(clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30'))
 		#print clrTx(majorLine[0],'GREY30')
 		#print majorLine
 		cnt+=1
@@ -194,32 +212,21 @@ def doStuff(tTarget):
 	sn=''
 	while sn is not None :
 		os.system('clear')
-		for item in preScreen:
+		for item in ScreenI:
 			print item
 		sn=raw_input('Which one you want to check?(Sn)>')
 		#print repr(sn)
 		sn = parseInt(sn)
-		if (sn is not None) and sn < len(LINKS):		
+		if (sn is not None) and (sn < len(LINKS) ):		
 			getReleaseNoteDetail(LINKS[sn])
 		else:
 			print "Have a nice day"
 
-	'''releaseNoteSet = re.findall('<div class="title"><a href="([^"]+)">([^<]+)</a>',result)
-	cnt = 0
-	for e in releaseNoteSet:
-		print "SN:%d|%s"%(cnt,e[1])
-		cnt+=1
-	sn=None
-	sn=raw_input('Which one you want to check?(Sn)')
-	sn = parseInt(sn)
-	if sn is not None:
-		getReleaseNoteDetail('http://www.pathofexile.com'+releaseNoteSet[sn][0])
-	'''
 	return
 
 def setup_logging(level):
 	global DB
-	DB = logging.getLogger('get_taipei_times')
+	DB = logging.getLogger('get_jpnews') #replace
 	DB.setLevel(level)
 	handler = logging.StreamHandler(sys.stdout)
 	handler.setFormatter(logging.Formatter('%(module)s %(levelname)s %(funcName)s| %(message)s'))
@@ -228,10 +235,10 @@ def setup_logging(level):
 def verify():
 	global tTarget
 	global args
-	parser = argparse.ArgumentParser(description='A Taipei Times Reader')
+	parser = argparse.ArgumentParser(description='A get_jpnews Reader') #replace
 	parser.add_argument('-v', '--verbose', dest='verbose', action = 'store_true', default=False, help='Verbose mode')
 	parser.add_argument('query', nargs='*', default=None)
-	parser.add_argument('-d', '--database', dest='database', action = 'store', default='/.hmDict/get_taipei_times.db')
+	parser.add_argument('-d', '--database', dest='database', action = 'store', default='/.hmDict/get_jpnews.db') #replace
 	args = parser.parse_args()
 	tTarget = ' '.join(args.query)
 	log_level = logging.INFO

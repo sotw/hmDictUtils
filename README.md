@@ -28,6 +28,9 @@ In network reachable environment:
 **get_lyrics** | for music
 >Get lyrics !
 
+**get_jpnews** | for Japanese News
+>Read News !
+
 ##### Idea
 1. Need to accept space in **edict** ok, use argparse module will solve the problem
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
@@ -49,6 +52,7 @@ In network reachable environment:
 18. get\_Lyrics should work with moc, music on console
 19. some remark feature in reading would be amazing.
 20. a loop for multiple consulting would be handy (edict/jdict)
+21. a console showing mechanism that input country name and show world map.
 
 ##### History
 1. 2014-05-30 10:51:26 change getTaipeiTimes to get\_taipei\_times
@@ -69,3 +73,4 @@ In network reachable environment:
 8. [PDFMiner](http://www.unixuser.org/~euske/python/pdfminer/index.html)
 9. [python-docx](https://github.com/mikemaccana/python-docx)
 10. [Path of Exile](https://www.pathofexile.com)
+11. [uniseg](http://www.emptypage.jp/gadgets/uniseg.ja.html)
