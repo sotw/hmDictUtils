@@ -27,6 +27,10 @@ ARGUDB        = []
 ARGUDB_IDX_T, ARGUDB_IDX_P, ARGUDB_IDX_H, ARGUDB_IDX_LI = range(4)
 tPage         = ''
 INSFOLDER = ''
+bWindows = False
+
+if 'Windows' in platform.platform():
+	bWindows = True
 
 def cp65001(name):
     if name.lower()=='cp65001':
@@ -128,9 +132,9 @@ def htmlParser(tPage):
 
 #[]== maybe textwrapper, it's better than this hardcode 
 def prettyPrint(resultSet):	
-	if 'Windows' in platform.platform() :
+	if bWindows :
 		os.system('cls')
-	else :
+	else:
 		os.system('clear')
 	
 	passIstring = ''
@@ -170,8 +174,11 @@ def prettyPrint(resultSet):
 
 		if totalCnt == 0 :
 			print repeatStr("-",len(strII))
-		try:		    	
-			print strII+'\n'
+		try:		    
+			if bWindows :
+				print strII+'\n'
+			else:
+				print strII
 		except IOError:
 		        #do nothing, why windows raise IOError everything-.-?
 			a = 1
@@ -207,8 +214,8 @@ def loadArgumentDb():
 			DB(1, 'db file open fail')
 	else :
 		print 'argumentDbA doesn\'t existed'
-	print ARGUDB
-	raw_input()
+	#print ARGUDB
+	#raw_input()
 
 def main():
    resultSet = htmlParser(tPage)
