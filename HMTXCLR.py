@@ -1,3 +1,5 @@
+import platform
+
 CODE={
     'ENDC':0,  # RESET COLOR
     'BOLD':1,
@@ -44,6 +46,8 @@ CODE={
 def termcode(num):
     return '\033[%sm'%num
 
-def clrTx(astr,color):
-    return termcode(CODE[color])+astr+termcode(CODE['ENDC'])
-
+def clrTx(astr,color):    
+	if 'Windows' in platform.platform():
+		return astr
+	else :
+		return termcode(CODE[color])+astr+termcode(CODE['ENDC'])

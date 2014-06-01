@@ -10,6 +10,7 @@ import os
 import re
 import codecs
 import argparse
+import platform
 from HMTXCLR import clrTx
 from os.path import expanduser
 
@@ -26,6 +27,17 @@ ARGUDB        = []
 ARGUDB_IDX_T, ARGUDB_IDX_P, ARGUDB_IDX_H, ARGUDB_IDX_LI = range(4)
 tPage         = ''
 INSFOLDER = ''
+
+def cp65001(name):
+    if name.lower()=='cp65001':
+	return codecs.lookup('utf-8')
+
+#def cp950(name):
+#    if name.lower()=='cp950':
+#	return codecs.loopup('utf-8')
+
+codecs.register(cp65001)
+#codecs.register(cp950)
 
 def DB(level,msg):
    if int(level) == int(DB_FLT) :
@@ -115,8 +127,12 @@ def htmlParser(tPage):
 	return resultSet
 
 #[]== maybe textwrapper, it's better than this hardcode 
-def prettyPrint(resultSet):
-	os.system('clear')
+def prettyPrint(resultSet):	
+	if 'Windows' in platform.platform() :
+		os.system('cls')
+	else :
+		os.system('clear')
+	
 	passIstring = ''
 
 	print " "
@@ -125,19 +141,20 @@ def prettyPrint(resultSet):
 		result = result.replace('titleBreak','\n')
 		#result = result.replace('idiom','\n\ridiom')
 		#print len(result)
-		for tag in ARGUDB:			
+		for tag in ARGUDB:					    	
 			result = result.replace(tag,clrTx('\n'+tag,'YELLOW'))
 		if len(result) > 1 :
 			passIstring = passIstring+result
 
 	passIIStrSet = passIstring.split('\n')
+	#print passIIStrSet
 	totalCnt=0
 	pauseCnt=0
 	for strII in passIIStrSet:
 		bFound = False
 		for tag in ARGUDB:
 			try :
-				strII.index(tag)
+			    	strII.index(tag)
 				bFound = True
 				break
 			except ValueError:
@@ -153,8 +170,11 @@ def prettyPrint(resultSet):
 
 		if totalCnt == 0 :
 			print repeatStr("-",len(strII))
-
-		print strII
+		try:		    	
+			print strII+'\n'
+		except IOError:
+		        #do nothing, why windows raise IOError everything-.-?
+			a = 1
 
 		if totalCnt == 0 :
 			print repeatStr("-",len(strII))
@@ -162,7 +182,8 @@ def prettyPrint(resultSet):
 
 		if totalCnt == 0:
 			for proun in mProun:
-				print '    '+proun[0]+' '+proun[1]
+			    	break
+				print '    '+proun[0]+' '+proun[1]				
 		totalCnt+=1
 
 def assignPageAndOverrideArgu():
@@ -179,13 +200,15 @@ def loadArgumentDb():
 			for line in f:
 				if line != '\n' and line[0] != '#':
 					line = line.rstrip('\n')
-					global ARGUDB
+					global ARGUDB					
 					ARGUDB.append(line)
 			f.close()
 		else:			
 			DB(1, 'db file open fail')
 	else :
 		print 'argumentDbA doesn\'t existed'
+	print ARGUDB
+	raw_input()
 
 def main():
    resultSet = htmlParser(tPage)
