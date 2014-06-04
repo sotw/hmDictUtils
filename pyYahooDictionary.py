@@ -86,12 +86,14 @@ def htmlParser(tPage):
 	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding="utf-8")
 	
 	#print repr(result)
-	f = open('debug.txt','w')
-	f.write(result)
-	f.close()
+	#f = open('debug.txt','w')
+	#f.write(result)
+	#f.close()
 	global mProun
 	mProun = re.findall('<span class="proun_type">([^<]+)</span><span class="proun_value">([^<]+)</span>',result)
 
+	#print len(mProun)
+	#raw_input()
 	mTitle = re.findall('<span class="yschttl">([^<]+)</span>',result)
 
 	etree.strip_tags(tree,'span')
@@ -188,8 +190,7 @@ def prettyPrint(resultSet):
 
 
 		if totalCnt == 0:
-			for proun in mProun:
-			    	break
+			for proun in mProun:			    
 				print '    '+proun[0]+' '+proun[1]				
 		totalCnt+=1
 

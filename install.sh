@@ -11,6 +11,7 @@ rm -f ~/bin/sh/getPOEReleaseNote
 rm -f ~/bin/sh/get_taipei_times
 rm -f ~/bin/sh/get_lyrics
 rm -f ~/bin/sh/get_jpnews
+rm -f ~/bin/sh/note
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
@@ -26,6 +27,7 @@ cp getPOEReleaseNote ~/bin/sh
 cp get_taipei_times ~/bin/sh
 cp get_lyrics ~/bin/sh
 cp get_jpnews ~/bin/sh
+cp note ~/bin/sh
 cp argumentDbA $INSFOLDER/argumentDbA
 cp argumentDbB $INSFOLDER/argumentDbB
 cp *.db $INSFOLDER
