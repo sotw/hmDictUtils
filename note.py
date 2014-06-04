@@ -207,9 +207,13 @@ def refreshDb():
 		DB.debug('override file is not exist')
 
 def	doDump():
-	cnt = 0
+	os.system('clear')
+	cnt = 0	
 	for entry in ARGUDB:
-		print str(cnt)+":"+entry
+		if cnt % 2 == 0 :
+			print clrTx(str(cnt)+":"+entry,'YELLOW')		
+		else:
+			print clrTx(str(cnt)+":"+entry,'AUQA')
 		cnt+=1
 
 def doWriteLn(msg):

@@ -10,21 +10,26 @@ import argparse, logging
 from HMTXCLR import clrTx
 from os.path import expanduser
 from jianfan import jtof
+from textwrap import TextWrapper
 import wikipedia
 
 global tTargetA
 global DB
 global LANG
+global _wrap
 
 LANG='en'
 tTargetA=''
 INSFOLDER=''
+_wrap = TextWrapper()
+_wrap.width = 80
 
 def prettyPrint(text,LANG):
 	DB.debug(text)
-	sections = re.findall('([^=]+)==',text)
+	sections = re.findall('([^=]+?)==',text)
 	for section in sections:
-		print section
+		for line in _wrap.wrap(section):
+			print '    '+line
 		raw_input()
 
 
