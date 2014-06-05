@@ -34,6 +34,9 @@ In network reachable environment:
 **note** | a simple note
 >Note stuff !
 
+**get_ted_talk_science** | for science!
+>Read ideas!
+
 ##### Idea
 1. Need to accept space in **edict** ok, use argparse module will solve the problem
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
@@ -50,7 +53,7 @@ In network reachable environment:
 13. make a urban English consulting utility
 14. osx can use 'say' to do TTS
 15. ~~A lyrics search utility~~
-16. TED script fetch
+16. ~~TED script fetch~ done! 2014-06-05 15:46:00
 17. A stackoverflow console search
 18. get\_Lyrics should work with moc, music on console
 19. some remark feature in reading would be amazing.
@@ -58,11 +61,9 @@ In network reachable environment:
 21. a console showing mechanism that input country name and show world map.
 22. output aozora style text of all Japanese text, because I need Hiragana mark.
 
-##### History
-1. 2014-05-30 10:51:26 change getTaipeiTimes to get\_taipei\_times
-
 ##### Note
 1. Plan to use jNlp
+>Maybe just use hiraganamegane
 2. Currently all pull, any push utility like blog push maybe?
 3. Just dont't push so frequently. 
 
@@ -80,3 +81,4 @@ In network reachable environment:
 11. [uniseg](http://www.emptypage.jp/gadgets/uniseg.ja.html)
 12. [xjp2](http://misyakudouji.blog55.fc2.com/blog-entry-455.html)
 13. [aozora4reader](https://github.com/takahashim/aozora4reader/)
+14. [TED](www.ted.com)
