@@ -60,6 +60,7 @@ In network reachable environment:
 20. a loop for multiple consulting would be handy (edict/jdict)
 21. a console showing mechanism that input country name and show world map.
 22. output aozora style text of all Japanese text, because I need Hiragana mark.
+23. make get\_ted\_talk\_science become get\_ted\_talk and list all possible when user is not input category
 
 ##### Note
 1. Plan to use jNlp

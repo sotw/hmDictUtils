@@ -88,16 +88,27 @@ def getReleaseNoteDetail(tDetail):
 	thisScreen.append(' ')
 	thisScreen.append(repeatStr('-',78))
 	option = ''
-	while option == '':
+	bSlowShow = False
+	bLineBreakAt = 25
+	while option == '' or option == 'slowShow' or option == 'showAll' :
 		cnt = 0
 		for line in thisScreen:
 			print line			
-			if cnt >=25 :
-				cnt = 0
-				raw_input()
+			if bSlowShow :
+				if cnt >= bLineBreakAt :
+					cnt = 0
+					raw_input()
 			cnt+=1
 		print '<b>: back to index | <en>: English | <tw>: Traditional-Chinese'
+		print '<slowShow>: pauseAtCertainLines | <showAll>: show all at once'
+		print '<mail>: mail to myself (funciton not public!)'
 		option = raw_input()
+		if option == 'slowShow':
+			bSlowShow = True
+			bLinkBreakAt = parseInt(raw_input('please input pause at each ? lines'))
+			os.system('clear')
+		elif option == 'showAll':
+			bSlowShow = False
 		#print repr(option)
 	
 	if option == 'en' :
@@ -106,6 +117,30 @@ def getReleaseNoteDetail(tDetail):
 	elif option == 'tw' :
 		tDetail = tDetail.split('?')[0]+'?lang=zh-tw'
 		getReleaseNoteDetail(tDetail)
+	elif option == 'mail':
+		sendMail(thisScreen)
+
+def sendMail(screen):
+	bigChunkStr = ''
+	mailLineCnt = 0
+	for line in thisScreen:		
+		if len(line) != 0 :
+			if mailLineCnt == 1 :
+				line = '####'+line #prepare to do markdown tranformation
+			bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'			
+			mailLineCnt+=1
+	home = expanduser('~')
+	print home+'/.hmDict/simpleMail.py'
+	if os.path.isfile(home+'/.hmDict/simpleMail.py') is True :
+
+		process = Popen(prepareMailInfo(bigChunkStr))
+		print "sending mail..."
+		process.wait()			
+		print "sent!"
+	else :
+		print 'You don\'t have email plugin!, abort!!'
+	raw_input()
+
 
 '''For programming'''
 def paintRED(string,target):
