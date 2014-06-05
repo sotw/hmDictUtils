@@ -74,6 +74,8 @@ def verify():
 	parser.add_argument('-v', '--verbose', dest='verbose', action='store_true', default=False, help='Verbose mode')
 	parser.add_argument('query', nargs='*', default=None )
 	args = parser.parse_args()
+	if args.language == 'zh' or args.language == 'jp' :
+		_wrap.width = 34
 	query = ' '.join(args.query)
 	log_level = logging.INFO
 	if args.verbose:
