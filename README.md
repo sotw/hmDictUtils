@@ -42,18 +42,18 @@ In network reachable environment:
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
 3. ~~You will need phonetic symbol in **edict**~~ 2014-05-30 12:47:45
 4. I am thinking of consulting multiple pdf file in real time.
-5. **enews**
+5. ~~**enews**~~ Now you have taipei times, it's ok for headline read.
 6. **jnews**
-7. **google** google consult
+7. ~~**google** google consult~~ now you can google until ajax api is ceased.
 8. **gmailReader**
-9. Adopt python module argparse...30% ...actually I want to keep my old fashion way in one of tool
-10. Adopt python module logging...30%
+9. Adopt python module argparse...40% ...actually I want to keep my old fashion way in one of tool
+10. Adopt python module logging...40%
 11. ~~wiki~~ done!, it looks ugly for showing.
 12. maybe read PDF text?
 13. make a urban English consulting utility
 14. osx can use 'say' to do TTS
 15. ~~A lyrics search utility~~
-16. ~~TED script fetch~ done! 2014-06-05 15:46:00
+16. ~~TED script fetch~~ done! 2014-06-05 15:46:00
 17. A stackoverflow console search
 18. get\_Lyrics should work with moc, music on console
 19. some remark feature in reading would be amazing.
