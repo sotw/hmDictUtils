@@ -30,7 +30,6 @@ cp get_lyrics ~/bin/sh
 cp get_jpnews ~/bin/sh
 cp get_ted_talk_science ~/bin/sh
 cp note ~/bin/sh
-cp argumentDbA $INSFOLDER/argumentDbA
 cp argumentDbB $INSFOLDER/argumentDbB
 cp *.db $INSFOLDER
 #I should seperate this to python deploy

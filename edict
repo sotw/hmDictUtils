@@ -1,3 +1,25 @@
+function concatenate_args
+{
+	string=""
+	for a in "$@" # Loop over arguments
+	do
+		if [[ "${a:0:1}" != "-" ]] # Ignore flags (first character is -)
+		then
+			if [[ "$string" != "" ]]
+			then
+				string+="%20" # Delimeter
+			fi
+		string+="$a"
+		fi
+	done
+echo "$string"
+}
+
 PKGFOLDER=~/.hmDict
-tPage="https://tw.dictionary.search.yahoo.com/search?p="$1
-python $PKGFOLDER/pyYahooDictionary.py $tPage $PKGFOLDER 0
+args="$(concatenate_args "$@")"
+tPage="https://tw.dictionary.search.yahoo.com/search?p="$args
+exeName=$0
+exeName=${exeName##*/}
+exeName=${exeName%.*}
+exeName=$exeName.py
+python $PKGFOLDER/$exeName $tPage

@@ -1,30 +1,25 @@
 # Author Pei-Chen Tsai aka Hammer
 # Ok, the line break position is impossible to 100% accurate currently, so just tune global parameter for your own purpose
 
-from cStringIO import StringIO
-from lxml import etree
-from pprint import pprint
-import urllib2
-import sys
-import os
-import re
-import codecs
+import os, sys, re, codecs
+import urllib, urllib2
 import argparse
+import logging
 import platform
 from HMTXCLR import clrTx
 from os.path import expanduser
+from cStringIO import StringIO
+from lxml import etree
+from pprint import pprint
 
-global DB_FLT, DB_NOR, DB_ARG, DB_VER #verbose print
+global DB
+global args
 global ARGUDB #arugment database
-global ARGUDB_IDX_T, ARGUDB_IDX_P, ARGUDB_IDX_H, ARGUDB_IDX_LI
 global tPage
-global INSFOLDER
 global mProun
 
 mProun = []
-DB_FLT, DB_NOR, DB_ARG, DB_VER    = range(4)
 ARGUDB        = []
-ARGUDB_IDX_T, ARGUDB_IDX_P, ARGUDB_IDX_H, ARGUDB_IDX_LI = range(4)
 tPage         = ''
 INSFOLDER = ''
 bWindows = False
@@ -43,30 +38,8 @@ def cp65001(name):
 codecs.register(cp65001)
 #codecs.register(cp950)
 
-def DB(level,msg):
-   if int(level) == int(DB_FLT) :
-      print msg
-
 def repeatStr(string_to_expand, length):
 	return (string_to_expand * ((length/len(string_to_expand))+1))[:length]
-
-
-def contentStrip(iList):
-	DB(1,'Doing stripping...')
-	stack = []
-	for e in iList:
-		if e.text is not None:            
-			stack.append(e.text)					
-	return stack
-
-def handler(iList):      
-	DB(1,'ENTER p handler')
-	ret = []
-	DB(1, 'There are '+str(len(iList))+' interesting stuff found')
-	if len(iList) > 0 :
-		ret = contentStrip(iList)
-	DB(1, 'LEAVE p handler')
-	return ret
 
 def htmlParser(tPage):
 	resp = urllib2.urlopen(tPage)
@@ -86,15 +59,12 @@ def htmlParser(tPage):
 	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding="utf-8")
 	
 	#print repr(result)
-	#f = open('debug.txt','w')
-	#f.write(result)
-	#f.close()
 	global mProun
-	mProun = re.findall('<span class="proun_type">([^<]+)</span><span class="proun_value">([^<]+)</span>',result)
+	mProun = re.findall('<span class="proun_type">(.+?)</span><span class="proun_value">(.+?)</span>',result)
 
 	#print len(mProun)
 	#raw_input()
-	mTitle = re.findall('<span class="yschttl">([^<]+)</span>',result)
+	mTitle = re.findall('<span class="yschttl">(.+?)</span>',result)
 
 	etree.strip_tags(tree,'span')
 	etree.strip_tags(tree,'a')
@@ -114,11 +84,13 @@ def htmlParser(tPage):
 	#result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
 	#DB(1, result)
 
+	resultSet = []
 	targetURL = ""
 	lineSum = 0
 	myList = tree.xpath("//ul[@class='explanation_wrapper']")
-	resultSet = handler(myList)
-
+	for e in myList:
+		if e.text is not None:
+			resultSet.append(e.text)
 
 	for tTitle in mTitle:
 		resultSet.insert(0,clrTx(tTitle,'AUQA')+'\n')
@@ -188,22 +160,15 @@ def prettyPrint(resultSet):
 		if totalCnt == 0 :
 			print repeatStr("-",len(strII))
 
-
 		if totalCnt == 0:
 			for proun in mProun:			    
 				print '    '+proun[0]+' '+proun[1]				
 		totalCnt+=1
 
-def assignPageAndOverrideArgu():
-   DB(DB_ARG,'ENTER overrideArgu')
-   global tPage
-   tPage = sys.argv[1]
-   #print "tPage:"+tPage
-   DB(DB_ARG,'LEAVE overrideArgu')
-
 def loadArgumentDb():
-	if os.path.isfile(INSFOLDER+'/argumentDbA') is True:
-		f = codecs.open(INSFOLDER+'/argumentDbA',encoding='UTF-8',mode='r')
+	home = expanduser('~')
+	if os.path.isfile(home+args.database) is True:
+		f = codecs.open(home+args.database,encoding='UTF-8',mode='r')
 		if f is not None:
 			for line in f:
 				if line != '\n' and line[0] != '#':
@@ -212,9 +177,9 @@ def loadArgumentDb():
 					ARGUDB.append(line)
 			f.close()
 		else:			
-			DB(1, 'db file open fail')
+			DB.error('db file open fail')
 	else :
-		print 'argumentDbA doesn\'t existed'
+		print 'database doesn\'t existed'
 	#print ARGUDB
 	#raw_input()
 
@@ -222,21 +187,30 @@ def main():
    resultSet = htmlParser(tPage)
    prettyPrint(resultSet)
 
+def setup_logging(level):
+	global DB
+	DB = logging.getLogger('get_ted_talk_science') #replace
+	DB.setLevel(level)
+	handler = logging.StreamHandler(sys.stdout)
+	handler.setFormatter(logging.Formatter('%(module)s %(levelname)s %(funcName)s| %(message)s'))
+	DB.addHandler(handler)
+
 def verify():
-	if len(sys.argv) < 3 or len(sys.argv) > 4 :
-		print "python pyYahooDictionary.py <tPage> <install path> <DB>"
-		print "please use edict(bash scirpt) instead of using this"
-		print "--"
-		print "DB flag is option"
-		exit()
-	if len(sys.argv) == 4 :
-		global DB_FLT
-		global INSFOLDER
-		INSFOLDER = sys.argv[2]
-		DB_FLT = int(sys.argv[3])
+	global tPage
+	global args
+	parser = argparse.ArgumentParser(description='A English Dictionary Utility') #replace
+	parser.add_argument('-v', '--verbose', dest='verbose', action = 'store_true', default=False, help='Verbose mode')
+	parser.add_argument('query', nargs='*', default=None)
+	parser.add_argument('-d', '--database', dest='database', action = 'store', default='/.hmDict/edict.db') #replace
+	args = parser.parse_args()
+	tPage = ' '.join(args.query)
+	log_level = logging.INFO
+	if args.verbose:
+		log_level = logging.DEBUG
+	if not tPage:
+		parser.print_help()
 
 if __name__ == '__main__':
 	verify()
 	loadArgumentDb()
-	assignPageAndOverrideArgu()
 	main()

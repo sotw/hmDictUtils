@@ -38,7 +38,7 @@ In network reachable environment:
 >Read ideas!
 
 ##### Idea
-1. Need to accept space in **edict** ok, use argparse module will solve the problem
+1. ~~Need to accept space in **edict** ok, use argparse module will solve the problem~~ 2014-06-07
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
 3. ~~You will need phonetic symbol in **edict**~~ 2014-05-30 12:47:45
 4. I am thinking of consulting multiple pdf file in real time.
