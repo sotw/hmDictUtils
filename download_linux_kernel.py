@@ -108,8 +108,8 @@ def doStuff(tTarget):
     #head line# |mainline|version|date|link|
     #            0        1       2    3
 	headLines = re.findall('<tr align="left">.+?<td>(.+?)</td>.+?<td><strong>(.+?)</strong></td>.+?<td>(.+?)</td>.+?<a href="(.+?)"',result, re.DOTALL)
-	print len(headLines)
-	raw_input()
+	#print len(headLines)
+	#raw_input()
 	#print clrTx('HEADLINES:','BLUE')
 	ScreenI.append(clrTx('SN | TAG | VERSION | DATE','BLUE'))
 	for headLine in headLines:
@@ -118,7 +118,7 @@ def doStuff(tTarget):
 		#print repr(iLink)
 		LINKS.append('https://www.kernel.org/'+iLink)
 	
-	raw_input()
+	#raw_input()
 	#print LINKS
 	sn=''
 	while sn is not None :
