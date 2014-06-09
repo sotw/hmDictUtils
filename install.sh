@@ -44,7 +44,7 @@ sudo pip install lxml
 chmod -R 755 $INSFOLDER
 chmod -R 755 ~/bin/sh
 
-echo "Do you want to add PATH envirnment in .bashrc?"
+echo "Do you want to add PATH envirnment in .bashrc?(restart terminal will effect at once)"
 select yn in "Yes" "No"; do
 	case $yn in
 		Yes ) echo "PATH=$PATH:~/bin/sh:~/bin" > ~/.bashrc; break;;
