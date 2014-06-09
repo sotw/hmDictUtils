@@ -2,6 +2,7 @@ INSFOLDER=~/.hmDict
 echo "If you are mac user, please use mac port"
 echo "http://www.macports.org/"
 echo "And download both python and pip"
+echo "And don't forget set PATH for ~/bin/sh all wrapped bash script is there"
 rm -Rf $INSFOLDER
 rm -f ~/bin/sh/edict
 rm -f ~/bin/sh/jdict
@@ -41,3 +42,12 @@ sudo pip install chardet #for goojp
 sudo pip install Skype4Py
 chmod -R 755 $INSFOLDER
 chmod -R 755 ~/bin/sh
+
+echo "Do you want to add PATH envirnment in .bashrc?"
+select yn in "Yes" "No"; do
+	case $yn in
+		Yes ) echo "PATH=$PATH:~/bin/sh:~/bin" > ~/.bashrc;;
+	    No ) google have a nice day;;
+	esac
+done
+
