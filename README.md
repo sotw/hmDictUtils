@@ -37,6 +37,9 @@ In network reachable environment:
 **get_ted_talk_science** | for science!
 >Read ideas!
 
+**download_linux_kernel** | for kernel compile
+>Hello, nerd!
+
 ##### Idea
 1. ~~Need to accept space in **edict** ok, use argparse module will solve the problem~~ 2014-06-07
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
@@ -61,6 +64,7 @@ In network reachable environment:
 21. a console showing mechanism that input country name and show world map.
 22. output aozora style text of all Japanese text, because I need Hiragana mark.
 23. make get\_ted\_talk\_science become get\_ted\_talk and list all possible when user is not input category
+24. ~~write a linux kernel downloader~~ 
 
 ##### Note
 1. Plan to use jNlp
@@ -83,3 +87,4 @@ In network reachable environment:
 12. [xjp2](http://misyakudouji.blog55.fc2.com/blog-entry-455.html)
 13. [aozora4reader](https://github.com/takahashim/aozora4reader/)
 14. [TED](www.ted.com)
+15. [linux kernel](https://www.kernel.org)

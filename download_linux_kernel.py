@@ -26,9 +26,8 @@ global args
 global ARGUDB
 global _wrap
 global LINKS
-global preScreen
+global ctl
 
-preScreen = []
 LINKS = []
 ARGUDB = []
 _wrap = TextWrapper()
@@ -73,60 +72,8 @@ def getReleaseNoteDetail(tDetail):
 	etree.strip_tags(tree,'i')
 	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
 
-	mTitle = ''
-	titles = tree.xpath("//h1[@class='title']")
-	for entry in titles:
-		if entry.text is not None:
-			mTitle = entry.text
-			break
-
-	resultSet = tree.xpath("//div[@class='text']")
-	#print len(resultSet)
-
-	os.system('clear')	
-	print " "
-	thisScreen.append(" ")
-	print '  '+clrTx(mTitle,'YELLOW')
-	thisScreen.append('  '+clrTx(mTitle,'YELLOW'))
-	print repeatStr('-', 78)
-	thisScreen.append(repeatStr('-', 78))
-	print ' '
-	thisScreen.append(' ')
-	for entry in resultSet:
-		if entry.text is not None:
-			cnt = 0
-			for line in _wrap.wrap(entry.text):			
-				line = dedent(line)
-				if cnt % 2 == 1:
-					print '    '+clrTx(line,'AUQA')
-				else:
-					print '    '+clrTx(line,'BLUE')
-				thisScreen.append('    '+line)
-				cnt+=1
-		break
-	print ' '
-	thisScreen.append(' ')
-	print repeatStr('-', 78)
-	thisScreen.append(repeatStr('-', 78))
-	option = raw_input()
-	#hidden function for my own
-	if option == 'm' :
-		bigChunkStr = ''
-		mailLineCnt = 0
-		for line in thisScreen:		
-			if len(line) != 0 :
-				if mailLineCnt == 1 :
-					line = '####'+line #prepare to do markdown tranformation
-				bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'			
-				mailLineCnt+=1
-		home = expanduser('~')
-		print home+'/.hmDict/simpleMail.py'
-		if os.path.isfile(home+'/.hmDict/simpleMail.py') is True :
-
-			process = Popen(prepareMailInfo(bigChunkStr))
-			print "sending mail..."
-			process.wait()			
-			print "sent!"
+	#mTitle = ''
+	#titles = tree.xpath("//h1[@class='title']")
 
 
 '''For programming'''
@@ -135,7 +82,7 @@ def paintRED(string,target):
 	return string
 
 def doStuff(tTarget):
-	global preScreen
+	ScreenI = []
 	opener = urllib2.build_opener()
 	opener.addheader = [('User-Agent','Mozilla/5.0')]
 	resp = opener.open(tTarget)
@@ -155,76 +102,43 @@ def doStuff(tTarget):
 	etree.strip_tags(tree,'span')
 	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
 
-	#print result
+	#print repr(result)
 	#print paintRED(result,'<li><h3>')
 	global LINKS
-    #head line#
-	headLines = re.findall('<div class="ma">\r<h1><a href="([^"]+)">([^<]+)</a></h1>\r<h4>([^<]+)<',result)
-	#print len(headLines)
+    #head line# |mainline|version|date|link|
+    #            0        1       2    3
+	headLines = re.findall('<tr align="left">.+?<td>(.+?)</td>.+?<td><strong>(.+?)</strong></td>.+?<td>(.+?)</td>.+?<a href="(.+?)"',result, re.DOTALL)
+	print len(headLines)
+	raw_input()
 	#print clrTx('HEADLINES:','BLUE')
-	preScreen.append(clrTx('HEADLINES:','BLUE'))
+	ScreenI.append(clrTx('SN | TAG | VERSION | DATE','BLUE'))
 	for headLine in headLines:
-		#print headLine		
-		#print clrTx(headLine[1],'YELLOW')
-		preScreen.append(clrTx(headLine[1],'YELLOW'))
-		for line in _wrap.wrap(headLine[2]):
-			#print '    '+line
-			preScreen.append('    '+line)
-		LINKS.append('http://www.taipeitimes.com/'+headLine[0])
-		#print clrTx('Input:'+str(cnt)' for more','GREY30')
-		preScreen.append(clrTx('Input:'+str(len(LINKS)-1)+' for more','GREY30'))
-		#print clrTx(headLine[0],'GREY30')
-
-	#majorLines only 4 is for majorLines
-	majorLines = re.findall('<h3><a href="([^"]+)">([^<]+)</a></h3>([^<]+)<',result)
-	#print clrTx('MAJORLINES:','BLUE')
-	preScreen.append(clrTx('MAJORLINES:','BLUE'))
-	cnt = 0
-	for majorLine in majorLines:
-		if cnt == 4 :
-			break
-		#print clrTx(majorLine[1],'YELLOW')		
-		preScreen.append(clrTx(majorLine[1],'YELLOW'))
-		for line in _wrap.wrap(majorLine[2]):
-			#print '    '+line
-			preScreen.append('    '+line)
-		LINKS.append('http://www.taipeitimes.com/'+majorLine[0])
-		#print clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30')
-		preScreen.append(clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30'))
-		#print clrTx(majorLine[0],'GREY30')
-		#print majorLine
-		cnt+=1
-
+		ScreenI.append(clrTx(str(len(LINKS)),'BLUE')+'|'+clrTx(headLine[0],'YELLOW')+'|'+clrTx(headLine[1],'AUQA')+'|'+clrTx(headLine[2],'GREEN'))
+		iLink = headLine[3].strip('\n')
+		#print repr(iLink)
+		LINKS.append('https://www.kernel.org/'+iLink)
+	
+	raw_input()
 	#print LINKS
 	sn=''
 	while sn is not None :
 		os.system('clear')
-		for item in preScreen:
+		for item in ScreenI:
 			print item
-		sn=raw_input('Which one you want to check?(Sn)>')
+		sn=raw_input('Which kernel version you want to download?(Sn)>')
 		#print repr(sn)
 		sn = parseInt(sn)
-		if (sn is not None) and sn < len(LINKS):		
-			getReleaseNoteDetail(LINKS[sn])
+		if (sn is not None) and (sn < len(LINKS)):		
+			process = Popen(['wget',LINKS[sn]])
+			process.wait()
 		else:
 			print "Have a nice day"
 
-	'''releaseNoteSet = re.findall('<div class="title"><a href="([^"]+)">([^<]+)</a>',result)
-	cnt = 0
-	for e in releaseNoteSet:
-		print "SN:%d|%s"%(cnt,e[1])
-		cnt+=1
-	sn=None
-	sn=raw_input('Which one you want to check?(Sn)')
-	sn = parseInt(sn)
-	if sn is not None:
-		getReleaseNoteDetail('http://www.pathofexile.com'+releaseNoteSet[sn][0])
-	'''
 	return
 
 def setup_logging(level):
 	global DB
-	DB = logging.getLogger('get_taipei_times')
+	DB = logging.getLogger('download_linux_kernel') #replace
 	DB.setLevel(level)
 	handler = logging.StreamHandler(sys.stdout)
 	handler.setFormatter(logging.Formatter('%(module)s %(levelname)s %(funcName)s| %(message)s'))
@@ -233,10 +147,10 @@ def setup_logging(level):
 def verify():
 	global tTarget
 	global args
-	parser = argparse.ArgumentParser(description='A Taipei Times Reader')
+	parser = argparse.ArgumentParser(description='A download_linux_kernel Utility') #replace
 	parser.add_argument('-v', '--verbose', dest='verbose', action = 'store_true', default=False, help='Verbose mode')
 	parser.add_argument('query', nargs='*', default=None)
-	parser.add_argument('-d', '--database', dest='database', action = 'store', default='/.hmDict/get_taipei_times.db')
+	parser.add_argument('-d', '--database', dest='database', action = 'store', default='/.hmDict/download_linux_kernel.db') #replace
 	args = parser.parse_args()
 	tTarget = ' '.join(args.query)
 	log_level = logging.INFO
@@ -245,9 +159,16 @@ def verify():
 	if not tTarget:
 		parser.print_help()
 		exit()
+	#elif args.read and args.kill:
+	#	print "Flag conflict, some flag are exclusive"
+	#	parser.print_help()
+	#	exit()
+
 	setup_logging(log_level)
 
-def loadDb():
+def refreshDb():
+	global ARGUDB
+	ARGUDB = []
 	home = expanduser('~')
 	if os.path.isfile(home+args.database) is True:
 		f = open(home+args.database,'r')
@@ -255,16 +176,41 @@ def loadDb():
 			for line in f :
 				if line != '\n' and line[0] != '#':
 					line = line.rstrip('\n')
-					global ARGUDB
 					ARGUDB.append(line)
 		f.close()
 	else:
 		DB.debug('override file is not exist')
 
+def idxMsg(message):
+	return str(len(ARGUDB))+':'+message
+
+def	doDump():
+	for entry in ARGUDB:
+		print entry
+
+def doWriteLn(msg):
+	f = open(home+args.database,'a')
+	if f is not None:
+		f.write(idxMsg(msg))
+	f.close()
+
+def doKillALn(number):
+	ARGUDB.pop(number)
+	f = open(home+args.database,'w')
+	for entry in ARGUDB:
+		f.write(idxMsg(entry))
+	f.close()
+
 def main():
 	doStuff(tTarget)
+	#if args.read :
+	#	doDump()
+	#elif args.kill:
+	#	doKillALn(parseInt(tTarget))
+	#else:
+	#	doWriteLn(tTarget)
 
 if __name__ == '__main__':	
 	verify()	
-	loadDb()
+	refreshDb()
 	main()
