@@ -40,6 +40,7 @@ sudo pip install requests #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
 sudo pip install chardet #for goojp
 sudo pip install Skype4Py
+sudo pip install lxml
 chmod -R 755 $INSFOLDER
 chmod -R 755 ~/bin/sh
 
