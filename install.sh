@@ -46,8 +46,8 @@ chmod -R 755 ~/bin/sh
 echo "Do you want to add PATH envirnment in .bashrc?"
 select yn in "Yes" "No"; do
 	case $yn in
-		Yes ) echo "PATH=$PATH:~/bin/sh:~/bin" > ~/.bashrc;;
-	    No ) google have a nice day;;
+		Yes ) echo "PATH=$PATH:~/bin/sh:~/bin" > ~/.bashrc; break;;
+	    No ) google have a nice day; break;;
 	esac
 done
 
