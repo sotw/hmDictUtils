@@ -1,6 +1,6 @@
 PKGFOLDER=~/.hmDict
 #tPage="http://news.goo.ne.jp/"
-tPage="http://trans.hiragana.jp/ruby/http://news.goo.ne.jp/"
+tPage="http://trans.hiragana.jp/ruby/http://news.goo.ne.jp"
 exeName=$0
 exeName=${exeName##*/}
 exeName=${exeName%.*}
