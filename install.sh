@@ -48,7 +48,7 @@ sudo pip install chardet #for goojp
 sudo pip install Skype4Py
 
 echo "Are you using opensuse and need lxml module for python?"
-select yn in "Yes" "No" do
+select yn in "Yes" "No"; do
 	case $yn in
 		Yes ) sudo zypper install python-lxml; break;;
 		No ) echo "You are welcome to feed";break;;

@@ -173,18 +173,17 @@ def doStuff(tTarget):
 	etree.strip_tags(tree,'span')
 	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='UTF-8')
 
-	print repr(result)
-	raw_input()
+	#print repr(result)
+	#raw_input()
 	#print paintRED(repr(result),'<div class="lst1t">')
 	global LINKS
     #head line#
-	#headLines = re.findall('<h2 class="ch08">\n<a href="([^"]+)" onclick="clickCount\(\'news_top[^"]+">([^<]+)</a>[^!]+!--ch08_2-->\n<p>([^<]+)<',result)
 	headLines = re.findall('<h2 class="ch08">\n<a href="(.+?)" onclick="clickCount\(\'news_top.+?">(.+?)</a>.+?!--ch08_2-->\n<p>(.+?)<a',result,re.DOTALL)
 
 	#print len(headLines)
 	#print headLines
 
-	raw_input()
+	#raw_input()
 	#print clrTx('HEADLINES:','BLUE')
 	ScreenI.append(clrTx('HEADLINES:','BLUE'))
 	for headLine in headLines:
@@ -204,7 +203,7 @@ def doStuff(tTarget):
 		ScreenI.append(clrTx('Input:'+str(len(LINKS)-1)+' for more','GREY30'))
 		#print clrTx(headLine[0],'GREY30')
 
-	majorLines = re.findall('<div class="lst1t">\n<ul>\n<li>\n<a href="([^"]+)" onclick="clickCount\(\'news_top[^"]+">([^<]+)</a>',result)
+	majorLines = re.findall('<div class="lst1t">\n<ul>\n<li>\n<a href="(.+?)" onclick="clickCount\(\'news_top.+?">(.+?)</a>',result)
 	#print len(majorLines)
 	#raw_input()
 	#print clrTx('MAJORLINES:','BLUE')
@@ -212,10 +211,8 @@ def doStuff(tTarget):
 	cnt = 0
 	for majorLine in majorLines:
 		#print clrTx(majorLine[1],'YELLOW')		
-		ScreenI.append(clrTx(majorLine[1],'YELLOW'))
-		#for line in _wrap.wrap(majorLine[2]):
-			#print '    '+line
-		#	ScreenI.append('    '+line)
+		fmtString = aozoraFmtStr(majorLine[1])
+		ScreenI.append(clrTx(fmtString,'YELLOW'))
 		LINKS.append('http://news.goo.ne.jp/'+majorLine[0])
 		#print clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30')
 		ScreenI.append(clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30'))
