@@ -58,12 +58,13 @@ def aozoraFmtStr(rubyString):
 	rubyString = rubyString.replace('</ruby>','') 
 	rubyString = rubyString.replace('<rb>','') 
 	rubyString = rubyString.replace('</rb>','')
-	rubyString = rubyString.replace('<rt>','<<') 
-	rubyString = rubyString.replace('</rt>','>>') 
+	rubyString = rubyString.replace('<rt>','\xe3\x80\x8a') 
+	rubyString = rubyString.replace('</rt>','\xe3\x80\x8b') 
 	return rubyString
 
-
 def getReleaseNoteDetail(tDetail):
+	#print tDetail
+	#raw_input()
 	thisScreen = []
 	opener = urllib2.build_opener()
 	opener.addheader = [('User-Agent','Mozilla/5.0')]
@@ -91,18 +92,32 @@ def getReleaseNoteDetail(tDetail):
 	etree.strip_tags(tree, 'a')
 	etree.strip_tags(tree, 'b')
 	etree.strip_tags(tree, 'i')
+	etree.strip_tags(tree, 'h2')
 	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
 	mTitle = ''
-	titles = tree.xpath("//h1")
+	#titles = tree.xpath("//h1")
+	#for entry in titles:
+	#	if entry.text is not None:
+	#		mTitle = entry.text
+	#		break
+	#print paintRED(result,'<h1')
+	#raw_input()
+
+	titles = re.findall('<h1>(.+?)</h1>',result,re.DOTALL)
+	#print titles
+	#raw_input()
 	for entry in titles:
-		if entry.text is not None:
-			mTitle = entry.text
-			break
+		fmtString = aozoraFmtStr(entry.strip('\n'))
+		mTitle = fmtString
+		break
 
 	#print paintRED(result,'class="nwbody')
 	#raw_input()
-	resultSet = tree.xpath("//div[@class='nwbody']") 
+	#resultSet = tree.xpath("//div[@class='nwbody']") #for original
+	resultSet = re.findall('<div class="nwbody">(.+?)</div>',result,re.DOTALL) #for hiraganamegane
 
+	#print resultSet
+	#raw_input()
 
 	os.system('clear')	
 	print " " 
@@ -113,13 +128,16 @@ def getReleaseNoteDetail(tDetail):
 	thisScreen.append(repeatStr('-', 78))
 	print ' '
 	thisScreen.append(' ')
-	for entry in resultSet:
-		if entry.text is not None:			
-			for line in _wrap.wrap(entry.text):			
-				line = dedent(line)
-				print '    '+line
-				thisScreen.append('    '+line)
-		break
+	for entry in resultSet:		
+		fmtString = aozoraFmtStr(entry.strip('\n'))
+		print '    '+fmtString
+		thisScreen.append(fmtString)
+		#if entry.text is not None:			
+		#	for line in _wrap.wrap(entry.text):			
+		#		line = dedent(line)
+		#		print '    '+line
+		#		thisScreen.append('    '+line)
+		#break
 	print ' '
 	thisScreen.append(' ')
 	print repeatStr('-', 78)
@@ -143,6 +161,20 @@ def getReleaseNoteDetail(tDetail):
 			print "sending mail..."
 			process.wait()			
 			print "sent!"
+	elif option == 'dropbox':
+		bigChunkStr = ''
+		for line in thisScreen:		
+			if len(line) != 0 :
+				bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'			
+		home = expanduser('~')		
+		jpFileTitle = re.sub(r'\xe3\x80\x8a.+?\xe3\x80\x8b','',mTitle)
+		#jpFileTitle = re.sub(r'\xe3\x80\x8b','',jpFileTitle)		
+		print home+'/Dropbox/JpRead/'+jpFileTitle+'.txt'
+		f = open(home+'/Dropbox/JpRead/'+jpFileTitle+'.txt','w')
+		bigChunkStr = re.sub(r'-+?\n','\n',bigChunkStr)
+		bigChunkStr = re.sub(r'<div.+?</div>','',bigChunkStr)
+		f.write(bigChunkStr)
+		f.close
 
 
 
@@ -198,7 +230,7 @@ def doStuff(tTarget):
 		for line in _wrap.wrap(text):
 			#print '    '+line
 			ScreenI.append('    '+line)
-		LINKS.append('http://news.goo.ne.jp/'+headLine[0])
+		LINKS.append(headLine[0])
 		#print clrTx('Input:'+str(cnt)' for more','GREY30')
 		ScreenI.append(clrTx('Input:'+str(len(LINKS)-1)+' for more','GREY30'))
 		#print clrTx(headLine[0],'GREY30')
@@ -213,7 +245,8 @@ def doStuff(tTarget):
 		#print clrTx(majorLine[1],'YELLOW')		
 		fmtString = aozoraFmtStr(majorLine[1])
 		ScreenI.append(clrTx(fmtString,'YELLOW'))
-		LINKS.append('http://news.goo.ne.jp/'+majorLine[0])
+		#LINKS.append('http://news.goo.ne.jp/'+majorLine[0])	#for original
+		LINKS.append(majorLine[0])	#for hiraganamegane
 		#print clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30')
 		ScreenI.append(clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30'))
 		#print clrTx(majorLine[0],'GREY30')
