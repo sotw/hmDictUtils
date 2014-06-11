@@ -76,6 +76,7 @@ In network reachable environment:
 27. google img fetcher. 
 prototype A. download 9 images once B. combine them as 1 3x3 big image C. display them D. downloadable for each one.
 28. I should make note can extend subject. like 1 .. 1-1 1-1-1 1-1-2 1-2
+29. make a really simple utility to read facebook feed and replay it in console , I have old implementation, should be easy for me.
 
 ##### Note
 1. Plan to use jNlp
