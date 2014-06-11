@@ -1,6 +1,12 @@
 ###A Tool Set for Everyday Reading and Writing in Console only
 >In console, you put your fingure on mouse, you lose.
 
+Seriously, this tool set is just to satisfy personal ambitious
+to write down an idea in code **immediately** no mater how stupid it is.
+You can use/modify it without my permission.
+Feedback is welcome all the time.
+Fork/Pull request is even better.
+
 ##### Install
 	execute ./install.sh
 
@@ -64,7 +70,11 @@ In network reachable environment:
 21. a console showing mechanism that input country name and show world map.
 22. output aozora style text of all Japanese text, because I need Hiragana mark.
 23. make get\_ted\_talk\_science become get\_ted\_talk and list all possible when user is not input category
-24. ~~write a linux kernel downloader~~ 
+24. ~~write a linux kernel downloader~~ It could be more nerdy, if I fetch more version.
+25. ~~remove note database to dropbox folder.~~ I just put a option in install.sh it works.
+26. expand color!
+27. google img fetcher. 
+prototype A. download 9 images once B. combine them as 1 3x3 big image C. display them D. downloadable for each one.
 
 ##### Note
 1. Plan to use jNlp

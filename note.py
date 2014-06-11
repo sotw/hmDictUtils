@@ -27,10 +27,12 @@ global ARGUDB
 global _wrap
 global LINKS
 global ctl
+global storePath
 
 LINKS = []
 ARGUDB = []
 _wrap = TextWrapper()
+storePath = ''
 
 def prepareMailInfo(mailMsg):
 	home = expanduser('~')
@@ -169,6 +171,7 @@ def setup_logging(level):
 def verify():
 	global tTarget
 	global args
+	global storePath
 	parser = argparse.ArgumentParser(description='A note Utility') #replace
 	parser.add_argument('-v', '--verbose', dest='verbose', action = 'store_true', default=False, help='Verbose mode')
 	parser.add_argument('-r', '--read', dest='read', action = 'store_true', default=False, help='read note, exclusive')
@@ -184,11 +187,10 @@ def verify():
 		print "Flag conflict, some flag are exclusive"
 		parser.print_help()
 		exit()
+	
 	#if not tTarget:
 	#	parser.print_help()
 	#	exit()
-
-
 	setup_logging(log_level)
 
 def refreshDb():
@@ -204,7 +206,7 @@ def refreshDb():
 					ARGUDB.append(line)
 		f.close()
 	else:
-		DB.debug('override file is not exist')
+		DB.debug('db file is not exist, but it\'s ok.\nIt will exist after the first time you writedown something')
 
 def	doDump():
 	os.system('clear')

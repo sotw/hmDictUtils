@@ -31,7 +31,13 @@ cp get_taipei_times ~/bin/sh
 cp get_lyrics ~/bin/sh
 cp get_jpnews ~/bin/sh
 cp get_ted_talk_science ~/bin/sh
-cp note ~/bin/sh
+echo "Do you want to use Dropbox folder as your note database?"
+select yn in "Yes" "No"; do
+	case $yn in
+		Yes ) cp noteDropbox ~/bin/sh/note; break;;
+	    No ) cp note ~/bin/sh; break;;
+	esac
+done
 cp download_linux_kernel ~/bin/sh
 cp argumentDbB $INSFOLDER/argumentDbB
 cp *.db $INSFOLDER
