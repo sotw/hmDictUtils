@@ -172,7 +172,7 @@ def getReleaseNoteDetail(tDetail):
 		print home+'/Dropbox/JpRead/'+jpFileTitle+'.txt'
 		f = open(home+'/Dropbox/JpRead/'+jpFileTitle+'.txt','w')
 		bigChunkStr = re.sub(r'-+?\n','\n',bigChunkStr)
-		bigChunkStr = re.sub(r'<div.+?</div>','',bigChunkStr)
+		bigChunkStr = re.sub(r'<div class="clearboth">','',bigChunkStr)
 		f.write(bigChunkStr)
 		f.close
 
