@@ -46,7 +46,15 @@ sudo pip install requests #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
 sudo pip install chardet #for goojp
 sudo pip install Skype4Py
-sudo pip install lxml
+
+echo "Are you using opensuse and need lxml module for python?"
+select yn in "Yes" "No" do
+	case $yn in
+		Yes ) sudo zypper install python-lxml; break;;
+		No ) echo "You are welcome to feed";break;;
+	esac
+done
+
 chmod -R 755 $INSFOLDER
 chmod -R 755 ~/bin/sh
 
