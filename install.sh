@@ -15,6 +15,7 @@ rm -f ~/bin/sh/get_jpnews
 rm -f ~/bin/sh/note
 rm -f ~/bin/sh/get_ted_talk_science
 rm -f ~/bin/sh/download_linux_kernel
+rm -f ~/bin/sh/get_icrt_top_song
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
@@ -31,6 +32,7 @@ cp get_taipei_times ~/bin/sh
 cp get_lyrics ~/bin/sh
 cp get_jpnews ~/bin/sh
 cp get_ted_talk_science ~/bin/sh
+cp get_icrt_top_song ~/bin/sh
 echo "Do you want to use Dropbox folder as your note database?"
 select yn in "Yes" "No"; do
 	case $yn in

@@ -46,6 +46,9 @@ In network reachable environment:
 **download_linux_kernel** | for kernel compile
 >Hello, nerd!
 
+**get_icrt_top_song** | just list
+>But I found I am interesting what DJ play more than top list.
+
 ##### Idea
 1. ~~Need to accept space in **edict** ok, use argparse module will solve the problem~~ 2014-06-07
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
