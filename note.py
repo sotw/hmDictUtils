@@ -213,9 +213,9 @@ def	doDump():
 	cnt = 0	
 	for entry in ARGUDB:
 		if cnt % 2 == 0 :
-			print clrTx(str(cnt)+":"+entry,'YELLOW')		
+			print clrTx(str(cnt).zfill(3)+":"+entry,'YELLOW')		
 		else:
-			print clrTx(str(cnt)+":"+entry,'AUQA')
+			print clrTx(str(cnt).zfill(3)+":"+entry,'AUQA')
 		cnt+=1
 
 def doWriteLn(msg):
