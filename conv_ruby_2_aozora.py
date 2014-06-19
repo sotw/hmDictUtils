@@ -164,6 +164,8 @@ def aozoraFmtStr(rubyString):
 	newString = newString.replace('<br>','\n')
 	newString = newString.replace('<RP>(</RP>','') 
 	newString = newString.replace('<RP>)</RP>','')
+
+	newString = newString.replace('\xe3\x80\x8a\xe3\x80\x8b','')
 	return newString
 
 def applyTrick(filename,content):
