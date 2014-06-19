@@ -82,6 +82,7 @@ prototype A. download 9 images once B. combine them as 1 3x3 big image C. displa
 29. make a really simple utility to read facebook feed and replay it in console , I have old implementation, should be easy for me.
 30. ok, I hope I have a simple terminal python that can list files or directory and I can choose one to manipulate to do something.
 31. I will need a simple tool that doing ruby web tag to aozora format.
+32. I need to know verb tense as well. for edict
 
 ##### Note
 1. Plan to use jNlp
@@ -105,3 +106,4 @@ prototype A. download 9 images once B. combine them as 1 3x3 big image C. displa
 13. [aozora4reader](https://github.com/takahashim/aozora4reader/)
 14. [TED](www.ted.com)
 15. [linux kernel](https://www.kernel.org)
+16. [wordhippo](http://www.wordhippo.com) consult tense!
