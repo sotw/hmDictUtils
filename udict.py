@@ -116,16 +116,18 @@ def doStuff(tTarget):
 	headLines = re.findall('<div class="meaning">(.+?)</div>[^<]+?<div class="example">(.+?)</div>',result,re.DOTALL)
 	#print len(headLines)
 	#print clrTx('HEADLINES:','BLUE')
-	for headLine in headLines:
-		ScreenI.append(repeatStr('-', 34))
+	for headLine in headLines:		
 		ScreenI.append(clrTx('meanings:','YELLOW'))
 		for line in _wrap.wrap(headLine[0]):
 			ScreenI.append('    '+line)
 		ScreenI.append(clrTx('example:','YELLOW'))
 		for line in _wrap.wrap(headLine[1]):
-			ScreenI.append('    '+line)
+			ScreenI.append('    '+line)		
+		ScreenI.append(repeatStr('-', 34))
 
 	for item in ScreenI:
+		if item == repeatStr('-', 34):
+			raw_input()
 		print item
 
 	return
