@@ -1,0 +1,9 @@
+PKGFOLDER=~/.hmDict
+tPage="http://www.urbandictionary.com/define.php?term="
+exeName=$0
+exeName=${exeName##*/}
+exeName=${exeName%.*}
+exeName=$exeName.py
+python $PKGFOLDER/$exeName -v -t $tPage $@
+#hint:For batch file transformation
+#http://stackoverflow.com/questions/3432851/dos-bat-file-equivalent-to-unix-basename-command

@@ -49,6 +49,9 @@ In network reachable environment:
 **get_icrt_top_song** | just list
 >But I found I am interesting what DJ play more than top list.
 
+**udict** "word" | some ted speech will need this to consult
+>lousy urban word. Always has its own meanings different from dictionary
+
 ##### Idea
 1. ~~Need to accept space in **edict** ok, use argparse module will solve the problem~~ 2014-06-07
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
@@ -83,6 +86,7 @@ prototype A. download 9 images once B. combine them as 1 3x3 big image C. displa
 30. ok, I hope I have a simple terminal python that can list files or directory and I can choose one to manipulate to do something.
 31. I will need a simple tool that doing ruby web tag to aozora format.
 32. I need to know verb tense as well. for edict
+33. ~~Added urban dictionary~~
 
 ##### Note
 1. Plan to use jNlp
