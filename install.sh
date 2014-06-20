@@ -50,6 +50,7 @@ sudo pip install requests #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
 sudo pip install chardet #for goojp
 sudo pip install Skype4Py
+sudo pip install pdfminer
 
 echo "Are you using opensuse and need lxml module for python?"
 select yn in "Yes" "No"; do

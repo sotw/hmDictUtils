@@ -189,20 +189,27 @@ def doStuff(tTarget):
 		cnt+=1
 
 	#print LINKS
-	sn=''
+	sn=''	
 	while sn is not None :
 		os.system('clear')
 		#print ScreenI
 		for item in ScreenI:
 			print item
-		sn=raw_input('Which one you want to check?(Sn)>')
+		sn=raw_input('Sn|tw|en|q >')
 		#print repr(sn)
-		sn = parseInt(sn)
-		if (sn is not None) and (sn < len(LINKS)):		
-			getReleaseNoteDetail(LINKS[sn])
+		ohInt = sn
+		ohInt = parseInt(ohInt)
+		if (ohInt is not None) and (ohInt < len(LINKS)):		
+			getReleaseNoteDetail(LINKS[ohInt])
 		else:
-			print "Have a nice day"
-
+			if sn == 'tw' :				
+				LINKS = []
+				doStuff(tTarget+'&language=zh-tw')
+			elif sn == 'en':
+				LINKS = []
+				doStuff(tTarget+'&language=en')
+			else:
+				print "Have a nice day"
 	return
 
 def setup_logging(level):
