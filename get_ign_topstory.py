@@ -134,8 +134,8 @@ def doStuff(tTarget):
 	global LINKS
     #head line#
 	headLines = re.findall('<li><article><a[^>]+?>.+?</a>.+?<h3><a href="(.+?)">(.+?)</a></h3>.+?<p>(.+?)<a',result,re.DOTALL)
-	print len(headLines)
-	raw_input()
+	#print len(headLines)
+	#raw_input()
 	#print clrTx('HEADLINES:','BLUE')
 	ScreenI.append(clrTx('HEADLINES:','BLUE'))
 	for headLine in headLines:

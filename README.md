@@ -50,7 +50,10 @@ In network reachable environment:
 >But I found I am interesting what DJ play more than top list.
 
 **udict** "word" | some ted speech will need this to consult
->lousy urban word. Always has its own meanings different from dictionary
+>lousy urban word always has its own meanings different from dictionary
+
+**get_ign_topstory | read game news is nerd standard.
+>I blame game industry, the manual become so slim, I can't even call it manual "book" now, it's manual paper.
 
 ##### Idea
 1. ~~Need to accept space in **edict** ok, use argparse module will solve the problem~~ 2014-06-07

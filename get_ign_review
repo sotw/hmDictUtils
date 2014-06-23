@@ -1,10 +1,10 @@
 PKGFOLDER=~/.hmDict
 #tPage="http://ap.ign.com/en/"
-tPage="http://ap.ign.com/en/article/"
+tPage="http://ap.ign.com/en/article/review"
 exeName=$0
 exeName=${exeName##*/}
 exeName=${exeName%.*}
 exeName=$exeName.py
-python $PKGFOLDER/$exeName -v $tPage
+python $PKGFOLDER/get_ign_topstory.py -v $tPage
 #hint:For batch file transformation
 #http://stackoverflow.com/questions/3432851/dos-bat-file-equivalent-to-unix-basename-command
