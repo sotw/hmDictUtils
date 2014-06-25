@@ -210,6 +210,7 @@ def doStuff(tTarget):
 				doStuff(tTarget+'&language=en')
 			else:
 				print "Have a nice day"
+				break
 	return
 
 def setup_logging(level):
