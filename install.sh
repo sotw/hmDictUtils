@@ -20,6 +20,7 @@ rm -f ~/bin/sh/get_icrt_top_song
 rm -f ~/bin/sh/conv_ruby_2_aozora
 rm -f ~/bin/sh/get_ign_topstory
 rm -f ~/bin/sh/get_ign_review
+rm -f ~/bin/sh/get_stock
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
@@ -41,6 +42,7 @@ cp get_icrt_top_song ~/bin/sh
 cp conv_ruby_2_aozora ~/bin/sh
 cp get_ign_topstory ~/bin/sh
 cp get_ign_review ~/bin/sh
+cp get_stock ~/bin/sh
 echo "Do you want to use Dropbox folder as your note database?"
 select yn in "Yes" "No"; do
 	case $yn in
