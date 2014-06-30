@@ -43,11 +43,11 @@ cp conv_ruby_2_aozora ~/bin/sh
 cp get_ign_topstory ~/bin/sh
 cp get_ign_review ~/bin/sh
 cp get_stock ~/bin/sh
-echo "Do you want to use Dropbox folder as your note database?"
+echo "Do you want to use Dropbox folder as your note/get_stock database?"
 select yn in "Yes" "No"; do
 	case $yn in
-		Yes ) cp noteDropbox ~/bin/sh/note; break;;
-	    No ) cp note ~/bin/sh; break;;
+		Yes ) cp noteDropbox ~/bin/sh/note;cp get_stockDropbox ~/bin/sh/get_stock;break;;
+	    No ) cp note ~/bin/sh; cp get_stock ~/bin/sh;break;;
 	esac
 done
 cp download_linux_kernel ~/bin/sh
