@@ -63,6 +63,13 @@ select yn in "Yes" "No"; do
 		No ) echo "skip easy_install pip;break;;
 	esac
 
+echo "Do you use mac and need a port install py27-lxml?"
+select yn in "Yes" "No"; do
+	case $yn in
+		Yes ) sudo port install py27-lxml
+		No ) echo "skipe install py27-lxml
+	esac
+
 #I should seperate this to python deploy
 sudo pip install requests #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
