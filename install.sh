@@ -21,6 +21,7 @@ rm -f ~/bin/sh/conv_ruby_2_aozora
 rm -f ~/bin/sh/get_ign_topstory
 rm -f ~/bin/sh/get_ign_review
 rm -f ~/bin/sh/get_stock
+rm -f ~/bin/sh/arcProductManager
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
@@ -43,6 +44,7 @@ cp conv_ruby_2_aozora ~/bin/sh
 cp get_ign_topstory ~/bin/sh
 cp get_ign_review ~/bin/sh
 cp get_stock ~/bin/sh
+cp arcProductManager ~/bin/sh
 echo "Do you want to use Dropbox folder as your note/get_stock database?"
 select yn in "Yes" "No"; do
 	case $yn in
@@ -53,6 +55,14 @@ done
 cp download_linux_kernel ~/bin/sh
 cp argumentDbB $INSFOLDER/argumentDbB
 cp *.db $INSFOLDER
+
+echo "Do you use mac and need a fresh install for pip?"
+select yn in "Yes" "No"; do
+	case $yn in
+		Yes ) sudo easy_install pip;break;;
+		No ) echo "skip easy_install pip;break;;
+	esac
+
 #I should seperate this to python deploy
 sudo pip install requests #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
