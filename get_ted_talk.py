@@ -123,7 +123,7 @@ def getReleaseNoteDetail(tDetail):
 def sendMail(screen):
 	bigChunkStr = ''
 	mailLineCnt = 0
-	for line in thisScreen:		
+	for line in screen:		
 		if len(line) != 0 :
 			if mailLineCnt == 1 :
 				line = '####'+line #prepare to do markdown tranformation

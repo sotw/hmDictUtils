@@ -49,29 +49,28 @@ echo "Do you want to use Dropbox folder as your note/get_stock database?"
 select yn in "Yes" "No"; do
 	case $yn in
 		Yes ) cp noteDropbox ~/bin/sh/note;cp get_stockDropbox ~/bin/sh/get_stock;break;;
-	    No ) cp note ~/bin/sh; cp get_stock ~/bin/sh;break;;
+		No ) cp note ~/bin/sh; cp get_stock ~/bin/sh;break;;
 	esac
 done
 cp download_linux_kernel ~/bin/sh
 cp argumentDbB $INSFOLDER/argumentDbB
 cp *.db $INSFOLDER
-
 echo "Do you use mac and need a fresh install for pip?"
 select yn in "Yes" "No"; do
 	case $yn in
-		Yes ) sudo easy_install pip;break;;
-		No ) echo "skip easy_install pip;break;;
+		Yes ) sudo easy_install pip; break;;
+		No ) echo "skip easy_install pip"; break;;
 	esac
-
-echo "Do you use mac and need a port install py27-lxml?"
+done
+echo "Do you use mac and need a port install lxml?"
 select yn in "Yes" "No"; do
 	case $yn in
-		Yes ) sudo port install py27-lxml
-		No ) echo "skipe install py27-lxml
+		Yes ) sudo port install py27-lxml; sudo pip install lxml; break;;
+		No ) echo "skip install py27-lxml"; break;;
 	esac
-
+done
 #I should seperate this to python deploy
-sudo pip install requests #for wikipedia
+#sudo pip install re #for wikipedia
 sudo pip install BeautifulSoup4 #for wikipedia
 sudo pip install chardet #for goojp
 sudo pip install Skype4Py
@@ -80,8 +79,8 @@ sudo pip install pdfminer
 echo "Are you using opensuse and need lxml module for python?"
 select yn in "Yes" "No"; do
 	case $yn in
-		Yes ) sudo zypper install python-lxml; break;;
-		No ) echo "You are welcome to feed";break;;
+		Yee ) sudo zypper install python-lxml; break;;
+		No ) echo "You are welcome to feed"; break;;
 	esac
 done
 
@@ -92,6 +91,14 @@ echo "Do you want to add PATH envirnment in .bashrc?(restart terminal will effec
 select yn in "Yes" "No"; do
 	case $yn in
 		Yes ) echo "PATH=$PATH:~/bin/sh:~/bin" > ~/.bashrc; break;;
+	    No ) google have a nice day; break;;
+	esac
+done
+
+echo "Do you want to add PATH envirnment in .profile?(restart terminal will effect at once)"
+select yn in "Yes" "No"; do
+	case $yn in
+		Yes ) echo "PATH=$PATH:~/bin/sh:~/bin" > ~/.profile; break;;
 	    No ) google have a nice day; break;;
 	esac
 done
