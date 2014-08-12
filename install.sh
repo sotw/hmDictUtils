@@ -4,6 +4,7 @@ echo "http://www.macports.org/"
 echo "And download both python and pip"
 echo "And don't forget set PATH for ~/bin/sh all wrapped bash script is there"
 rm -Rf $INSFOLDER
+rm -f ~/bin/sh/run_meld
 rm -f ~/bin/sh/edict
 rm -f ~/bin/sh/jdict
 rm -f ~/bin/sh/udict
@@ -29,6 +30,7 @@ cp -Rf jNlp $INSFOLDER
 cp -Rf wikipedia $INSFOLDER
 #cp -Rf uniseg $INSFOLDER
 cp *.py $INSFOLDER
+cp run_meld ~/bin/sh
 cp edict ~/bin/sh
 cp jdict ~/bin/sh
 cp udict ~/bin/sh
