@@ -23,6 +23,8 @@ rm -f ~/bin/sh/get_ign_topstory
 rm -f ~/bin/sh/get_ign_review
 rm -f ~/bin/sh/get_stock
 rm -f ~/bin/sh/arcProductManager
+rm -f ~/bin/sh/ssh_to_mephi
+rm -f ~/bin/sh/treeMurder
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
@@ -47,6 +49,8 @@ cp get_ign_topstory ~/bin/sh
 cp get_ign_review ~/bin/sh
 cp get_stock ~/bin/sh
 cp arcProductManager ~/bin/sh
+cp -f ssh_to_mephi ~/bin/sh
+cp treeMurder ~/bin/sh
 echo "Do you want to use Dropbox folder as your note/get_stock database?"
 select yn in "Yes" "No"; do
 	case $yn in
@@ -96,12 +100,3 @@ select yn in "Yes" "No"; do
 	    No ) google have a nice day; break;;
 	esac
 done
-
-echo "Do you want to add PATH envirnment in .profile?(restart terminal will effect at once)"
-select yn in "Yes" "No"; do
-	case $yn in
-		Yes ) echo "PATH=$PATH:~/bin/sh:~/bin" > ~/.profile; break;;
-	    No ) google have a nice day; break;;
-	esac
-done
-
