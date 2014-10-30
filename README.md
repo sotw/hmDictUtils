@@ -55,7 +55,7 @@ In network reachable environment:
 **get_ign_topstory | read game news is nerd standard.
 >I blame game industry, the manual become so slim, I can't even call it manual "book" now, it's manual paper.
 
-**treeMurder** | travel file system and kill some specific folder. 
+**treeMurder** | travel file system and kill some specific folders.(Currently I use it to delete .git .repo folders for release sake)
 
 ##### Idea
 1. ~~Need to accept space in **edict** ok, use argparse module will solve the problem~~ 2014-06-07
