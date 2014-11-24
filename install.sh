@@ -25,6 +25,7 @@ rm -f ~/bin/sh/get_stock
 rm -f ~/bin/sh/arcProductManager
 rm -f ~/bin/sh/ssh_to_mephi
 rm -f ~/bin/sh/treeMurder
+rm -f ~/bin/sh/batchRename
 mkdir -p ~/bin/sh
 mkdir -p $INSFOLDER
 cp -Rf jianfan $INSFOLDER
@@ -51,6 +52,7 @@ cp get_stock ~/bin/sh
 cp arcProductManager ~/bin/sh
 cp -f ssh_to_mephi ~/bin/sh
 cp treeMurder ~/bin/sh
+cp batchRename ~/bin/sh
 echo "Do you want to use Dropbox folder as your note/get_stock database?"
 select yn in "Yes" "No"; do
 	case $yn in
