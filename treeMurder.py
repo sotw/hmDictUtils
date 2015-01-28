@@ -168,6 +168,15 @@ def doStuffDirect():
 					if '.git' in dirname or '.repo' in dirname:
 						print "gonna rm -rf this dir:"+dirpath+"/"+dirname
 						shutil.rmtree(dirpath+'/'+dirname)
+
+	answer=raw_input('Do you want to remove .configured file as well?(y)')
+	if answer == 'y':
+		filenames = []
+		for (dirpath, dirnames, filenames) in os.walk(tTarget):
+			for filename in filenames:
+				print filename
+				if '*.configured' in filename:
+					print "gonna rm this "+filename
 	else :
 		print 'GOOD'
 
