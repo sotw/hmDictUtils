@@ -83,7 +83,7 @@ def getReleaseNoteDetail(tDetail):
 	resultSet = tree.xpath("//div[@class='text']")
 	#print len(resultSet)
 
-	os.system('clear')	
+	os.system('clear')
 	print " "
 	thisScreen.append(" ")
 	print '  '+clrTx(mTitle,'YELLOW')
@@ -95,12 +95,12 @@ def getReleaseNoteDetail(tDetail):
 	for entry in resultSet:
 		if entry.text is not None:
 			cnt = 0
-			for line in _wrap.wrap(entry.text):			
+			for line in _wrap.wrap(entry.text):
 				line = dedent(line)
 				if cnt % 2 == 1:
 					print '    '+clrTx(line,'AUQA')
 				else:
-					print '    '+clrTx(line,'BLUE')
+					print '    '+clrTx(line,'WHITE')
 				thisScreen.append('    '+line)
 				cnt+=1
 		break
@@ -113,11 +113,11 @@ def getReleaseNoteDetail(tDetail):
 	if option == 'm' :
 		bigChunkStr = ''
 		mailLineCnt = 0
-		for line in thisScreen:		
+		for line in thisScreen:
 			if len(line) != 0 :
 				if mailLineCnt == 1 :
 					line = '####'+line #prepare to do markdown tranformation
-				bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'			
+				bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'
 				mailLineCnt+=1
 		home = expanduser('~')
 		print home+'/.hmDict/simpleMail.py'
@@ -125,7 +125,7 @@ def getReleaseNoteDetail(tDetail):
 
 			process = Popen(prepareMailInfo(bigChunkStr))
 			print "sending mail..."
-			process.wait()			
+			process.wait()
 			print "sent!"
 
 
@@ -164,7 +164,7 @@ def doStuff(tTarget):
 	#print clrTx('HEADLINES:','BLUE')
 	preScreen.append(clrTx('HEADLINES:','BLUE'))
 	for headLine in headLines:
-		#print headLine		
+		#print headLine
 		#print clrTx(headLine[1],'YELLOW')
 		preScreen.append(clrTx(headLine[1],'YELLOW'))
 		for line in _wrap.wrap(headLine[2]):
@@ -183,7 +183,7 @@ def doStuff(tTarget):
 	for majorLine in majorLines:
 		if cnt == 4 :
 			break
-		#print clrTx(majorLine[1],'YELLOW')		
+		#print clrTx(majorLine[1],'YELLOW')
 		preScreen.append(clrTx(majorLine[1],'YELLOW'))
 		for line in _wrap.wrap(majorLine[2]):
 			#print '    '+line
@@ -204,7 +204,7 @@ def doStuff(tTarget):
 		sn=raw_input('Which one you want to check?(Sn)>')
 		#print repr(sn)
 		sn = parseInt(sn)
-		if (sn is not None) and sn < len(LINKS):		
+		if (sn is not None) and sn < len(LINKS):
 			getReleaseNoteDetail(LINKS[sn])
 		else:
 			print "Have a nice day"
@@ -264,7 +264,7 @@ def loadDb():
 def main():
 	doStuff(tTarget)
 
-if __name__ == '__main__':	
-	verify()	
+if __name__ == '__main__':
+	verify()
 	loadDb()
 	main()

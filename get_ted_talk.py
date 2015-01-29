@@ -47,7 +47,7 @@ def parseInt(sin):
 	m = re.search(r'^(\d+)[.,]?\d*?',str(sin))
 	return int(m.groups()[-1]) if m and not callable(sin) else None
 
-def getReleaseNoteDetail(tDetail):	
+def getReleaseNoteDetail(tDetail):
 	thisScreen = []
 	opener = urllib2.build_opener()
 	opener.addheader = [('User-Agent','Mozilla/5.0')]
@@ -74,7 +74,7 @@ def getReleaseNoteDetail(tDetail):
 		if entry.text is not None:
 			mTitle = entry.text
 			break
-	
+
 	resultSet = tree.xpath("//span[@class='talk-transcript__fragment']")
 	os.system('clear')
 	thisScreen.append(" ")
@@ -84,7 +84,7 @@ def getReleaseNoteDetail(tDetail):
 	for result in resultSet:
 		if result.text is not None:
 			for text in _wrap.wrap(result.text):
-				thisScreen.append('    '+text)				
+				thisScreen.append('    '+text)
 	thisScreen.append(' ')
 	thisScreen.append(repeatStr('-',78))
 	option = ''
@@ -93,7 +93,7 @@ def getReleaseNoteDetail(tDetail):
 	while option == '' or option == 'slowShow' or option == 'showAll' :
 		cnt = 0
 		for line in thisScreen:
-			print line			
+			print line
 			if bSlowShow :
 				if cnt >= bLineBreakAt :
 					cnt = 0
@@ -110,12 +110,12 @@ def getReleaseNoteDetail(tDetail):
 		elif option == 'showAll':
 			bSlowShow = False
 		#print repr(option)
-	
+
 	if option == 'en' :
-		tDetail = tDetail.split('?')[0]+'?lang=en'
+		tDetail = tDetail.split('?')[0]+'?language=en'
 		getReleaseNoteDetail(tDetail)
 	elif option == 'tw' :
-		tDetail = tDetail.split('?')[0]+'?lang=zh-tw'
+		tDetail = tDetail.split('?')[0]+'?language=zh-tw'
 		getReleaseNoteDetail(tDetail)
 	elif option == 'mail':
 		sendMail(thisScreen)
@@ -123,11 +123,11 @@ def getReleaseNoteDetail(tDetail):
 def sendMail(screen):
 	bigChunkStr = ''
 	mailLineCnt = 0
-	for line in screen:		
+	for line in screen:
 		if len(line) != 0 :
 			if mailLineCnt == 1 :
 				line = '####'+line #prepare to do markdown tranformation
-			bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'			
+			bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'
 			mailLineCnt+=1
 	home = expanduser('~')
 	print home+'/.hmDict/simpleMail.py'
@@ -135,7 +135,7 @@ def sendMail(screen):
 
 		process = Popen(prepareMailInfo(bigChunkStr))
 		print "sending mail..."
-		process.wait()			
+		process.wait()
 		print "sent!"
 	else :
 		print 'You don\'t have email plugin!, abort!!'
@@ -179,7 +179,7 @@ def doStuff(tTarget):
 	ScreenI.append(clrTx('SPEECH:','BLUE'))
 	cnt = 0
 	for majorLine in majorLines:
-		#print clrTx(majorLine[1],'YELLOW')		
+		#print clrTx(majorLine[1],'YELLOW')
 		ScreenI.append(clrTx(majorLine[1].strip('\n'),'YELLOW'))
 		LINKS.append('http://www.ted.com'+majorLine[0].split('?')[0]+'/transcript')
 		#print clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30')
@@ -189,7 +189,7 @@ def doStuff(tTarget):
 		cnt+=1
 
 	#print LINKS
-	sn=''	
+	sn=''
 	while sn is not None :
 		os.system('clear')
 		#print ScreenI
@@ -199,10 +199,10 @@ def doStuff(tTarget):
 		#print repr(sn)
 		ohInt = sn
 		ohInt = parseInt(ohInt)
-		if (ohInt is not None) and (ohInt < len(LINKS)):		
+		if (ohInt is not None) and (ohInt < len(LINKS)):
 			getReleaseNoteDetail(LINKS[ohInt])
 		else:
-			if sn == 'tw' :				
+			if sn == 'tw' :
 				LINKS = []
 				doStuff(tTarget+'&language=zh-tw')
 			elif sn == 'en':
@@ -287,7 +287,7 @@ def main():
 	#else:
 	#	doWriteLn(tTarget)
 
-if __name__ == '__main__':	
-	verify()	
+if __name__ == '__main__':
+	verify()
 	refreshDb()
 	main()

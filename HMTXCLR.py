@@ -17,6 +17,7 @@ CODE={
     'GREY80_BG':47,
     'GREY93_BG':107,
     'DARK_RED':31,
+    'BLACK':90,
     'RED':91,
     'RED_BG':41,
     'LIGHT_RED_BG':101,
@@ -30,6 +31,8 @@ CODE={
     'LIGHT_BLUE_BG':104,
     'DARK_MAGENTA':35,
     'PURPLE':95,
+    'CYAN':96,
+    'WHITE':97,
     'MAGENTA_BG':45,
     'LIGHT_PURPLE_BG':105,
     'DARK_CYAN':36,
@@ -46,7 +49,7 @@ CODE={
 def termcode(num):
     return '\033[%sm'%num
 
-def clrTx(astr,color):    
+def clrTx(astr,color):
 	if 'Windows' in platform.platform():
 		return astr
 	else :
