@@ -27,6 +27,7 @@ global ARGUDB
 global _wrap
 global LINKS
 global ctl
+global contryCode
 
 LINKS = []
 ARGUDB = []
@@ -48,77 +49,83 @@ def parseInt(sin):
 	return int(m.groups()[-1]) if m and not callable(sin) else None
 
 def getReleaseNoteDetail(tDetail):
-	thisScreen = []
-	opener = urllib2.build_opener()
-	opener.addheader = [('User-Agent','Mozilla/5.0')]
-	resp = opener.open(tDetail)
-	if resp.code == 200:
-		data = resp.read()
-	elif resp.code == 404:
-		print "Page do not exist"
-		exit()
-	else:
-		print "Can not open page"
-		exit()
-	parser = etree.HTMLParser()
-	tree = etree.parse(StringIO(data), parser)
+    thisScreen = []
+    opener = urllib2.build_opener()
+    opener.addheader = [('User-Agent','Mozilla/5.0')]
+    resp = opener.open(tDetail)
+    if resp.code == 200:
+        data = resp.read()
+    elif resp.code == 404:
+        print "Page do not exist"
+        exit()
+    else:
+        print "Can not open page"
+        exit()
+    parser = etree.HTMLParser()
+    tree = etree.parse(StringIO(data), parser)
 
 
 	#etree.strip_tags(tree,'p')
 	#etree.strip_tags(tree,'i')
-	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
+    result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
 
-	mTitle = ''
-	titles = tree.xpath("//h4[@class='h9 m5']/a")
-	for entry in titles:
-		if entry.text is not None:
-			mTitle = entry.text
-			break
+    mTitle = ''
+    titles = tree.xpath("//h4[@class='h9 m5']/a")
+    for entry in titles:
+        if entry.text is not None:
+            mTitle = entry.text
+            break
 
-	resultSet = tree.xpath("//span[@class='talk-transcript__fragment']")
-	os.system('clear')
-	thisScreen.append(" ")
-	thisScreen.append('  '+clrTx(mTitle,'YELLOW'))
-	thisScreen.append(repeatStr('-',78))
-	thisScreen.append(' ')
-	for result in resultSet:
-		if result.text is not None:
-			for text in _wrap.wrap(result.text):
-				thisScreen.append('    '+text)
-	thisScreen.append(' ')
-	thisScreen.append(repeatStr('-',78))
-	option = ''
-	bSlowShow = False
-	bLineBreakAt = 25
-	while option == '' or option == 'slowShow' or option == 'showAll' :
-		cnt = 0
-		for line in thisScreen:
-			print line
-			if bSlowShow :
-				if cnt >= bLineBreakAt :
-					cnt = 0
-					raw_input()
-			cnt+=1
-		print '<b>: back to index | <en>: English | <tw>: Traditional-Chinese'
-		print '<slowShow>: pauseAtCertainLines | <showAll>: show all at once'
-		print '<mail>: mail to myself (funciton not public!)'
-		option = raw_input()
-		if option == 'slowShow':
-			bSlowShow = True
-			bLinkBreakAt = parseInt(raw_input('please input pause at each ? lines'))
-			os.system('clear')
-		elif option == 'showAll':
-			bSlowShow = False
-		#print repr(option)
+    supportLangs = tree.xpath("//select[@class='form-control form-control--dropdown talk-transcript__language m3']/option")
+    for supportLang in supportLangs:
+        if supportLang.text is not None:
+            print supportLang.get("value")+'|'+supportLang.text
 
-	if option == 'en' :
-		tDetail = tDetail.split('?')[0]+'?language=en'
-		getReleaseNoteDetail(tDetail)
-	elif option == 'tw' :
-		tDetail = tDetail.split('?')[0]+'?language=zh-tw'
-		getReleaseNoteDetail(tDetail)
-	elif option == 'mail':
-		sendMail(thisScreen)
+    resultSet = tree.xpath("//span[@class='talk-transcript__fragment']")
+    os.system('clear')
+    thisScreen.append(" ")
+    thisScreen.append('  '+clrTx(mTitle,'YELLOW'))
+    thisScreen.append(repeatStr('-',78))
+    thisScreen.append(' ')
+    for result in resultSet:
+        if result.text is not None:
+            for text in _wrap.wrap(result.text):
+                thisScreen.append('    '+text)
+    thisScreen.append(' ')
+    thisScreen.append(repeatStr('-',78))
+    option = ''
+    bSlowShow = False
+    bLineBreakAt = 25
+    while option == '' or option == 'slowShow' or option == 'showAll' :
+        cnt = 0
+        for line in thisScreen:
+            print line
+            if bSlowShow :
+                if cnt >= bLineBreakAt :
+                    cnt = 0
+                    raw_input()
+            cnt+=1
+        print '<b>: back to index | <lang>: list support language'
+        print '<slowShow>: pauseAtCertainLines | <showAll>: show all at once'
+        print '<mail>: mail to myself (funciton not public!)'
+        option = raw_input()
+        if option == 'slowShow':
+            bSlowShow = True
+            bLinkBreakAt = parseInt(raw_input('please input pause at each ? lines'))
+            os.system('clear')
+        elif option == 'showAll':
+            bSlowShow = False
+        elif option == 'lang':
+            for supportLang in supportLangs:
+                if supportLang.text is not None:
+                    print supportLang.get("value")+'|'+supportLang.text
+            global contryCode
+            contryCode = raw_input('please input contry code ex: zh-tw for Taiwan:')
+            tDetail = tDetail.split('?')[0]+'?language='+contryCode
+            getReleaseNoteDetail(tDetail)
+        elif option == 'mail':
+            sendMail(thisScreen)
+#print repr(option)
 
 def sendMail(screen):
 	bigChunkStr = ''
