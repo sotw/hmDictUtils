@@ -1,0 +1,23 @@
+<script type="text/javascript">
+    
+function perform()
+{
+    var textAreaA = document.getElementById("before");
+    var textAreaB = document.getElementById("after");
+    var resultString = textAreaA.value;
+    resultString = resultString.replace(/-/g,'\-');
+    resultString = resultString.replace(/ /g,'');
+    textAreaB.value = resultString;
+}
+
+</script>
+<HEAD>
+</HEAD>
+<BODY>
+    <textarea id="before" rows="60" cols="80">
+    </textarea>
+    <input type="button" value="perform" onclick="perform()">
+    </input>
+    <textarea id="after" rows="60" cols="80">
+    </textarea>
+</BODY>
