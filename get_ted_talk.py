@@ -95,13 +95,13 @@ def getReleaseNoteDetail(tDetail):
     thisScreen.append(repeatStr('-',78))
     option = ''
     bSlowShow = False
-    bLineBreakAt = 25
+    lineBreakAt = 25
     while option == '' or option == 'slowShow' or option == 'showAll' :
         cnt = 0
         for line in thisScreen:
             print line
             if bSlowShow :
-                if cnt >= bLineBreakAt :
+                if cnt >= lineBreakAt :
                     cnt = 0
                     raw_input()
             cnt+=1
@@ -111,7 +111,7 @@ def getReleaseNoteDetail(tDetail):
         option = raw_input()
         if option == 'slowShow':
             bSlowShow = True
-            bLinkBreakAt = parseInt(raw_input('please input pause at each ? lines'))
+            lineBreakAt = parseInt(raw_input('please input pause at each ? lines:'))
             os.system('clear')
         elif option == 'showAll':
             bSlowShow = False
