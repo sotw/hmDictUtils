@@ -73,7 +73,8 @@ def htmlParser(tPage):
 
     print "beautifulSoup result"
     resultAry = soup.findAll('div',{'class':'dd algo mt-20 lst DictionaryResults'});
-    print resultAry[0].get_text()
+    result = resultAry[0].get_text()
+    #print resultAry[0].get_text()
     #result = resultAry[0].renderContents()
     #print result
     #print type(result)
@@ -82,7 +83,7 @@ def htmlParser(tPage):
     #print strip_tags(result, invalid_tags)
     #soup2 = BeautifulSoup(''.join(layer1));
     #print soup2.
-
+    return result
 
 def htmlParserBak(tPage):
     resp = urllib2.urlopen(tPage)
@@ -179,7 +180,19 @@ def htmlParserBak(tPage):
     return resultSet
 
 #[]== maybe textwrapper, it's better than this hardcode
-def prettyPrint(resultSet):
+
+def prettyPrint(resultString):
+    if bWindows :
+        os.system('cls')
+    else:
+        os.system('clear')
+
+    #for tag in ARGUDB:
+    #    resultString = re.sub(r''+tag,'\n'+tag+'\n    ',resultString)
+    print resultString
+
+"""
+def bakprettyPrint(resultSet):
 	if bWindows :
 		os.system('cls')
 	else:
@@ -205,10 +218,10 @@ def prettyPrint(resultSet):
 	for strII in passIIStrSet:
 		bFound = False
 		for tag in ARGUDB:
-			try :
-			    	strII.index(tag)
-				bFound = True
-				break
+            try:
+                strII.index(tag)
+                bFound = True
+                break
 			except ValueError:
 				bFound = False
 		if bFound == False and totalCnt != 0:
@@ -238,7 +251,7 @@ def prettyPrint(resultSet):
 			for proun in mProun:
 				print '    '+proun[0]+' '+proun[1]
 		totalCnt+=1
-
+"""
 def loadArgumentDb():
 	home = expanduser('~')
 	if os.path.isfile(home+args.database) is True:
@@ -258,8 +271,8 @@ def loadArgumentDb():
 	#raw_input()
 
 def main():
-   resultSet = htmlParser(tPage)
-   #prettyPrint(resultSet)
+   resultString = htmlParser(tPage)
+   prettyPrint(resultString)
 
 def setup_logging(level):
 	global DB
