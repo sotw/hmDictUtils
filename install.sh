@@ -92,6 +92,14 @@ select yn in "Yes" "No"; do
 	esac
 done
 
+echo "Are you using raspberry pi and need lxml module for python?"
+select yn in "Yes" "No"; do
+	case $yn in
+		Yee ) sudo apt-get install python-lxml; break;;
+		No ) echo "You are welcome to feed"; break;;
+	esac
+done
+
 chmod -R 755 $INSFOLDER
 chmod -R 755 ~/bin/sh
 

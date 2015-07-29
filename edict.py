@@ -9,7 +9,7 @@ import platform
 from HMTXCLR import clrTx
 from os.path import expanduser
 from cStringIO import StringIO
-from lxml import etree
+#from lxml import etree
 from pprint import pprint
 from bs4 import BeautifulSoup,NavigableString
 
