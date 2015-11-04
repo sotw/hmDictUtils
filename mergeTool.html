@@ -5,8 +5,9 @@ function perform()
     var textAreaA = document.getElementById("before");
     var textAreaB = document.getElementById("after");
     var resultString = textAreaA.value;
-    resultString = resultString.replace(/+/g,'');
-    resultString = resultString.replace(/\\r/g,'');
+    resultString = resultString.replace(/\+/g,'');
+    resultString = resultString.replace(/\\r/g,'\r');
+    resultString = resultString.replace(/ /g,'');
     textAreaB.value = 
     textAreaB.value = resultString;
 }

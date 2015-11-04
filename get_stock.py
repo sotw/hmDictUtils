@@ -83,48 +83,53 @@ def paintRED(string,target):
 	return string
 
 def doStuff(tTarget,num):
-	#print tTarget
-	#raw_input()
-	ScreenI = []
-	opener = urllib2.build_opener()
-	opener.addheader = [('User-Agent','Mozilla/5.0')]
-	resp = opener.open(tTarget+num)
-	if resp.code == 200 :
-		data = resp.read()
-		resp.close()
-	elif resp.code == 404 :
-		print "Page do not exist"
-		exit()
-	elif resp.code == 400:
-		print "request error"
-		exit()
-	else:
-		print "Can not open page"
-		exit()
+#print tTarget
+#raw_input()
+    ScreenI = []
+    opener = urllib2.build_opener()
+    opener.addheader = [('User-Agent','Mozilla/5.0')]
+    resp = opener.open(tTarget+num)
+    if resp.code == 200 :
+        data = resp.read()
+        resp.close()
+    elif resp.code == 404 :
+        print "Page do not exist"
+        exit()
+    elif resp.code == 400:
+        print "request error"
+        exit()
+    else:
+        print "Can not open page"
+        exit()
 
-	parser = etree.HTMLParser(recover=True)
-	tree = etree.parse(StringIO(data), parser)
+    parser = etree.HTMLParser(recover=True)
+    tree = etree.parse(StringIO(data), parser)
 
-	etree.strip_tags(tree,'span')
-	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
+    etree.strip_tags(tree,'span')
+    result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
 
-	#print result
-	#print paintRED(result,'<td align="center"')
+    #print result
+    #print paintRED(result,'<td align="center"')
+    #print paintRED(result,'stkname')
 
-	global LINKS
-    #head line#
-	headLines = re.findall('<td align="center" bgcolor="#FFFfff" nowrap>.+?<b>(.+?)</b>',result,re.DOTALL)
-	#print len(headLines)
-	#raw_input()
-	for headLine in headLines:
-		#print headLine		
-		#print clrTx(headLine[1],'YELLOW')
-		ScreenI.append(clrTx(num,'YELLOW')+':'+headLine)
+    global LINKS
+#head line#
+    headLines = re.findall('<td align="center" bgcolor="#FFFfff" nowrap>.+?<b>(.+?)</b>',result,re.DOTALL)
+    tNames = re.findall('<input type="hidden" name="stkname" value="(.+?)">',result,re.DOTALL)
+    #print len(headLines)
+    #raw_input()
 
-	for item in ScreenI:
-		print item
+    for headLine in headLines:
+    #print headLines
+        #print clrTx(headLine[1],'YELLOW')
+        for tName in tNames:
+            ScreenI.append(clrTx(num,'YELLOW')+'('+tName+'):'+headLine)
+            break
 
-	return
+    for item in ScreenI:
+        print item
+
+    return
 
 def setup_logging(level):
 	global DB
@@ -181,7 +186,7 @@ def idxMsg(message):
 	return str(len(ARGUDB))+':'+message
 
 def	doDump():
-	for entry in ARGUDB:
+    for entry in ARGUDB:
 		print entry
 
 def doDumpEx():
@@ -212,9 +217,9 @@ def main():
 	elif args.add:
 		doWriteLn(tTarget)
 	elif args.listme:
-		doDumpEx()	
+		doDumpEx()
 
-if __name__ == '__main__':	
-	verify()	
+if __name__ == '__main__':
+	verify()
 	refreshDb()
 	main()
