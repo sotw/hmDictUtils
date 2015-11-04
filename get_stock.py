@@ -182,38 +182,36 @@ def refreshDb():
 	else:
 		DB.debug('override file is not exist')
 
-def idxMsg(message):
-	return str(len(ARGUDB))+':'+message
-
 def	doDump():
     for entry in ARGUDB:
 		print entry
 
 def doDumpEx():
 	for entry in ARGUDB:
-		doStuff(staticStr,entry.split(':')[1])
+		doStuff(staticStr,entry)
 
 def doWriteLn(msg):
 	home = expanduser('~')
 	f = open(home+args.database,'a')
 	if f is not None:
-		f.write(idxMsg(msg)+'\n')
+		f.write(msg+'\n')
 	f.close()
 
 def doKillALn(number):
-	ARGUDB.pop(number)
-	home = expanduser('~')
-	f = open(home+args.database,'w')
-	for entry in ARGUDB:
-		f.write(idxMsg(entry))
-	f.close()
+    index = ARGUDB.index(number)
+    ARGUDB.pop(index)
+    home = expanduser('~')
+    f = open(home+args.database,'w')
+    for entry in ARGUDB:
+        f.write(entry+'\n')
+    f.close()
 
 def main():
 	#doStuff(tTarget)
 	if args.read :
 		doDump()
 	elif args.kill:
-		doKillALn(parseInt(tTarget))
+		doKillALn(tTarget)
 	elif args.add:
 		doWriteLn(tTarget)
 	elif args.listme:
