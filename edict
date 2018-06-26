@@ -23,4 +23,3 @@ exeName=${exeName##*/}
 exeName=${exeName%.*}
 exeName=$exeName.py
 python $PKGFOLDER/$exeName $tPage
-say -v Vicki $args &
