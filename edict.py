@@ -72,8 +72,9 @@ def htmlParser(tPage):
     soup = BeautifulSoup(''.join(data))
 
     print "beautifulSoup result"
-    result = soup.findAll('li',{'class':'lh-22 mh-22 ml-50 mt-12 mb-12'});
-
+    result = soup.findAll('span',{'class','fz-14'})
+    result += soup.findAll('li',{'class':['lh-22 mh-22 ml-50 mt-12 mb-12','lh-22 mh-22 ml-50 mt-12 mb-12 last']});
+    
     #print resultAry[0].get_text()
     #result = resultAry[0].renderContents()
     #print result
@@ -189,6 +190,7 @@ def prettyPrint(resultString):
 
     #for tag in ARGUDB:
     #    resultString = re.sub(r''+tag,'\n'+tag+'\n    ',resultString)
+    print 'search target:'+tPage
     for line in resultString:
         print line.get_text()
 
