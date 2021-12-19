@@ -4,6 +4,6 @@ exeName=$0
 exeName=${exeName##*/}
 exeName=${exeName%.*}
 exeName=$exeName.py
-python $PKGFOLDER/$exeName -v $tPage
+python3 $PKGFOLDER/$exeName -v $tPage
 #hint:For batch file transformation
 #http://stackoverflow.com/questions/3432851/dos-bat-file-equivalent-to-unix-basename-command

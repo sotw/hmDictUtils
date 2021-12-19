@@ -5,13 +5,14 @@
 import os, sys, re, codecs
 import argparse
 import logging
-import urllib, urllib2
+import urllib
+from urllib import request, error
 #import textwrap
 from os.path import expanduser
 from subprocess import PIPE
 from subprocess import Popen
 from lxml import etree
-from cStringIO import StringIO
+from io import StringIO 
 from pprint import pprint
 from HMTXCLR import clrTx
 from textwrap import TextWrapper
@@ -19,6 +20,7 @@ from textwrap import dedent
 from subprocess import Popen
 from subprocess import PIPE
 from subprocess import STDOUT
+from bs4 import BeautifulSoup,NavigableString
 
 global DB
 global tTarget
@@ -42,75 +44,59 @@ def prepareMailInfo(mailMsg):
 	return iOut
 
 def repeatStr(string_to_expand, length):
-	return (string_to_expand * ((length/len(string_to_expand))+1))[:length]
+	return (string_to_expand * (int(length/len(string_to_expand))+1))[:length]
 
 def parseInt(sin):
 	m = re.search(r'^(\d+)[.,]?\d*?',str(sin))
 	return int(m.groups()[-1]) if m and not callable(sin) else None
 
-def getReleaseNoteDetail(tDetail):
-	thisScreen = []
-	opener = urllib2.build_opener()
-	opener.addheader = [('User-Agent','Mozilla/5.0')]
-	resp = opener.open(tDetail)
-	if resp.code == 200:
-		data = resp.read()
-	elif resp.code == 404:
-		print "Page do not exist"
-		exit()
-	else:
-		print "Can not open page"
-		exit()
-	parser = etree.HTMLParser()
-	tree = etree.parse(StringIO(data), parser)
-
-	comments = tree.xpath('//comment()')
-	for c in comments:
-		p = c.getparent()
-		p.remove(c)
-
-	etree.strip_tags(tree,'p')
-	etree.strip_tags(tree,'i')
-	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
-
-	mTitle = ''
-	titles = tree.xpath("//h1[@class='title']")
-	for entry in titles:
-		if entry.text is not None:
-			mTitle = entry.text
-			break
-
-	resultSet = tree.xpath("//div[@class='text']")
+def getDetail(tDetail):
+    thisScreen = []
+    resp = urllib.request.urlopen(url=tDetail)
+    if resp.code == 200:
+        data = resp.read()
+    elif resp.code == 404:
+        print("Page do not exist")
+        exit()
+    else:
+        print("Can not open page")
+        exit()
+    soup = BeautifulSoup(data,features="lxml")
+    print("beautifulSoup result")
+    archives = soup.find('h1')
+    resultSet = soup.findAll('p')
+#	print(data)
+    mTitle = archives.get_text()
 	#print len(resultSet)
-
-	os.system('clear')
-	print " "
-	thisScreen.append(" ")
-	print '  '+clrTx(mTitle,'YELLOW')
-	thisScreen.append('  '+clrTx(mTitle,'YELLOW'))
-	print repeatStr('-', 78)
-	thisScreen.append(repeatStr('-', 78))
-	print ' '
-	thisScreen.append(' ')
-	for entry in resultSet:
-		if entry.text is not None:
-			cnt = 0
-			for line in _wrap.wrap(entry.text):
-				line = dedent(line)
-				if cnt % 2 == 1:
-					print '    '+clrTx(line,'AUQA')
-				else:
-					print '    '+clrTx(line,'WHITE')
-				thisScreen.append('    '+line)
-				cnt+=1
-		break
-	print ' '
-	thisScreen.append(' ')
-	print repeatStr('-', 78)
-	thisScreen.append(repeatStr('-', 78))
-	option = raw_input()
-	#hidden function for my own
-	if option == 'm' :
+    os.system('clear')
+    print(" ")
+    thisScreen.append(" ")
+    print("  "+clrTx(mTitle,'YELLOW'))
+    thisScreen.append('  '+clrTx(mTitle,'YELLOW'))
+    print(repeatStr('-', 78))
+    thisScreen.append(repeatStr('-', 78))
+    print(" ")
+    thisScreen.append(' ')
+    for entry in resultSet:
+        #print(entry.get_text())
+        if entry.get_text() is not None:
+            cnt = 0
+            for line in _wrap.wrap(entry.get_text()):
+                line = dedent(line)
+                if cnt % 2 == 1:
+                    print("    "+clrTx(line,'AUQA'))
+                else:
+                    print("    "+clrTx(line,'WHITE'))
+                    thisScreen.append('    '+line)
+                    cnt+=1
+    print(" ")
+    thisScreen.append(' ')
+    print(repeatStr('-', 78))
+    thisScreen.append(repeatStr('-', 78))
+    option = input()
+'''
+    #hidden function for my own
+    if option == 'm' :
 		bigChunkStr = ''
 		mailLineCnt = 0
 		for line in thisScreen:
@@ -120,14 +106,14 @@ def getReleaseNoteDetail(tDetail):
 				bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'
 				mailLineCnt+=1
 		home = expanduser('~')
-		print home+'/.hmDict/simpleMail.py'
+		print(home+"/.hmDict/simpleMail.py")
 		if os.path.isfile(home+'/.hmDict/simpleMail.py') is True :
 
 			process = Popen(prepareMailInfo(bigChunkStr))
-			print "sending mail..."
+			print("sending mail...")
 			process.wait()
-			print "sent!"
-
+			print("sent!")
+'''
 
 '''For programming'''
 def paintRED(string,target):
@@ -135,28 +121,51 @@ def paintRED(string,target):
 	return string
 
 def doStuff(tTarget):
-	global preScreen
-	opener = urllib2.build_opener()
-	opener.addheader = [('User-Agent','Mozilla/5.0')]
-	resp = opener.open(tTarget)
-	if resp.code == 200 :
-		data = resp.read()
-		resp.close()
-	elif resp.code == 404 :
-		print "Page do not exist"
-		exit()
-	else:
-		print "Can not open page"
-		exit()
+    global preScreen
+    global LINKS
+    resp = urllib.request.urlopen(url=tTarget)
+    if resp.code == 200 :
+        data = resp.read()
+        resp.close()
+    elif resp.code == 404 :
+        print("Page do not exist")
+        exit()
+    else:
+        print("Can not open page")
+        exit()
+    soup = BeautifulSoup(data,features="lxml")
+    print("beautifulSoup result")
+    headLines = soup.findAll('h1',{'class','bf2'})
+#    result += soup.findAll('li',{'class':['lh-22 mh-22 ml-50 mt-12 mb-12','lh-22 mh-22 ml-50 mt-12 mb-12 last']});
+    cnt = 0
+    for headLine in headLines:
+        preScreen.append(str(cnt)+':'+clrTx(headLine.get_text(),'YELLOW'))
+        cnt+=1
+        pp = headLine.parent.parent
+        #print(pp)
+        #print("*****************")
+        #print(pp['href'])
+        LINKS.append(pp['href'])
+#    for item in LINKS:
+#        print(item)
+#        print("================")
 
-	parser = etree.HTMLParser(recover=True)
-	tree = etree.parse(StringIO(data), parser)
+    sn=''
+    while sn is not None :
+        #os.system('clear')
+        for item in preScreen:
+            print(item)
+        sn=input('Which one you want to check?(Sn)>')
+		#print repr(sn)
+        sn = parseInt(sn)
+        if (sn is not None) and sn < len(LINKS):
+            #print(LINKS[sn])
+            getDetail(LINKS[sn])
+        else:
+            print("Have a nice day")
 
-	etree.strip_tags(tree,'span')
-	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
-
-	#print result
 	#print paintRED(result,'<li><h3>')
+'''
 	global LINKS
     #head line#
 	headLines = re.findall('<div class="ma">\r<h1><a href="([^"]+)">([^<]+)</a></h1>\r<h4>([^<]+)<',result)
@@ -200,16 +209,15 @@ def doStuff(tTarget):
 	while sn is not None :
 		os.system('clear')
 		for item in preScreen:
-			print item
+			print(item)
 		sn=raw_input('Which one you want to check?(Sn)>')
 		#print repr(sn)
 		sn = parseInt(sn)
 		if (sn is not None) and sn < len(LINKS):
 			getReleaseNoteDetail(LINKS[sn])
 		else:
-			print "Have a nice day"
-
-	'''releaseNoteSet = re.findall('<div class="title"><a href="([^"]+)">([^<]+)</a>',result)
+			print("Have a nice day")
+    releaseNoteSet = re.findall('<div class="title"><a href="([^"]+)">([^<]+)</a>',result)
 	cnt = 0
 	for e in releaseNoteSet:
 		print "SN:%d|%s"%(cnt,e[1])
@@ -220,7 +228,6 @@ def doStuff(tTarget):
 	if sn is not None:
 		getReleaseNoteDetail('http://www.pathofexile.com'+releaseNoteSet[sn][0])
 	'''
-	return
 
 def setup_logging(level):
 	global DB

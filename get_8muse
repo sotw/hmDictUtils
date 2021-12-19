@@ -1,5 +1,5 @@
 PKGFOLDER=~/.hmDict
-tPage="https://www.taipeitimes.com"
+tPage="$1"
 exeName=$0
 exeName=${exeName##*/}
 exeName=${exeName%.*}
