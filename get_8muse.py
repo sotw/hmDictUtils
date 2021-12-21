@@ -60,16 +60,20 @@ def getDetail(tDetail):
     resp = requests.get(tDetail)
     data = resp.text
     soup = BeautifulSoup(data, features="lxml")
-    print("beautifulSoup result 2")
-    photo = soup.find('div',{'class':'photo'})
-    print(photo)
-    for child in photo.children:
+    #print("beautifulSoup result 2")
+    #photo = soup.find('div',{'class':'photo'})
+    #print(photo)
+    #for child in photo.children:
         #print(child.name)
-        if child.name == 'a':
-            for mago in child.children:
-                #print(mago.name)
-                if mago.name == 'img':
-                    DOWNLOAD_LINKS.append(mago['src'])
+    #    if child.name == 'a':
+    #        for mago in child.children:
+    #            #print(mago.name)
+    #            if mago.name == 'img':
+    #                DOWNLOAD_LINKS.append(mago['src'])
+
+    img = soup.find('img',{'class':'fit-horizontal'})
+    print(img['src'])
+    DOWNLOAD_LINKS.append("https://8muses.io"+img['src'])
 
 def getImgs():
     cnt = 0
@@ -112,51 +116,15 @@ def doStuff(tTarget):
         if child.name == 'a':
             #print(len(child['href']))
             if len(child['href']) > 10:
-                LINKS.append(child['href'])
+                LINKS.append("https://8muses.io"+child['href'])
+   
+    nextPage = soup.find('a',{'aria-label':'Last page'})
+    if nextPage != None:
+        nextPageLink = "https://8muses.io"+nextPage['href']
+        print("found next page:"+nextPageLink)
+        if nextPageLink != tTarget:
+            doStuff(nextPageLink)
 
-    for link in LINKS:
-        #print(link)
-        getDetail(link)
-
-    #aIndex = BeautifulSoup(bigIndex.conetents,features="lxml")
-    #for lv1 in bigIndex.children:
-        #print(type(lv1.string))
-     #   if isinstance(lv1.string, NavigableString):
-     #       print(str(lv1.string))
-            #print(lv1)
-        #print(lv1)
-
-        #my_a = BeautifulSoup(lv1, features="lxml")
-        #if my_a.a != None:
-        #    print(my_a.a['href'])
-    #for headLine in headLines:
-
-        #preScreen.append(str(cnt)+':'+clrTx(headLine.get_text(),'YELLOW'))
-        #cnt+=1
-        #pp = headLine.parent.parent
-        #print(pp)
-        #print("*****************")
-        #print(pp['href'])
-        #LINKS.append(pp['href'])
-#    for item in LINKS:
-#        print(item)
-#        print("================")
-
-    #sn=''
-    #while sn is not None :
-        #os.system('clear')
-    #    for item in preScreen:
-    #        print(item)
-    #    sn=input('Which one you want to check?(Sn)>')
-    #		#print repr(sn)
-    #    sn = parseInt(sn)
-    #    if (sn is not None) and sn < len(LINKS):
-    #        #print(LINKS[sn])
-    #        getDetail(LINKS[sn])
-    #    else:
-    #        print("Have a nice day")
-
-	#print paintRED(result,'<li><h3>')
 def setup_logging(level):
 	global DB
 	DB = logging.getLogger('get_taipei_times')
@@ -198,6 +166,9 @@ def loadDb():
 
 def main():
     doStuff(tTarget)
+    for link in LINKS:
+        #print(link)
+        getDetail(link)
     getImgs()
 
 if __name__ == '__main__':
