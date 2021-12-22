@@ -1,5 +1,5 @@
 PKGFOLDER=~/.hmDict
-tPage="http://www.ted.com/talks/browse?language=en&topics=$1&sort=newest"
+tPage="https://www.ted.com/talks?language=en&sort=newest"
 exeName=$0
 exeName=${exeName##*/}
 exeName=${exeName%.*}

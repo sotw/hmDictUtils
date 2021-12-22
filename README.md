@@ -1,5 +1,6 @@
-###A Tool Set for Everyday Reading and Writing in Console only
->In console, you put your fingure on mouse, you lose.
+### A Tool Set for playing Python
+
+> In console, you put your fingure on mouse, and you lose.
 
 Seriously, this tool set is just to satisfy personal ambitious
 to write down an idea in code **immediately** no mater how stupid it is.
@@ -7,57 +8,94 @@ You can use/modify it without my permission.
 Feedback is welcome all the time.
 Fork/Pull request is even better.
 
+##### After 8 years, I decide to renew these project from python2 to python3
+
 ##### Install
-	execute ./install.sh
+
+This is almost 8 years project, I used to have lots operating system, now I only use ubuntu and it's spin off pop os
+
+```bash
+./install_ubuntu.sh
+```
+
+##### Update
+
+you don't have to install packge everytime
+
+```bash
+./update_ubuntu.sh
+```
 
 ##### How to use
+
 In network reachable environment:
 
-**edict** "word" | for consulting English dictionary.
->This is for Taiwanese or HK ppl\(And those who use Traditional Chinese as native language\)
+**edict** "word" | for consulting English dictionary.  Status : moved to single repository
+
+> This is for Taiwanese or HK ppl\(And those who use Traditional Chinese as native language\)
+> 
+> 2021 : Since this my very first project, I put it on single repository and remove from here.
 
 **jdict** "word" | for consulting Japanese dictionary.
->This is for Everyone
 
-**wiki** -l "language" "word" | for consulting wiki
->For example : wiki -l jp "はな"
+> Not working currently
 
-**google** "word" | for google
->Just google it.
+**wiki** -l "language" "word" | for consulting wiki | broken
 
-**getPOEReleaseNote** | for fun
->POE | Path of Exile
+> For example : wiki -l jp "はな"
 
-**get_taipei_times** | for read
->Bring you back to reality.
+**google** "word" | for google | broken
 
-**get_lyrics** | for music
->Get lyrics !
+> Just google it.
 
-**get_jpnews** | for Japanese News
->Read News !
+**getPOEReleaseNote** | for fun | broken
 
-**note** | a simple note
->Note stuff !
+> POE | Path of Exile
 
-**get_ted_talk_science** | for science!
->Read ideas!
+**get_taipei_times** | for read | working on python3
 
-**download_linux_kernel** | for kernel compile
->Hello, nerd!
+> Bring you back to reality.
 
-**get_icrt_top_song** | just list
->But I found I am interesting what DJ play more than top list.
+**get_lyrics** | for music | metro lyrics went offline thus this is not working | move to legacy
 
-**udict** "word" | some ted speech will need this to consult
->lousy urban word always has its own meanings different from dictionary
+> Get lyrics !
 
-**get_ign_topstory | read game news is nerd standard.
->I blame game industry, the manual become so slim, I can't even call it manual "book" now, it's manual paper.
+**get_jpnews** | for Japanese News | broken
 
-**treeMurder** | travel file system and kill some specific folders.(Currently I use it to delete .git .repo folders for release sake)
+> Read News !
+
+**note** | a simple note | broken
+
+> Note stuff !
+
+**get_ted_talk_science** | for science! | broken
+
+> Read ideas!
+
+**download_linux_kernel** | for kernel compile | broken
+
+> Hello, nerd!
+
+**get_icrt_top_song** | just list | broken
+
+> But I found I am interesting what DJ play more than top list.
+
+**udict** "word" | some ted speech will need this to consult | working on python2
+
+> lousy urban word always has its own meanings different from dictionary
+
+**get_ign_topstory | read game news is nerd standard. | broken
+
+> I blame game industry, the manual become so slim, I can't even call it manual "book" now, it's manual paper.
+
+**treeMurder** | travel file system and kill some specific folders.(Currently I use it to delete .git .repo folders for release sake) | broken
 
 ##### Idea
+
+1. Move to Python3 (the end of 2021)
+
+##### History Idea
+
 1. ~~Need to accept space in **edict** ok, use argparse module will solve the problem~~ 2014-06-07
 2. Add language(c/c++) reference check util, hum, **cdict** maybe?
 3. ~~You will need phonetic symbol in **edict**~~ 2014-05-30 12:47:45
@@ -85,7 +123,7 @@ In network reachable environment:
 25. ~~remove note database to dropbox folder.~~ I just put a option in install.sh it works.
 26. expand color!
 27. google img fetcher. 
-prototype A. download 9 images once B. combine them as 1 3x3 big image C. display them D. downloadable for each one.
+    prototype A. download 9 images once B. combine them as 1 3x3 big image C. display them D. downloadable for each one.
 28. I should make note can extend subject. like 1 .. 1-1 1-1-1 1-1-2 1-2
 29. make a really simple utility to read facebook feed and replay it in console , I have old implementation, should be easy for me.
 30. ok, I hope I have a simple terminal python that can list files or directory and I can choose one to manipulate to do something.
@@ -94,12 +132,15 @@ prototype A. download 9 images once B. combine them as 1 3x3 big image C. displa
 33. ~~Added urban dictionary~~
 
 ##### Note
+
 1. Plan to use jNlp
->Maybe just use hiraganamegane
+   
+   > Maybe just use hiraganamegane
 2. Currently all pull, any push utility like blog push maybe?
 3. Just dont't push so frequently. 
 
 ##### Reference
+
 1. [Python like parseInt](http://d.hatena.ne.jp/cupnes/20110201/1296574516)
 2. [Jian to Fan convert](https://code.google.com/p/python-jianfan/)
 3. [pygoogle](https://code.google.com/p/pygoogle/)

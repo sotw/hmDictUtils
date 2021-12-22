@@ -6,6 +6,7 @@ import os, sys, re, codecs
 import argparse
 import logging
 import urllib, urllib2
+import requests
 #import textwrap
 from os.path import expanduser
 from subprocess import PIPE
@@ -50,20 +51,10 @@ def parseInt(sin):
 
 def getReleaseNoteDetail(tDetail):
     thisScreen = []
-    opener = urllib2.build_opener()
-    opener.addheader = [('User-Agent','Mozilla/5.0')]
-    resp = opener.open(tDetail)
-    if resp.code == 200:
-        data = resp.read()
-    elif resp.code == 404:
-        print "Page do not exist"
-        exit()
-    else:
-        print "Can not open page"
-        exit()
+    resp = requests.get(tTarget)
+    data = resp.text
     parser = etree.HTMLParser()
     tree = etree.parse(StringIO(data), parser)
-
 
 	#etree.strip_tags(tree,'p')
 	#etree.strip_tags(tree,'i')
@@ -156,20 +147,10 @@ def paintRED(string,target):
 
 def doStuff(tTarget):
 	ScreenI = []
-	opener = urllib2.build_opener()
-	opener.addheader = [('User-Agent','Mozilla/5.0')]
-	resp = opener.open(tTarget)
-	if resp.code == 200 :
-		data = resp.read()
-		resp.close()
-	elif resp.code == 404 :
-		print "Page do not exist"
-		exit()
-	else:
-		print "Can not open page"
-		exit()
-
+	resp = requests.get(tTarget)
+	data = resp.text
 	parser = etree.HTMLParser(recover=True)
+	
 	tree = etree.parse(StringIO(data), parser)
 
 	etree.strip_tags(tree,'span')

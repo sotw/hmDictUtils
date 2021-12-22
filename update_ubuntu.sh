@@ -6,7 +6,6 @@ rm -f ~/bin/sh/google
 rm -f ~/bin/sh/wiki
 rm -f ~/bin/sh/getPOEReleaseNote
 rm -f ~/bin/sh/get_taipei_times
-rm -f ~/bin/sh/get_lyrics
 rm -f ~/bin/sh/get_jpnews
 rm -f ~/bin/sh/get_8muse
 rm -f ~/bin/sh/note
@@ -33,7 +32,6 @@ cp wiki ~/bin/sh
 cp getPOEReleaseNote ~/bin/sh
 cp get_taipei_times ~/bin/sh
 cp get_8muse ~/bin/sh
-cp get_lyrics ~/bin/sh
 cp get_jpnews ~/bin/sh
 cp get_ted_talk ~/bin/sh
 cp get_icrt_top_song ~/bin/sh

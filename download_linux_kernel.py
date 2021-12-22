@@ -6,6 +6,7 @@ import os, sys, re, codecs
 import argparse
 import logging
 import urllib, urllib2
+import requests
 #import textwrap
 from os.path import expanduser
 from subprocess import PIPE
@@ -49,17 +50,8 @@ def parseInt(sin):
 
 def getReleaseNoteDetail(tDetail):
 	thisScreen = []
-	opener = urllib2.build_opener()
-	opener.addheader = [('User-Agent','Mozilla/5.0')]
-	resp = opener.open(tDetail)
-	if resp.code == 200:
-		data = resp.read()
-	elif resp.code == 404:
-		print "Page do not exist"
-		exit()
-	else:
-		print "Can not open page"
-		exit()
+	resp = requests.get(tTarget)
+	data = resp.text
 	parser = etree.HTMLParser()
 	tree = etree.parse(StringIO(data), parser)
 
@@ -83,19 +75,8 @@ def paintRED(string,target):
 
 def doStuff(tTarget):
 	ScreenI = []
-	opener = urllib2.build_opener()
-	opener.addheader = [('User-Agent','Mozilla/5.0')]
-	resp = opener.open(tTarget)
-	if resp.code == 200 :
-		data = resp.read()
-		resp.close()
-	elif resp.code == 404 :
-		print "Page do not exist"
-		exit()
-	else:
-		print "Can not open page"
-		exit()
-
+	resp = requests.get(tTarget)
+	data = resp.text
 	parser = etree.HTMLParser(recover=True)
 	tree = etree.parse(StringIO(data), parser)
 
@@ -125,14 +106,14 @@ def doStuff(tTarget):
 		os.system('clear')
 		for item in ScreenI:
 			print item
-		sn=raw_input('Which kernel version you want to download?(Sn)>')
+		sn=input('Which kernel version you want to download?(Sn)>')
 		#print repr(sn)
 		sn = parseInt(sn)
 		if (sn is not None) and (sn < len(LINKS)):		
 			process = Popen(['wget',LINKS[sn]])
 			process.wait()
 		else:
-			print "Have a nice day"
+			print("Have a nice day")
 
 	return
 
@@ -159,11 +140,7 @@ def verify():
 	if not tTarget:
 		parser.print_help()
 		exit()
-	#elif args.read and args.kill:
-	#	print "Flag conflict, some flag are exclusive"
-	#	parser.print_help()
-	#	exit()
-
+		
 	setup_logging(log_level)
 
 def refreshDb():
