@@ -5,14 +5,14 @@
 import os, sys, re, codecs
 import argparse
 import logging
-import urllib, urllib2
+import urllib
 import requests
 #import textwrap
 from os.path import expanduser
 from subprocess import PIPE
 from subprocess import Popen
 from lxml import etree
-from cStringIO import StringIO
+from io import StringIO
 from pprint import pprint
 from HMTXCLR import clrTx
 from textwrap import TextWrapper
@@ -69,7 +69,7 @@ def getReleaseNoteDetail(tDetail):
 
 
 '''For programming'''
-def paintRED(string,target):
+def paintRED(string, target):
 	string = string.replace(target,clrTx(target,'RED'))
 	return string
 
@@ -83,12 +83,12 @@ def doStuff(tTarget):
 	etree.strip_tags(tree,'span')
 	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
 
-	#print repr(result)
-	#print paintRED(result,'<li><h3>')
+	print(repr(result))
+	print(paintRED(repr(result),'<li><h3>'))
 	global LINKS
     #head line# |mainline|version|date|link|
     #            0        1       2    3
-	headLines = re.findall('<tr align="left">.+?<td>(.+?)</td>.+?<td><strong>(.+?)</strong></td>.+?<td>(.+?)</td>.+?<a href="(.+?)"',result, re.DOTALL)
+	headLines = re.findall('<tr align="left">.+?<td>(.+?)</td>.+?<td><strong>(.+?)</strong></td>.+?<td>(.+?)</td>.+?<a href="(.+?)"',repr(result), re.DOTALL)
 	#print len(headLines)
 	#raw_input()
 	#print clrTx('HEADLINES:','BLUE')
@@ -97,7 +97,8 @@ def doStuff(tTarget):
 		ScreenI.append(clrTx(str(len(LINKS)),'BLUE')+'|'+clrTx(headLine[0],'YELLOW')+'|'+clrTx(headLine[1],'AUQA')+'|'+clrTx(headLine[2],'GREEN'))
 		iLink = headLine[3].strip('\n')
 		#print repr(iLink)
-		LINKS.append('https://www.kernel.org/'+iLink)
+		LINKS.append(iLink)
+		print(iLink)
 	
 	#raw_input()
 	#print LINKS
@@ -105,7 +106,7 @@ def doStuff(tTarget):
 	while sn is not None :
 		os.system('clear')
 		for item in ScreenI:
-			print item
+			print(item)
 		sn=input('Which kernel version you want to download?(Sn)>')
 		#print repr(sn)
 		sn = parseInt(sn)
@@ -140,7 +141,7 @@ def verify():
 	if not tTarget:
 		parser.print_help()
 		exit()
-		
+
 	setup_logging(log_level)
 
 def refreshDb():
@@ -163,7 +164,7 @@ def idxMsg(message):
 
 def	doDump():
 	for entry in ARGUDB:
-		print entry
+		print(entry)
 
 def doWriteLn(msg):
 	f = open(home+args.database,'a')
