@@ -92,9 +92,13 @@ def doStuff(tTarget):
 	#print len(headLines)
 	#raw_input()
 	#print clrTx('HEADLINES:','BLUE')
-	ScreenI.append(clrTx('SN | TAG | VERSION | DATE','BLUE'))
+	ScreenI.append(clrTx('|  SN|        TAG|      VERSION|      DATE|','BLUE'))
 	for headLine in headLines:
-		ScreenI.append(clrTx(str(len(LINKS)),'BLUE')+'|'+clrTx(headLine[0],'YELLOW')+'|'+clrTx(headLine[1],'AUQA')+'|'+clrTx(headLine[2],'GREEN'))
+		icol_sn = clrTx(str(f"{len(LINKS):>4}"),'BLUE')
+		icol_tag = clrTx(str(f"{headLine[0]:>11}"),'YELLOW')
+		icol_version = clrTx(str(f"{headLine[1]:>13}"),'AUQA')
+		icol_date = clrTx(str(f"{headLine[2]:>10}"),'GREEN')
+		ScreenI.append(f"|{icol_sn}|{icol_tag}|{icol_version}|{icol_date}|")
 		iLink = headLine[3].strip('\n')
 		#print repr(iLink)
 		LINKS.append(iLink)
@@ -107,7 +111,7 @@ def doStuff(tTarget):
 		os.system('clear')
 		for item in ScreenI:
 			print(item)
-		sn=input('Which kernel version you want to download?(Sn)>')
+		sn=input('Which kernel version you want to download?(SN)>')
 		#print repr(sn)
 		sn = parseInt(sn)
 		if (sn is not None) and (sn < len(LINKS)):		
