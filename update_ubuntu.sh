@@ -1,6 +1,5 @@
 INSFOLDER=~/.hmDict
 rm -Rf $INSFOLDER
-rm -f ~/bin/sh/edict
 rm -f ~/bin/sh/jdict
 rm -f ~/bin/sh/udict
 rm -f ~/bin/sh/google
@@ -27,7 +26,6 @@ cp -Rf jNlp $INSFOLDER
 cp -Rf wikipedia $INSFOLDER
 #cp -Rf uniseg $INSFOLDER
 cp *.py $INSFOLDER
-cp edict ~/bin/sh
 cp jdict ~/bin/sh
 cp udict ~/bin/sh
 cp google ~/bin/sh
