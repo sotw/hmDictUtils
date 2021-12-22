@@ -92,25 +92,21 @@ def doStuff(tTarget):
     global preScreen
     global LINKS
     print(tTarget)
-    #resp = urllib.request.urlopen(url=tTarget)
     resp = requests.get(tTarget)
     data = resp.text
     soup = BeautifulSoup(data,features="lxml")
     print("beautifulSoup result")
     bigIndex = soup.find('div',{'class':'gallery'})
-#    result += soup.findAll('li',{'class':['lh-22 mh-22 ml-50 mt-12 mb-12','lh-22 mh-22 ml-50 mt-12 mb-12 last']});
     cnt = 0
     print(bigIndex)
     print(type(bigIndex))
     #for link in bigIndex['a']:
     #    print(link)
     print(bigIndex.name)
- #   print(bigIndex['a'])
 
     print("=======")
     for child in bigIndex.children:
         #print(child)
-        #print("555555555555555")
         #print(type(child))
         #print(child.name)
         if child.name == 'a':

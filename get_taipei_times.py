@@ -7,6 +7,7 @@ import argparse
 import logging
 import urllib
 from urllib import request, error
+import requests
 #import textwrap
 from os.path import expanduser
 from subprocess import PIPE
@@ -52,15 +53,8 @@ def parseInt(sin):
 
 def getDetail(tDetail):
     thisScreen = []
-    resp = urllib.request.urlopen(url=tDetail)
-    if resp.code == 200:
-        data = resp.read()
-    elif resp.code == 404:
-        print("Page do not exist")
-        exit()
-    else:
-        print("Can not open page")
-        exit()
+    resp = requests.get(tDetail)
+    data = resp.text
     soup = BeautifulSoup(data,features="lxml")
     print("beautifulSoup result")
     archives = soup.find('h1')
@@ -94,26 +88,6 @@ def getDetail(tDetail):
     print(repeatStr('-', 78))
     thisScreen.append(repeatStr('-', 78))
     option = input()
-'''
-    #hidden function for my own
-    if option == 'm' :
-		bigChunkStr = ''
-		mailLineCnt = 0
-		for line in thisScreen:
-			if len(line) != 0 :
-				if mailLineCnt == 1 :
-					line = '####'+line #prepare to do markdown tranformation
-				bigChunkStr = bigChunkStr+re.sub(r'\[[0-9]+m','',line)+'\n'
-				mailLineCnt+=1
-		home = expanduser('~')
-		print(home+"/.hmDict/simpleMail.py")
-		if os.path.isfile(home+'/.hmDict/simpleMail.py') is True :
-
-			process = Popen(prepareMailInfo(bigChunkStr))
-			print("sending mail...")
-			process.wait()
-			print("sent!")
-'''
 
 '''For programming'''
 def paintRED(string,target):
@@ -123,20 +97,11 @@ def paintRED(string,target):
 def doStuff(tTarget):
     global preScreen
     global LINKS
-    resp = urllib.request.urlopen(url=tTarget)
-    if resp.code == 200 :
-        data = resp.read()
-        resp.close()
-    elif resp.code == 404 :
-        print("Page do not exist")
-        exit()
-    else:
-        print("Can not open page")
-        exit()
+    resp = requests.get(tTarget)
+    data = resp.text
     soup = BeautifulSoup(data,features="lxml")
     print("beautifulSoup result")
     headLines = soup.findAll('h1',{'class','bf2'})
-#    result += soup.findAll('li',{'class':['lh-22 mh-22 ml-50 mt-12 mb-12','lh-22 mh-22 ml-50 mt-12 mb-12 last']});
     cnt = 0
     for headLine in headLines:
         preScreen.append(str(cnt)+':'+clrTx(headLine.get_text(),'YELLOW'))
@@ -163,71 +128,6 @@ def doStuff(tTarget):
             getDetail(LINKS[sn])
         else:
             print("Have a nice day")
-
-	#print paintRED(result,'<li><h3>')
-'''
-	global LINKS
-    #head line#
-	headLines = re.findall('<div class="ma">\r<h1><a href="([^"]+)">([^<]+)</a></h1>\r<h4>([^<]+)<',result)
-	#print len(headLines)
-	#print clrTx('HEADLINES:','BLUE')
-	preScreen.append(clrTx('HEADLINES:','BLUE'))
-	for headLine in headLines:
-		#print headLine
-		#print clrTx(headLine[1],'YELLOW')
-		preScreen.append(clrTx(headLine[1],'YELLOW'))
-		for line in _wrap.wrap(headLine[2]):
-			#print '    '+line
-			preScreen.append('    '+line)
-		LINKS.append('http://www.taipeitimes.com/'+headLine[0])
-		#print clrTx('Input:'+str(cnt)' for more','GREY30')
-		preScreen.append(clrTx('Input:'+str(len(LINKS)-1)+' for more','GREY30'))
-		#print clrTx(headLine[0],'GREY30')
-
-	#majorLines only 4 is for majorLines
-	majorLines = re.findall('<h3><a href="([^"]+)">([^<]+)</a></h3>([^<]+)<',result)
-	#print clrTx('MAJORLINES:','BLUE')
-	preScreen.append(clrTx('MAJORLINES:','BLUE'))
-	cnt = 0
-	for majorLine in majorLines:
-		if cnt == 4 :
-			break
-		#print clrTx(majorLine[1],'YELLOW')
-		preScreen.append(clrTx(majorLine[1],'YELLOW'))
-		for line in _wrap.wrap(majorLine[2]):
-			#print '    '+line
-			preScreen.append('    '+line)
-		LINKS.append('http://www.taipeitimes.com/'+majorLine[0])
-		#print clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30')
-		preScreen.append(clrTx('Input:'+str((len(LINKS)-1))+' for more','GREY30'))
-		#print clrTx(majorLine[0],'GREY30')
-		#print majorLine
-		cnt+=1
-
-	#print LINKS
-	sn=''
-	while sn is not None :
-		os.system('clear')
-		for item in preScreen:
-			print(item)
-		sn=raw_input('Which one you want to check?(Sn)>')
-		#print repr(sn)
-		sn = parseInt(sn)
-		if (sn is not None) and sn < len(LINKS):
-			getReleaseNoteDetail(LINKS[sn])
-		else:
-			print("Have a nice day")
-    releaseNoteSet = re.findall('<div class="title"><a href="([^"]+)">([^<]+)</a>',result)
-	cnt = 0
-	for e in releaseNoteSet:
-		print "SN:%d|%s"%(cnt,e[1])
-		cnt+=1
-	sn=None
-	sn=raw_input('Which one you want to check?(Sn)')
-	sn = parseInt(sn)
-	if sn is not None:
-		getReleaseNoteDetail('http://www.pathofexile.com'+releaseNoteSet[sn][0])
-	'''
 
 def setup_logging(level):
 	global DB
