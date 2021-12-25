@@ -5,14 +5,18 @@
 import os, sys, re, codecs
 import argparse
 import logging
-import urllib, urllib2
+import urllib
+import requests
 #import textwrap
 from os.path import expanduser
 from subprocess import PIPE
 from subprocess import Popen
 from lxml import etree
-from cStringIO import StringIO
+from io import StringIO
 from pprint import pprint
+from decimal import *
+
+from requests.models import stream_decode_response_unicode
 from HMTXCLR import clrTx
 from textwrap import TextWrapper
 from textwrap import dedent
@@ -28,10 +32,12 @@ global _wrap
 global LINKS
 global ctl
 global staticStr
+global ScreenI
 
-staticStr = 'https://tw.stock.yahoo.com/q/q?s='
+staticStr = 'https://tw.stock.yahoo.com/quote/'
 LINKS = []
 ARGUDB = []
+ScreenI = []
 _wrap = TextWrapper()
 
 def prepareMailInfo(mailMsg):
@@ -51,17 +57,8 @@ def parseInt(sin):
 
 def getReleaseNoteDetail(tDetail):
 	thisScreen = []
-	opener = urllib2.build_opener()
-	opener.addheader = [('User-Agent','Mozilla/5.0')]
-	resp = opener.open(tDetail)
-	if resp.code == 200:
-		data = resp.read()
-	elif resp.code == 404:
-		print "Page do not exist"
-		exit()
-	else:
-		print "Can not open page"
-		exit()
+	resp = requests.get(tTarget)
+	data = resp.text
 	parser = etree.HTMLParser()
 	tree = etree.parse(StringIO(data), parser)
 
@@ -79,58 +76,79 @@ def getReleaseNoteDetail(tDetail):
 
 '''For programming'''
 def paintRED(string,target):
-	string = string.replace(target,clrTx(target,'RED'))
+	string = string.replace(target, clrTx(target,'RED'))
 	return string
 
 def doStuff(tTarget,num):
-#print tTarget
-#raw_input()
-    ScreenI = []
-    opener = urllib2.build_opener()
-    opener.addheader = [('User-Agent','Mozilla/5.0')]
-    resp = opener.open(tTarget+num)
-    if resp.code == 200 :
-        data = resp.read()
-        resp.close()
-    elif resp.code == 404 :
-        print "Page do not exist"
-        exit()
-    elif resp.code == 400:
-        print "request error"
-        exit()
-    else:
-        print "Can not open page"
-        exit()
+	global ScreenI
+	updownSymbol = u'\u2197'
+	nums = num.split(":")
+	num = nums[0]
+	my_price = nums[1]	
+	resp = requests.get(tTarget+num)
+	data = resp.text
+	#
+	# print(data)
+	parser = etree.HTMLParser(recover=True)
+	tree = etree.parse(StringIO(data), parser)
+	#etree.strip_tags(tree,'span')
+	result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
 
-    parser = etree.HTMLParser(recover=True)
-    tree = etree.parse(StringIO(data), parser)
-
-    etree.strip_tags(tree,'span')
-    result = etree.tostring(tree.getroot(), pretty_print=True, method="html", encoding='utf-8')
-
-    #print result
-    #print paintRED(result,'<td align="center"')
+	#print(repr(result))
+	#print(paintRED(repr(result),'function(win)'))
     #print paintRED(result,'stkname')
 
-    global LINKS
-#head line#
-    headLines = re.findall('<td align="center" bgcolor="#FFFfff" nowrap>.+?<b>(.+?)</b>',result,re.DOTALL)
-    tNames = re.findall('<input type="hidden" name="stkname" value="(.+?)">',result,re.DOTALL)
+	# current value
+	#headLines = re.findall('<div class=".+?">(.+?)</div>',repr(result),re.DOTALL)
+	#headLines = re.findall('<div class=".+?">(.+?)</div>',repr(result),re.DOTALL)
+	titles = tree.xpath('//h1[@class="C($c-link-text) Fw(b) Fz(24px) Mend(8px)"]')
+	contents = tree.xpath('//span[@class="Fz(32px) Fw(b) Lh(1) Mend(16px) D(f) Ai(c) C($c-trend-up)"]')
+	if len(contents) == 0:
+		contents = tree.xpath('//span[@class="Fz(32px) Fw(b) Lh(1) Mend(16px) D(f) Ai(c) C($c-trend-down)"]')
+		updownSymbol = u'\u2198'
+	if len(contents) == 0:
+		contents = tree.xpath('//span[@class="Fz(32px) Fw(b) Lh(1) Mend(16px) D(f) Ai(c)"]')
+		updownSymbol = u'\u2192'
+	
+	price = 0
+	mytitle = 'NA'
+	for content in contents:
+		if content.text is not None:
+			#print(content.get("value"))
+			#print(content.text)
+			price = content.text
+			break
+			
+	for title in titles:
+		if title.text is not None:
+			mytitle = title.text
+			break
+	
+	diff = Decimal(price) - Decimal(my_price)
+	target_price = Decimal(Decimal(my_price)*Decimal('1.3'))
+	ai_comment = " No comment"
+	if diff > 0:
+		ai_comment = " Hold! you don't earn enough!"
+	if Decimal(price) - target_price > 0 :
+		ai_comment = " Sell, you earn enough"
+	if diff < 0:
+		ai_comment = " https://www.youtube.com/watch?v=M2qroMuIluI&ab_channel=MaestroZiikos"
+	ScreenI.append([num, mytitle, my_price, price, updownSymbol, diff, target_price, ai_comment])
+	#ScreenI.append(content.text)
+
+	#tNames = re.findall('<input type="hidden" name="stkname" value="(.+?)">',repr(result),re.DOTALL)
     #print len(headLines)
     #raw_input()
-
-    for headLine in headLines:
-    #print headLines
+	#print(headLines)
+	#for headLine in headLines:
+	
+	#	ScreenI.append(headLine)
         #print clrTx(headLine[1],'YELLOW')
-        for tName in tNames:
-            ScreenI.append(clrTx(num,'YELLOW')+'('+tName+'):'+headLine)
-            break
-
-    for item in ScreenI:
-        print item
-
-    return
-
+		#for tName in tNames:
+		#	ScreenI.append(clrTx(num,'YELLOW')+'('+tName+'):'+headLine)
+		#	break
+	
+ 
 def setup_logging(level):
 	global DB
 	DB = logging.getLogger('get_stock') #replace
@@ -142,11 +160,12 @@ def setup_logging(level):
 def verify():
 	global tTarget
 	global args
+
 	parser = argparse.ArgumentParser(description='A get_stock Utility') #replace
 	parser.add_argument('-v', '--verbose', dest='verbose', action = 'store_true', default=False, help='Verbose mode')
 	parser.add_argument('query', nargs='*', default=None)
 	parser.add_argument('-d', '--database', dest='database', action = 'store', default='/.hmDict/get_stock.db') #replace
-	parser.add_argument('-a', '--add', dest='add', action = 'store_true', default=False, help='add stock number')
+	parser.add_argument('-a', '--add', dest='add', action = 'store_true', default=False, help='add stock number and price you bought or intent to bought')
 	parser.add_argument('-r', '--read', dest='read', action = 'store_true', default=False, help='dump current monitor list')
 	parser.add_argument('-k', '--kill', dest='kill', action = 'store_true', default=False, help='remove a stock from monitor list')
 	parser.add_argument('-l', '--list', dest='listme', action = 'store_true', default=False, help='show current price,etc')
@@ -159,7 +178,7 @@ def verify():
 	#	parser.print_help()
 	#	exit()
 	if args.read and args.kill:
-		print "Flag conflict, some flag are exclusive"
+		print("Flag conflict, some flag are exclusive")
 		parser.print_help()
 		exit()
 	if not args.read and not args.kill and not args.add and not args.listme:
@@ -183,18 +202,53 @@ def refreshDb():
 		DB.debug('override file is not exist')
 
 def	doDump():
-    for entry in ARGUDB:
-		print entry
+	for entry in ARGUDB:
+		print(entry)
 
 def doDumpEx():
+	global ScreenI
 	for entry in ARGUDB:
 		doStuff(staticStr,entry)
+	print("|"+clrTx("Serial","CYAN")+"|"+clrTx("    Name","CYAN")+"|"+clrTx("    Cost","CYAN")+"|"+clrTx(" Current","CYAN")+ \
+		"|"+clrTx("   Trend","CYAN")+"|"+clrTx("    Diff","CYAN")+"|"+clrTx("  Target","CYAN")+"|"+clrTx(" AI COMMENT","CYAN"))
+	
+	for item in ScreenI:
+		target_str = f"|{item[0]:>6}|{item[1]:>6}|{item[2]:>8}|{item[3]:>8}|{item[4]:>8}|{item[5]:>8}|{item[6]:>8}|{item[7]}" 
+		if item[4] == u'\u2197':
+			print(clrTx(target_str,"RED"))
+		elif item[4] == u'\u2198':
+			print(clrTx(target_str,"GREEN"))
+		elif item[4] == u'\u2192':
+			print(clrTx(target_str,"WHITE"))
 
 def doWriteLn(msg):
+	msgs = msg.split(":")
+	if(len(msgs) !=2):
+		print(clrTx("you need to input get_stock -a [stock_num]:[my_base_price]",'YELLOW'))
 	home = expanduser('~')
 	f = open(home+args.database,'a')
-	if f is not None:
-		f.write(msg+'\n')
+	hit_flag = 0
+	hit_index = 0
+	for entry in ARGUDB:
+		datas = entry.split(":")
+		if datas[0] == msgs[0]:
+			print(clrTx("Target exist, update base price",'RED'))
+			hit_flag += 1
+			break
+		hit_index+=1
+	
+	if hit_flag == 0:
+		if f is not None:
+			f.write(msg+'\n')
+	else:	
+		ARGUDB.pop(hit_index)
+		ARGUDB.insert(hit_index,msg)
+		print("*****")
+		f.close()
+		f = open(home+args.database,'w')
+		for entry in ARGUDB:
+			f.write(entry+'\n')
+
 	f.close()
 
 def doKillALn(number):
